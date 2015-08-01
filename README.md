@@ -1,6 +1,6 @@
 # ivory
 
-[![Author](http://img.shields.io/badge/author-@@anolilab-blue.svg?style=flat-square)](https://twitter.com/@anolilab)
+[![Author](http://img.shields.io/badge/author-@anolilab-blue.svg?style=flat-square)](https://twitter.com/@anolilab)
 [![npm](https://img.shields.io/npm/v/ivory.svg?style=flat-square)](https://www.npmjs.com/package/ivory)
 [![David](https://img.shields.io/david/growcss/ivory.svg?style=flat-square)](https://david-dm.org/growcss/ivory#info=dependencies&view=table)
 [![npm](https://img.shields.io/npm/v/npm.svg?style=flat-square)](https://www.npmjs.com/package/ivory)
