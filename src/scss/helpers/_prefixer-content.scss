@@ -1,0 +1,88 @@
+@charset "UTF-8";
+
+// A mixin for generating vendor prefixes on non-standardized properties.
+//
+// @param {string} $property
+//   Property to prefix
+//
+// @param {*} $value
+//   Value to use
+//
+// @param {list} $prefixes
+//   Prefixes to define
+//
+// @example scss - Usage
+//   .element {
+//     @include prefixer(keyframes identifier, webkit ms spec) {
+//       0% { top: 0; left: 0; }
+//       30% { top: 50px; }
+//       68%, 72% { left: 50px; }
+//       100% { top: 100px; left: 100%; }
+//     }
+//   }
+//
+// @example css - CSS Output
+//   .element {
+//     @-webkit-keyframes identifier {
+//       0% { top: 0; left: 0; }
+//       30% { top: 50px; }
+//       68%, 72% { left: 50px; }
+//       100% { top: 100px; left: 100%; }
+//     }
+//     @-moz-keyframes identifier {
+//       0% { top: 0; left: 0; }
+//       30% { top: 50px; }
+//       68%, 72% { left: 50px; }
+//       100% { top: 100px; left: 100%; }
+//     }
+//     @keyframes identifier {
+//       0% { top: 0; left: 0; }
+//       30% { top: 50px; }
+//       68%, 72% { left: 50px; }
+//       100% { top: 100px; left: 100%; }
+//     }
+//   }
+//
+// @require config "prefix.webkit"
+// @require config "prefix.mozilla"
+// @require config "prefix.microsoft"
+// @require config "prefix.opera"
+// @require config "prefix.spec"
+// - - - - - - - - - - - - - - - - - - - - - - - - -
+@mixin prefixer-content($property, $prefixes) {
+  @each $prefix in $prefixes {
+    @if $prefix == webkit {
+      @if config-get("prefix.webkit") {
+        -webkit-#{$property} {
+          @content;
+        }
+      }
+    } @else if $prefix == moz {
+      @if config-get("prefix.mozilla") {
+        -moz-#{$property} {
+          @content;
+        }
+      }
+    } @else if $prefix == ms {
+      @if config-get("prefix.microsoft") {
+        -ms-#{$property} {
+          @content;
+        }
+      }
+    } @else if $prefix == o {
+      @if config-get("prefix.opera") {
+        -o-#{$property} {
+          @content;
+        }
+      }
+    } @else if $prefix == spec {
+      @if config-get("prefix.spec") {
+        #{$property} {
+          @content;
+        }
+      }
+    } @else  {
+      @warn "Unrecognized prefix: #{$prefix}";
+    }
+  }
+}
