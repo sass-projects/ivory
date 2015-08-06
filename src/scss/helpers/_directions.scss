@@ -1,0 +1,34 @@
+@charset "UTF-8";
+
+// Find Opposite Direction
+// - - - - - - - - - - - - - - - - - - - - - - - - -
+@function grider-opposite-direction($dir) {
+  @if $dir == "left" {
+    @return right;
+  } @else if  $dir == "right" {
+    @return left;
+  } @else if $dir == "LTR" {
+    @return rtl;
+  } @else if $dir == "RTL" {
+    @return ltr;
+  } @else if $dir == "top" {
+    @return bottom;
+  } @else if $dir == "bottom" {
+    @return top;
+  } @else {
+    @warn "#{$dir} is not a direction! Make sure your direction is all lowercase!";
+    @return false;
+  }
+}
+
+// Find Direction Name
+@function grider-named-direction($dir) {
+  @if $dir == "LTR" {
+    @return left;
+  } @else if $dir == "RTL" {
+    @return right;
+  } @else {
+    @warn "#{$dir} is not a valid HTML direction! Make sure you are using a valid HTML direction";
+    @return false;
+  }
+}

@@ -2,8 +2,6 @@
 
 // Checks if a list contains a value(s).
 //
-// @access private
-//
 // @param {list} $list
 //   The list to check against.
 //
@@ -16,6 +14,11 @@
 // @return {bool}
 // - - - - - - - - - - - - - - - - - - - - - - - - -
 @function contains($list, $values...) {
+  @if not is-list($list) {
+      @warn 'argument error: #{$list}';
+      @return 'error';
+  }
+
   @each $value in $values {
     @if type-of(index($list, $value)) != "number" {
       @return false;
