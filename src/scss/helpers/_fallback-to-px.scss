@@ -9,8 +9,8 @@
 @function fallback-to-px($val, $unit: rem) {
   $output: ();
 
-  @if type-of($val) == 'string' {
-    @if $val == 'auto' or $val == '!important' {
+  @if type-of($val) == "string" {
+    @if $val == "auto" or $val == "!important" {
       $output: join($val, $val);
       @return $output;
     }

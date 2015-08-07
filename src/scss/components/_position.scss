@@ -66,12 +66,12 @@
 @mixin position($values, $sides, $pos: absolute, $auto-overwrite: false) {
   // Vars
   $positions: absolute, relative, fixed, static;
-  $map: (top: null, left: null, right: null, bottom: null);
+  $map: (bottom: null, left: null, right: null, top: null);
 
   // Set everything to auto to overwrite other styles.
   // Edge case but can be useful.
   @if $auto-overwrite {
-    $map: (top: auto, left: auto, right: auto, bottom: auto);
+    $map: (bottom: auto, left: auto, right: auto, top: auto);
   }
 
   // Validate `$values` & `$sides` input and warn (input gets rendered though)
@@ -96,7 +96,7 @@
 
   // Populate the map with `$sides`
   @if $sides == all and length($values) == 1 {
-    top: $values; left: $values; right: $values; bottom: $values;
+    bottom: $values; left: $values; right: $values; top: $values;
   } @else if length($sides) == length($values) {
     @for $i from 1 through length($sides) {
       $map: map-merge($map, (nth($sides, $i):nth($values, $i)));
