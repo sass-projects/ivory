@@ -15,7 +15,7 @@
       @return $output;
     }
   } @else {
-    @if $val == 0 or $val == 0px {
+    @if $val == 0 {
       $output: join(0, 0);
     } @else if unitless($val) {
       $output: join($val * config-get("base-em"), $val + $unit);

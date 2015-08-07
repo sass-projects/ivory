@@ -15,8 +15,8 @@
 // - - - - - - - - - - - - - - - - - - - - - - - - -
 @function contains($list, $values...) {
   @if not is-list($list) {
-    @warn 'argument error: #{$list}';
-    @return 'error';
+    @warn "argument error: #{$list}";
+    @return "error";
   }
 
   @each $value in $values {
