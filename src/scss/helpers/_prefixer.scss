@@ -31,27 +31,17 @@
 // - - - - - - - - - - - - - - - - - - - - - - - - -
 @mixin prefixer($property, $value, $prefixes) {
   @each $prefix in $prefixes {
-    @if $prefix == webkit {
-      @if config-get("prefix.webkit") {
-        -webkit-#{$property}: $value;
-      }
-    } @else if $prefix == moz {
-      @if config-get("prefix.mozilla") {
-        -moz-#{$property}: $value;
-      }
-    } @else if $prefix == ms {
-      @if config-get("prefix.microsoft") {
-        -ms-#{$property}: $value;
-      }
-    } @else if $prefix == o {
-      @if config-get("prefix.opera") {
-        -o-#{$property}: $value;
-      }
-    } @else if $prefix == spec {
-      @if config-get("prefix.spec") {
-        #{$property}: $value;
-      }
-    } @else  {
+    @if $prefix == webkit and config-get("prefix.webkit") {
+      -webkit-#{$property}: $value;
+    } @else if $prefix == moz and config-get("prefix.mozilla") {
+      -moz-#{$property}: $value;
+    } @else if $prefix == ms and config-get("prefix.microsoft") {
+      -ms-#{$property}: $value;
+    } @else if $prefix == o and config-get("prefix.opera") {
+      -o-#{$property}: $value;
+    } @else if $prefix == spec and config-get("prefix.spec") {
+      #{$property}: $value;
+    } @else {
       @warn "Unrecognized prefix: #{$prefix}";
     }
   }
