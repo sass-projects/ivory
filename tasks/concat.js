@@ -16,8 +16,26 @@ module.exports = {
             'src/scss/settings/*.scss',
             'src/scss/functions/*.scss',
             'src/scss/helpers/*.scss',
-            'src/scss/grid/*.scss',
+            'src/scss/grid/*.scss'
         ],
-        dest: 'dist/grider.scss',
+        dest: 'dist/_ivory.scss',
+    },
+    test: {
+        options: {
+            // Replace all 'use strict' statements in the code with a single one at the top
+            banner: fs.readFileSync('./banner.txt', 'utf8'),
+            process: function(src, filepath) {
+              return src.replace(/(^|\n)[ \t]*(@charset "UTF-8";);?\s*/g, '$1');
+            }
+        },
+        src: [
+            'src/scss/settings/*.scss',
+            'src/scss/functions/*.scss',
+            'src/scss/helpers/*.scss',
+            'src/scss/grid/*.scss',
+            'node_modules/growcss-sass-config-manager/dist/*.scss',
+            'node_modules/include-media/dist/*.scss'
+        ],
+        dest: 'tests/specs/_ivory.scss',
     }
 };
