@@ -1,7 +1,19 @@
 'use strict';
 //concat config
 
-var fs = require('fs');
+var fs = require('fs'),
+    srcFiles = [
+            'src/scss/settings/*.scss',
+            'src/scss/functions/*.scss',
+            'src/scss/helpers/*.scss',
+            'src/scss/grid/*.scss'
+    ],
+    processFunc = function(src, filepath) {
+        src = src.replace(/(^|\n)[ \t]*(@charset "UTF-8";);?\s*/g, '$1');
+        src = src.replace(/(^|\n)[ \t]*(@import ([^)]*)\;);?\s*/g, '');
+
+        return src;
+    };
 
 module.exports = {
     dist: {
@@ -12,12 +24,7 @@ module.exports = {
               return src.replace(/(^|\n)[ \t]*(@charset "UTF-8";);?\s*/g, '$1');
             }
         },
-        src: [
-            'src/scss/settings/*.scss',
-            'src/scss/functions/*.scss',
-            'src/scss/helpers/*.scss',
-            'src/scss/grid/*.scss'
-        ],
+        src: srcFiles,
         dest: 'dist/_ivory.scss',
     },
     test: {
@@ -29,13 +36,9 @@ module.exports = {
             }
         },
         src: [
-            'src/scss/settings/*.scss',
-            'src/scss/functions/*.scss',
-            'src/scss/helpers/*.scss',
-            'src/scss/grid/*.scss',
             'node_modules/growcss-sass-config-manager/dist/*.scss',
             'node_modules/include-media/dist/*.scss'
-        ],
+        ].concat(srcFiles),
         dest: 'tests/specs/_ivory.scss',
     }
 };

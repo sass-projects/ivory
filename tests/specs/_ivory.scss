@@ -9,339 +9,6 @@
 //      This project is licensed under the terms of the MIT license
 // - - - - - - - - - - - - - - - - - - - - - - - - -
 
-// Global variable for em.
-// - - - - - - - - - - - - - - - - - - - - - - - - -
-@include config-set("base-em", 16px, true);
-
-// Global variables to enable or disable vendor prefixes.
-// - - - - - - - - - - - - - - - - - - - - - - - - -
-@include config-set("prefix.webkit", false, true);
-@include config-set("prefix.mozilla", false, true);
-@include config-set("prefix.microsoft", false, true);
-@include config-set("prefix.opera", false, true);
-@include config-set("prefix.spec", false, true);
-
-
-// Function checking if $value is a valid length
-//
-// @param {mixed} $value: value to test
-//
-// @return {bool}
-// - - - - - - - - - - - - - - - - - - - - - - - - -
-@function is-valid-length($value) {
-  @return (type-of($value) == "number" and not unitless($value))
-       or (index(auto initial inherit 0, $value) != false);
-}
-
-// Convert pixels to ems
-// eg. for a relational value of 12px write em(12) when the parent is 16px
-// if the parent is another value say 24px write em(12, 24)
-// - - - - - - - - - - - - - - - - - - - - - - - - -
-@function em($pxval, $base: config-get("base-em")) {
-  @if not unitless($pxval) {
-    $pxval: strip-units($pxval);
-  }
-
-  @if not unitless($base) {
-    $base: strip-units($base);
-  }
-
-  @return ($pxval / $base) * 1em;
-}
-
-// Convert pixels to rems
-// eg. for a relational value of 12px write rem(12)
-// Assumes $em-base is the font-size of <html>
-// - - - - - - - - - - - - - - - - - - - - - - - - -
-@function rem($pxval) {
-  @if not unitless($pxval) {
-    $pxval: strip-units($pxval);
-  }
-
-  $base: config-get("base-em");
-
-  @if not unitless($base) {
-    $base: strip-units($base);
-  }
-
-  @return ($pxval / $base) * 1rem;
-}
-
-// Strips the unit from a number.
-//
-// @param {Number (With Unit)} $value
-//
-// @example scss - Usage
-//   $dimension: strip-units(10em);
-//
-// @example css - CSS Output
-//   $dimension: 10;
-//
-// @return {Number (Unitless)}
-// - - - - - - - - - - - - - - - - - - - - - - - - -
-@function strip-units($value) {
-  @return ($value / ($value * 0 + 1));
-}
-
-// Converts shorthand to the 4-value syntax.
-//
-// @param {list} $shorthand
-//
-// @example scss - Usage
-//   .element {
-//     margin: unpack(1em 2em);
-//   }
-//
-// @example css - CSS Output
-//   .element {
-//     margin: 1em 2em 1em 2em;
-//   }
-// - - - - - - - - - - - - - - - - - - - - - - - - -
-@function unpack($shorthand) {
-  @if length($shorthand) == 1 {
-    @return nth($shorthand, 1) nth($shorthand, 1) nth($shorthand, 1) nth($shorthand, 1);
-  } @else if length($shorthand) == 2 {
-    @return nth($shorthand, 1) nth($shorthand, 2) nth($shorthand, 1) nth($shorthand, 2);
-  } @else if length($shorthand) == 3 {
-    @return nth($shorthand, 1) nth($shorthand, 2) nth($shorthand, 3) nth($shorthand, 2);
-  } @else {
-    @return $shorthand;
-  }
-}
-
-// Checks if a list contains a value(s).
-//
-// @param {list} $list
-//   The list to check against.
-//
-// @param {list} $values
-//   A single value or list of values to check for.
-//
-// @example scss - Usage
-//   contains($list, $value)
-//
-// @return {bool}
-// - - - - - - - - - - - - - - - - - - - - - - - - -
-@function contains($list, $values...) {
-  @if not is-list($list) {
-    @warn "argument error: #{$list}";
-    @return "error";
-  }
-
-  @each $value in $values {
-    @if type-of(index($list, $value)) != "number" {
-      @return false;
-    }
-  }
-
-  @return true;
-}
-
-// Find Opposite Direction
-// - - - - - - - - - - - - - - - - - - - - - - - - -
-@function grider-opposite-direction($dir) {
-  @if $dir == "left" {
-    @return right;
-  } @else if  $dir == "right" {
-    @return left;
-  } @else if $dir == "LTR" {
-    @return rtl;
-  } @else if $dir == "RTL" {
-    @return ltr;
-  } @else if $dir == "top" {
-    @return bottom;
-  } @else if $dir == "bottom" {
-    @return top;
-  } @else {
-    @warn "#{$dir} is not a direction! Make sure your direction is all lowercase!";
-    @return false;
-  }
-}
-
-// Find Direction Name
-@function grider-named-direction($dir) {
-  @if $dir == "LTR" {
-    @return left;
-  } @else if $dir == "RTL" {
-    @return right;
-  } @else {
-    @warn "#{$dir} is not a valid HTML direction! Make sure you are using a valid HTML direction";
-    @return false;
-  }
-}
-
-//
-//
-// @param {string} $val
-// @param {string} $unit
-//
-// - - - - - - - - - - - - - - - - - - - - - - - - -
-@function fallback-to-px($val, $unit: rem) {
-  $output: ();
-
-  @if type-of($val) == "string" {
-    @if $val == "auto" or $val == "!important" {
-      $output: join($val, $val);
-      @return $output;
-    }
-  } @else {
-    @if $val == 0 {
-      $output: join(0, 0);
-    } @else if unitless($val) {
-      $output: join($val * config-get("base-em"), $val + $unit);
-    } @else {
-      $output: join($val, $val);
-    }
-
-    @return $output;
-  }
-
-  @warn "#{$val} is not a valid value";
-  @return false;
-}
-
-// Checks for a valid number.
-//
-// @param {number} $value
-//
-// @require {function} contains
-// - - - - - - - - - - - - - - - - - - - - - - - - -
-@function is-number($value) {
-  @return contains("0" "1" "2" "3" "4" "5" "6" "7" "8" "9" 0 1 2 3 4 5 6 7 8 9, $value);
-}
-
-// A mixin for generating vendor prefixes on non-standardized properties.
-//
-// @param {string} $property
-//   Property to prefix
-//
-// @param {*} $value
-//   Value to use
-//
-// @param {list} $prefixes
-//   Prefixes to define
-//
-// @example scss - Usage
-//   .element {
-//     @include prefixer(keyframes identifier, webkit ms spec) {
-//       0% { top: 0; left: 0; }
-//       30% { top: 50px; }
-//       68%, 72% { left: 50px; }
-//       100% { top: 100px; left: 100%; }
-//     }
-//   }
-//
-// @example css - CSS Output
-//   .element {
-//     @-webkit-keyframes identifier {
-//       0% { top: 0; left: 0; }
-//       30% { top: 50px; }
-//       68%, 72% { left: 50px; }
-//       100% { top: 100px; left: 100%; }
-//     }
-//     @-moz-keyframes identifier {
-//       0% { top: 0; left: 0; }
-//       30% { top: 50px; }
-//       68%, 72% { left: 50px; }
-//       100% { top: 100px; left: 100%; }
-//     }
-//     @keyframes identifier {
-//       0% { top: 0; left: 0; }
-//       30% { top: 50px; }
-//       68%, 72% { left: 50px; }
-//       100% { top: 100px; left: 100%; }
-//     }
-//   }
-//
-// @require config "prefix.webkit"
-// @require config "prefix.mozilla"
-// @require config "prefix.microsoft"
-// @require config "prefix.opera"
-// @require config "prefix.spec"
-// - - - - - - - - - - - - - - - - - - - - - - - - -
-@mixin prefixer-content($property, $prefixes) {
-  @each $prefix in $prefixes {
-    @if $prefix == webkit and config-get("prefix.webkit") {
-      -webkit-#{$property} {
-        @content;
-      }
-    } @else if $prefix == moz and config-get("prefix.mozilla") {
-      -moz-#{$property} {
-        @content;
-      }
-    } @else if $prefix == ms and config-get("prefix.microsoft") {
-      -ms-#{$property} {
-        @content;
-      }
-    } @else if $prefix == o and config-get("prefix.opera") {
-      -o-#{$property} {
-        @content;
-      }
-    } @else if $prefix == spec and config-get("prefix.spec") {
-      #{$property} {
-        @content;
-      }
-    } @else  {
-      @warn "Unrecognized prefix: #{$prefix}";
-    }
-  }
-}
-
-// A mixin for generating vendor prefixes on non-standardized properties.
-//
-// @param {string} $property
-//   Property to prefix
-//
-// @param {*} $value
-//   Value to use
-//
-// @param {list} $prefixes
-//   Prefixes to define
-//
-// @example scss - Usage
-//   .element {
-//     @include prefixer(border-radius, 10px, webkit ms spec);
-//   }
-//
-// @example css - CSS Output
-//   .element {
-//     -webkit-border-radius: 10px;
-//     -moz-border-radius: 10px;
-//     border-radius: 10px;
-//   }
-//
-// @require config "prefix.webkit"
-// @require config "prefix.mozilla"
-// @require config "prefix.microsoft"
-// @require config "prefix.opera"
-// @require config "prefix.spec"
-// - - - - - - - - - - - - - - - - - - - - - - - - -
-@mixin prefixer($property, $value, $prefixes) {
-  @each $prefix in $prefixes {
-    @if $prefix == webkit and config-get("prefix.webkit") {
-      -webkit-#{$property}: $value;
-    } @else if $prefix == moz and config-get("prefix.mozilla") {
-      -moz-#{$property}: $value;
-    } @else if $prefix == ms and config-get("prefix.microsoft") {
-      -ms-#{$property}: $value;
-    } @else if $prefix == o and config-get("prefix.opera") {
-      -o-#{$property}: $value;
-    } @else if $prefix == spec and config-get("prefix.spec") {
-      #{$property}: $value;
-    } @else {
-      @warn "Unrecognized prefix: #{$prefix}";
-    }
-  }
-}
-
-@mixin disable-prefixes() {
-  @include config-set("prefix.webkit", false, true);
-  @include config-set("prefix.mozilla", false, true);
-  @include config-set("prefix.microsoft", false, true);
-  @include config-set("prefix.opera", false, true);
-  @include config-set("prefix.spec", false, true);
-}
-
 //      A dot-syntax configuration (Map) library in Sass
 //
 //                http://growcss.de
@@ -1294,4 +961,337 @@ $im-no-media-expressions: ('screen', 'portrait', 'landscape') !default;
       }
     }    
   }
+}
+
+// Global variable for em.
+// - - - - - - - - - - - - - - - - - - - - - - - - -
+@include config-set("base-em", 16px, true);
+
+// Global variables to enable or disable vendor prefixes.
+// - - - - - - - - - - - - - - - - - - - - - - - - -
+@include config-set("prefix.webkit", false, true);
+@include config-set("prefix.mozilla", false, true);
+@include config-set("prefix.microsoft", false, true);
+@include config-set("prefix.opera", false, true);
+@include config-set("prefix.spec", false, true);
+
+
+// Function checking if $value is a valid length
+//
+// @param {mixed} $value: value to test
+//
+// @return {bool}
+// - - - - - - - - - - - - - - - - - - - - - - - - -
+@function is-valid-length($value) {
+  @return (type-of($value) == "number" and not unitless($value))
+       or (index(auto initial inherit 0, $value) != false);
+}
+
+// Convert pixels to ems
+// eg. for a relational value of 12px write em(12) when the parent is 16px
+// if the parent is another value say 24px write em(12, 24)
+// - - - - - - - - - - - - - - - - - - - - - - - - -
+@function em($pxval, $base: config-get("base-em")) {
+  @if not unitless($pxval) {
+    $pxval: strip-units($pxval);
+  }
+
+  @if not unitless($base) {
+    $base: strip-units($base);
+  }
+
+  @return ($pxval / $base) * 1em;
+}
+
+// Convert pixels to rems
+// eg. for a relational value of 12px write rem(12)
+// Assumes $em-base is the font-size of <html>
+// - - - - - - - - - - - - - - - - - - - - - - - - -
+@function rem($pxval) {
+  @if not unitless($pxval) {
+    $pxval: strip-units($pxval);
+  }
+
+  $base: config-get("base-em");
+
+  @if not unitless($base) {
+    $base: strip-units($base);
+  }
+
+  @return ($pxval / $base) * 1rem;
+}
+
+// Strips the unit from a number.
+//
+// @param {Number (With Unit)} $value
+//
+// @example scss - Usage
+//   $dimension: strip-units(10em);
+//
+// @example css - CSS Output
+//   $dimension: 10;
+//
+// @return {Number (Unitless)}
+// - - - - - - - - - - - - - - - - - - - - - - - - -
+@function strip-units($value) {
+  @return ($value / ($value * 0 + 1));
+}
+
+// Converts shorthand to the 4-value syntax.
+//
+// @param {list} $shorthand
+//
+// @example scss - Usage
+//   .element {
+//     margin: unpack(1em 2em);
+//   }
+//
+// @example css - CSS Output
+//   .element {
+//     margin: 1em 2em 1em 2em;
+//   }
+// - - - - - - - - - - - - - - - - - - - - - - - - -
+@function unpack($shorthand) {
+  @if length($shorthand) == 1 {
+    @return nth($shorthand, 1) nth($shorthand, 1) nth($shorthand, 1) nth($shorthand, 1);
+  } @else if length($shorthand) == 2 {
+    @return nth($shorthand, 1) nth($shorthand, 2) nth($shorthand, 1) nth($shorthand, 2);
+  } @else if length($shorthand) == 3 {
+    @return nth($shorthand, 1) nth($shorthand, 2) nth($shorthand, 3) nth($shorthand, 2);
+  } @else {
+    @return $shorthand;
+  }
+}
+
+// Checks if a list contains a value(s).
+//
+// @param {list} $list
+//   The list to check against.
+//
+// @param {list} $values
+//   A single value or list of values to check for.
+//
+// @example scss - Usage
+//   contains($list, $value)
+//
+// @return {bool}
+// - - - - - - - - - - - - - - - - - - - - - - - - -
+@function contains($list, $values...) {
+  @if not is-list($list) {
+    @warn "argument error: #{$list}";
+    @return "error";
+  }
+
+  @each $value in $values {
+    @if type-of(index($list, $value)) != "number" {
+      @return false;
+    }
+  }
+
+  @return true;
+}
+
+// Find Opposite Direction
+// - - - - - - - - - - - - - - - - - - - - - - - - -
+@function grider-opposite-direction($dir) {
+  @if $dir == "left" {
+    @return right;
+  } @else if  $dir == "right" {
+    @return left;
+  } @else if $dir == "LTR" {
+    @return rtl;
+  } @else if $dir == "RTL" {
+    @return ltr;
+  } @else if $dir == "top" {
+    @return bottom;
+  } @else if $dir == "bottom" {
+    @return top;
+  } @else {
+    @warn "#{$dir} is not a direction! Make sure your direction is all lowercase!";
+    @return false;
+  }
+}
+
+// Find Direction Name
+@function grider-named-direction($dir) {
+  @if $dir == "LTR" {
+    @return left;
+  } @else if $dir == "RTL" {
+    @return right;
+  } @else {
+    @warn "#{$dir} is not a valid HTML direction! Make sure you are using a valid HTML direction";
+    @return false;
+  }
+}
+
+//
+//
+// @param {string} $val
+// @param {string} $unit
+//
+// - - - - - - - - - - - - - - - - - - - - - - - - -
+@function fallback-to-px($val, $unit: rem) {
+  $output: ();
+
+  @if type-of($val) == "string" {
+    @if $val == "auto" or $val == "!important" {
+      $output: join($val, $val);
+      @return $output;
+    }
+  } @else {
+    @if $val == 0 {
+      $output: join(0, 0);
+    } @else if unitless($val) {
+      $output: join($val * config-get("base-em"), $val + $unit);
+    } @else {
+      $output: join($val, $val);
+    }
+
+    @return $output;
+  }
+
+  @warn "#{$val} is not a valid value";
+  @return false;
+}
+
+// Checks for a valid number.
+//
+// @param {number} $value
+//
+// @require {function} contains
+// - - - - - - - - - - - - - - - - - - - - - - - - -
+@function is-number($value) {
+  @return contains("0" "1" "2" "3" "4" "5" "6" "7" "8" "9" 0 1 2 3 4 5 6 7 8 9, $value);
+}
+
+// A mixin for generating vendor prefixes on non-standardized properties.
+//
+// @param {string} $property
+//   Property to prefix
+//
+// @param {*} $value
+//   Value to use
+//
+// @param {list} $prefixes
+//   Prefixes to define
+//
+// @example scss - Usage
+//   .element {
+//     @include prefixer(keyframes identifier, webkit ms spec) {
+//       0% { top: 0; left: 0; }
+//       30% { top: 50px; }
+//       68%, 72% { left: 50px; }
+//       100% { top: 100px; left: 100%; }
+//     }
+//   }
+//
+// @example css - CSS Output
+//   .element {
+//     @-webkit-keyframes identifier {
+//       0% { top: 0; left: 0; }
+//       30% { top: 50px; }
+//       68%, 72% { left: 50px; }
+//       100% { top: 100px; left: 100%; }
+//     }
+//     @-moz-keyframes identifier {
+//       0% { top: 0; left: 0; }
+//       30% { top: 50px; }
+//       68%, 72% { left: 50px; }
+//       100% { top: 100px; left: 100%; }
+//     }
+//     @keyframes identifier {
+//       0% { top: 0; left: 0; }
+//       30% { top: 50px; }
+//       68%, 72% { left: 50px; }
+//       100% { top: 100px; left: 100%; }
+//     }
+//   }
+//
+// @require config "prefix.webkit"
+// @require config "prefix.mozilla"
+// @require config "prefix.microsoft"
+// @require config "prefix.opera"
+// @require config "prefix.spec"
+// - - - - - - - - - - - - - - - - - - - - - - - - -
+@mixin prefixer-content($property, $prefixes) {
+  @each $prefix in $prefixes {
+    @if $prefix == webkit and config-get("prefix.webkit") {
+      -webkit-#{$property} {
+        @content;
+      }
+    } @else if $prefix == moz and config-get("prefix.mozilla") {
+      -moz-#{$property} {
+        @content;
+      }
+    } @else if $prefix == ms and config-get("prefix.microsoft") {
+      -ms-#{$property} {
+        @content;
+      }
+    } @else if $prefix == o and config-get("prefix.opera") {
+      -o-#{$property} {
+        @content;
+      }
+    } @else if $prefix == spec and config-get("prefix.spec") {
+      #{$property} {
+        @content;
+      }
+    } @else  {
+      @warn "Unrecognized prefix: #{$prefix}";
+    }
+  }
+}
+
+// A mixin for generating vendor prefixes on non-standardized properties.
+//
+// @param {string} $property
+//   Property to prefix
+//
+// @param {*} $value
+//   Value to use
+//
+// @param {list} $prefixes
+//   Prefixes to define
+//
+// @example scss - Usage
+//   .element {
+//     @include prefixer(border-radius, 10px, webkit ms spec);
+//   }
+//
+// @example css - CSS Output
+//   .element {
+//     -webkit-border-radius: 10px;
+//     -moz-border-radius: 10px;
+//     border-radius: 10px;
+//   }
+//
+// @require config "prefix.webkit"
+// @require config "prefix.mozilla"
+// @require config "prefix.microsoft"
+// @require config "prefix.opera"
+// @require config "prefix.spec"
+// - - - - - - - - - - - - - - - - - - - - - - - - -
+@mixin prefixer($property, $value, $prefixes) {
+  @each $prefix in $prefixes {
+    @if $prefix == webkit and config-get("prefix.webkit") {
+      -webkit-#{$property}: $value;
+    } @else if $prefix == moz and config-get("prefix.mozilla") {
+      -moz-#{$property}: $value;
+    } @else if $prefix == ms and config-get("prefix.microsoft") {
+      -ms-#{$property}: $value;
+    } @else if $prefix == o and config-get("prefix.opera") {
+      -o-#{$property}: $value;
+    } @else if $prefix == spec and config-get("prefix.spec") {
+      #{$property}: $value;
+    } @else {
+      @warn "Unrecognized prefix: #{$prefix}";
+    }
+  }
+}
+
+@mixin disable-prefixes() {
+  @include config-set("prefix.webkit", false, true);
+  @include config-set("prefix.mozilla", false, true);
+  @include config-set("prefix.microsoft", false, true);
+  @include config-set("prefix.opera", false, true);
+  @include config-set("prefix.spec", false, true);
 }
