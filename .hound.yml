@@ -1,0 +1,8 @@
+scss:
+    config_file: .scss-lint.yml
+
+ruby:
+    enabled: false
+
+javascript:
+    enabled: false

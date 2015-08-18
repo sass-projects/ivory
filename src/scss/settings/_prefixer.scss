@@ -1,0 +1,9 @@
+@charset "UTF-8";
+
+// Global variables to enable or disable vendor prefixes.
+// - - - - - - - - - - - - - - - - - - - - - - - - -
+@include config-set("prefix.webkit", false, true);
+@include config-set("prefix.mozilla", false, true);
+@include config-set("prefix.microsoft", false, true);
+@include config-set("prefix.opera", false, true);
+@include config-set("prefix.spec", false, true);

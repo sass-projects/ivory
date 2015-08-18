@@ -1,0 +1,31 @@
+@charset "UTF-8";
+
+//
+//
+// @param {string} $val
+// @param {string} $unit
+//
+// - - - - - - - - - - - - - - - - - - - - - - - - -
+@function fallback-to-px($val, $unit: rem) {
+  $output: ();
+
+  @if type-of($val) == "string" {
+    @if $val == "auto" or $val == "!important" {
+      $output: join($val, $val);
+      @return $output;
+    }
+  } @else {
+    @if $val == 0 {
+      $output: join(0, 0);
+    } @else if unitless($val) {
+      $output: join($val * config-get("base-em"), $val + $unit);
+    } @else {
+      $output: join($val, $val);
+    }
+
+    @return $output;
+  }
+
+  @warn "#{$val} is not a valid value";
+  @return false;
+}

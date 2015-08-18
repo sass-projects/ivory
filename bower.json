@@ -1,0 +1,38 @@
+{
+  "name": "growcss-ivory",
+  "version": "0.0.0",
+  "homepage": "http://growcss.com/",
+  "authors": [
+    "Daniel Bannert <d.bannert@anolilab.de>"
+  ],
+  "description": "A simple mixin library for Sass.",
+  "moduleType": [
+    "amd",
+    "node"
+  ],
+  "keywords": [
+    "grunt",
+    "bower",
+    "bin",
+    "development",
+    "dev",
+    "build",
+    "generator",
+    "generate",
+    "tool",
+    "media",
+    "include-media",
+    "sass",
+    "scss",
+    "sass-config-manager",
+    "growcss"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
