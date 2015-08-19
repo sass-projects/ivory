@@ -9,7 +9,7 @@ var fs = require('fs'),
             'src/scss/grid/*.scss'
     ],
     processFunc = function(src, filepath) {
-        src = src.replace(/(^|\n)[ \t]*(@charset "UTF-8";);?\s*/g, '$1');
+        src = src.replace(/(^|\n)[ \t]*(@charset "UTF-8";|@charset 'UTF-8';);?\s*/g, '$1');
         src = src.replace(/(^|\n)[ \t]*(@import ([^)]*)\;);?\s*/g, '');
 
         return src;
@@ -20,9 +20,7 @@ module.exports = {
         options: {
             // Replace all 'use strict' statements in the code with a single one at the top
             banner: fs.readFileSync('./banner.txt', 'utf8'),
-            process: function(src, filepath) {
-              return src.replace(/(^|\n)[ \t]*(@charset "UTF-8";);?\s*/g, '$1');
-            }
+            process: processFunc
         },
         src: srcFiles,
         dest: 'dist/_ivory.scss',
@@ -31,9 +29,7 @@ module.exports = {
         options: {
             // Replace all 'use strict' statements in the code with a single one at the top
             banner: fs.readFileSync('./banner.txt', 'utf8'),
-            process: function(src, filepath) {
-              return src.replace(/(^|\n)[ \t]*(@charset "UTF-8";);?\s*/g, '$1');
-            }
+            process: processFunc
         },
         src: [
             'node_modules/growcss-sass-config-manager/dist/*.scss',
