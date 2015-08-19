@@ -1,4 +1,4 @@
-// Adds keyframes blocks for supported prefixes, removing redundant prefixes in the block's content
+// Adds keyframes blocks for supported prefixes, removing redundant prefixes in the block"s content
 // - - - - - - - - - - - - - - - - - - - - - - - - -
 @mixin keyframe ($animation-name) {
   @include prefixer-content("keyframes #{$animation-name}", webkit moz ms o spec) {

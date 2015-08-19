@@ -109,7 +109,7 @@
     @warn "The number of $values has to match the $sides or be a single value";
   }
 
-  // Render (properties with value `null` don't get rendered)
+  // Render (properties with value `null` don"t get rendered)
   @each $key, $val in $map {
     #{$key}: #{$val};
   }
