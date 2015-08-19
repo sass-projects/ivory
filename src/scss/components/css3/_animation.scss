@@ -1,55 +1,54 @@
+@charset "UTF-8";
 // Each of these mixins support comma separated lists of values, which allows different transitions for individual properties to be described in a single style rule.
 // Each value in the list corresponds to the value at that same position in the other properties.
-
+// - - - - - - - - - - - - - - - - - - - - - - - - -
 @mixin animation($animations...) {
   @include prefixer(animation, $animations, webkit moz spec);
 }
 
 // Name of any animation as a string.
+// - - - - - - - - - - - - - - - - - - - - - - - - -
 @mixin animation-name($names...) {
   @include prefixer(animation-name, $names, webkit moz spec);
 }
 // Duration of the entire animation in seconds.
-//
+// - - - - - - - - - - - - - - - - - - - - - - - - -
 @mixin animation-duration($times...) {
   @include prefixer(animation-duration, $times, webkit moz spec);
 }
 
 // The timing function(s) to be used between keyframes. [ease | linear | ease-in | ease-out | ease-in-out | cubic-bezier($number, $number, $number, $number)]
-//
+// - - - - - - - - - - - - - - - - - - - - - - - - -
 @mixin animation-timing-function($motions...) {
-  // ease | linear | ease-in | ease-out | ease-in-out
   @include prefixer(animation-timing-function, $motions, webkit moz spec);
 }
 
 // The number of times an animation cycle is played. [infinite | $number]
-//
+// - - - - - - - - - - - - - - - - - - - - - - - - -
 @mixin animation-iteration-count($values...) {
-  // infinite | <number>
   @include prefixer(animation-iteration-count, $values, webkit moz spec);
 }
 
 // Whether or not the animation should play in reverse on alternate cycles. [normal | alternate]
-//
+// - - - - - - - - - - - - - - - - - - - - - - - - -
 @mixin animation-direction($directions...) {
-  // normal | alternate
   @include prefixer(animation-direction, $directions, webkit moz spec);
 }
 
 // Whether the animation is running or paused. [running | paused]
-//
+// - - - - - - - - - - - - - - - - - - - - - - - - -
 @mixin animation-play-state($states...) {
-  // running | paused
   @include prefixer(animation-play-state, $states, webkit moz spec);
 }
 
+//
+// - - - - - - - - - - - - - - - - - - - - - - - - -
 @mixin animation-delay($times...) {
   @include prefixer(animation-delay, $times, webkit moz spec);
 }
 
 // What values are applied by the animation outside the time it is executing. [none | forwards | backwards | both]
-//
+// - - - - - - - - - - - - - - - - - - - - - - - - -
 @mixin animation-fill-mode($modes...) {
-  // none | forwards | backwards | both
   @include prefixer(animation-fill-mode, $modes, webkit moz spec);
 }
