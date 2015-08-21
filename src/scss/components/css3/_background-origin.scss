@@ -1,0 +1,24 @@
+@charset "UTF-8";
+
+// Set the origin of the background (image and color) at the edge of the padding, border, or content.
+//
+// $origin... : [padding-box | border-box | content-box]
+// - - - - - - - - - - - - - - - - - - - - - - - - -
+@mixin background-origin($origin...) {
+  $output: ();
+  $deprecated: ();
+
+  @if (length($origin) > 0) {
+    @each $layer in $origin {
+      $output: append($output, unquote($layer), comma);
+      $deprecated: append($deprecated, legacy-box($layer), comma);
+    }
+  } @else {
+    $output: config-get("background-origin"));
+    $deprecated: legacy-box(config-get("background-origin")));
+  }
+
+  // Legacy versions of Mozilla support a different syntax, prefixed.
+  @include prefixer(background-origin, $deprecated, moz webkit);
+  @include prefixer(background-origin, $output, spec);
+}

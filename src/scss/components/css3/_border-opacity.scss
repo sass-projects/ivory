@@ -1,0 +1,18 @@
+@charset "UTF-8";
+
+// Opacity should be on a 100 point scale (0-100 instead of 0.0-1.0)
+// This should be used to supplement a normal border definition as it
+// only deals with the 'border-color' property.
+@mixin border-opacity($color, $opacity) {
+  $opacity: $opacity / 100;
+
+  // Unsupporting browsers get this
+  border-color: $color;
+
+  // Browsers that support RGBA will get this instead
+  border-color: rgba($color, $opacity);
+
+  // Prevent the element's background from reaching the edge of the border
+  @include prefixer(background-clip, legacy-box(config-get("border-opacity")), moz webkit);
+  @include prefixer(background-clip, config-get("border-opacity"), spec);
+}

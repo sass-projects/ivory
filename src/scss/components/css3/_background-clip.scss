@@ -1,0 +1,24 @@
+@charset "UTF-8";
+
+// Clip the background (image and color) at the edge of the padding, border, or content.
+//
+// $clip... : [padding-box | border-box | content-box]
+// - - - - - - - - - - - - - - - - - - - - - - - - -
+@mixin background-clip($clip...) {
+  $output: ();
+  $deprecated: ();
+
+  @if (length($clip) > 0) {
+    @each $layer in $clip {
+      $output: append($output, unquote($layer), comma);
+      $deprecated: append($deprecated, legacy-box($layer), comma);
+    }
+  } @else {
+    $output: config-get("background-clip"));
+    $deprecated: legacy-box(config-get("background-clip")));
+  }
+
+  // Legacy versions of Mozilla support a different syntax, prefixed.
+  @include prefixer(background-clip, $deprecated, moz webkit);
+  @include prefixer(background-clip, $output, spec);
+}

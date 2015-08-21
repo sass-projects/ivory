@@ -3,3 +3,9 @@
 // Global variable for em.
 // - - - - - - - - - - - - - - - - - - - - - - - - -
 @include config-set("base-em", 16px, true);
+
+@include config-set("background-clip", "padding-box", true);
+@include config-set("background-origin", "content-box", true);
+@include config-set("background-size", 100% auto, true);
+@include config-set("border-radius", rem(5), true);
+@include config-set("border-opacity", "padding-box", true);
