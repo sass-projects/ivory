@@ -7,5 +7,14 @@
 @include config-set("background-clip", "padding-box", true);
 @include config-set("background-origin", "content-box", true);
 @include config-set("background-size", 100% auto, true);
+
 @include config-set("border-radius", rem(5), true);
 @include config-set("border-opacity", "padding-box", true);
+
+
+@include config-get("box-shadow-inset", null, true);
+@include config-get("box-shadow-h-offset", 0, true);
+@include config-get("box-shadow-v-offset", 0, true);
+@include config-get("box-shadow-blur", 5px, true);
+@include config-get("box-shadow-spread", null, true);
+@include config-get("box-shadow-color", #333, true);

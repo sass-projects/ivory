@@ -14,8 +14,8 @@
       $deprecated: append($deprecated, legacy-box($layer), comma);
     }
   } @else {
-    $output: config-get("background-origin"));
-    $deprecated: legacy-box(config-get("background-origin")));
+    $output: config-get("background-origin");
+    $deprecated: legacy-box(config-get("background-origin"));
   }
 
   // Legacy versions of Mozilla support a different syntax, prefixed.

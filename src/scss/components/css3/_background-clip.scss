@@ -14,8 +14,8 @@
       $deprecated: append($deprecated, legacy-box($layer), comma);
     }
   } @else {
-    $output: config-get("background-clip"));
-    $deprecated: legacy-box(config-get("background-clip")));
+    $output: config-get("background-clip");
+    $deprecated: legacy-box(config-get("background-clip"));
   }
 
   // Legacy versions of Mozilla support a different syntax, prefixed.
