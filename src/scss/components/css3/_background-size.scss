@@ -7,10 +7,10 @@
 // * mixin defaults to: `$default-background-size`
 @mixin background-size($size: null) {
   @if $size == null {
-    $size: config-get("background-size")
+    $size: config-get("background-size");
   }
 
   @include prefixer-content(background-img-opts, o webkit) {
-    background-size: $size
+    background-size: $size;
   }
 }

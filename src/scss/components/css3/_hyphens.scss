@@ -11,7 +11,7 @@
   // none | manual | auto
   @include prefixer(hyphens, $hyphenation, webkit moz ms spec);
 
-  -webkit-hyphenate-character: '\2010';
+  -webkit-hyphenate-character: "\2010";
   -webkit-hyphenate-limit-after: 1;
   -webkit-hyphenate-limit-before: 3;
 }

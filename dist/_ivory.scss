@@ -9,9 +9,28 @@
 //      This project is licensed under the terms of the MIT license
 // - - - - - - - - - - - - - - - - - - - - - - - - -
 
+// Colors
+//
+$gray20: #333;
+
 // Global variable for em.
 // - - - - - - - - - - - - - - - - - - - - - - - - -
 @include config-set("base-em", 16px, true);
+
+@include config-set("background-clip", "padding-box", true);
+@include config-set("background-origin", "content-box", true);
+@include config-set("background-size", 100% auto, true);
+
+@include config-set("border-radius", rem(5), true);
+@include config-set("border-opacity", "padding-box", true);
+
+
+@include config-get("box-shadow-inset", null, true);
+@include config-get("box-shadow-h-offset", 0, true);
+@include config-get("box-shadow-v-offset", 0, true);
+@include config-get("box-shadow-blur", 5px, true);
+@include config-get("box-shadow-spread", null, true);
+@include config-get("box-shadow-color", $gray20, true);
 
 // Global variables to enable or disable vendor prefixes.
 // - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -19,8 +38,7 @@
 @include config-set("prefix.mozilla", false, true);
 @include config-set("prefix.microsoft", false, true);
 @include config-set("prefix.opera", false, true);
-@include config-set("prefix.spec", false, true);
-
+@include config-set("prefix.spec", true, true);
 
 // Function checking if $value is a valid length
 //
@@ -109,6 +127,21 @@
   }
 }
 
+// Remove all non-true value of a list.
+//
+// - - - - - - - - - - - - - - - - - - - - - - - - -
+@function compact($list...) {
+  $result: ();
+
+  @each $item in $list {
+    @if $item != null and $item != false and $item != "" {
+      $result: append($result, $item);
+    }
+  }
+
+  @return $result;
+}
+
 // Checks if a list contains a value(s).
 //
 // @param {list} $list
@@ -170,6 +203,21 @@
   }
 }
 
+// Replaces ending of text with "..." when it
+// no longer fits in the container element.
+//
+// @example scss - Usage
+//   .text-container {
+//     @extend %dotdotdot;
+//   }
+// - - - - - - - - - - - - - - - - - - - - - - - - -
+@mixin dotdotdot() {
+  max-width: 100%;          // Disallow expansion beyond parent container
+  overflow: hidden;         // Must be different from 'visible'
+  text-overflow: ellipsis;  // This is where the magic happens
+  white-space: nowrap;      // Allow one line of text only
+}
+
 //
 //
 // @param {string} $val
@@ -208,6 +256,27 @@
 // - - - - - - - - - - - - - - - - - - - - - - - - -
 @function is-number($value) {
   @return contains("0" "1" "2" "3" "4" "5" "6" "7" "8" "9" 0 1 2 3 4 5 6 7 8 9, $value);
+}
+
+// @private Returns the legacy value for a given box-model
+// - Used by background-clip and -origin.
+// - - - - - - - - - - - - - - - - - - - - - - - - -
+@function legacy-box($box) {
+  $box: unquote($box);
+
+  @if $box == padding-box {
+    $box: padding;
+  }
+
+  @if $box == border-box {
+    $box: border;
+  }
+
+  @if $box == content-box {
+    $box: content;
+  }
+
+  @return $box;
 }
 
 // A mixin for generating vendor prefixes on non-standardized properties.
