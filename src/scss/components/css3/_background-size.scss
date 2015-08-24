@@ -10,7 +10,5 @@
     $size: config-get("background-size");
   }
 
-  @include prefixer-content(background-img-opts, o webkit) {
-    background-size: $size;
-  }
+  @include prefixer(background-size, $size, o webkit);
 }
