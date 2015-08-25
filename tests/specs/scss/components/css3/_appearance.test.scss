@@ -1,0 +1,76 @@
+@include test-module("appearance") {
+  // Testing animation functions
+  @include test("Check appearance mixin works correct.") {
+    @include assert("Outputs a appearance[normal] for webkit moz and without a prefix") {
+      @include input {
+        @include appearance(normal);
+      }
+
+      @include expect {
+        -webkit-appearance: normal;
+        -moz-appearance: normal;
+        appearance: normal;
+      }
+    }
+
+    @include assert("Outputs a appearance[icon] for webkit moz and without a prefix") {
+      @include input {
+        @include appearance("icon");
+      }
+
+      @include expect {
+        -webkit-appearance: icon;
+        -moz-appearance: icon;
+        appearance: icon;
+      }
+    }
+
+    @include assert("Outputs a appearance[window] for webkit moz and without a prefix") {
+      @include input {
+        @include appearance("window");
+      }
+
+      @include expect {
+        -webkit-appearance: window;
+        -moz-appearance: window;
+        appearance: window;
+      }
+    }
+
+    @include assert("Outputs a appearance[button] for webkit moz and without a prefix") {
+      @include input {
+        @include appearance(button);
+      }
+
+      @include expect {
+        -webkit-appearance: button;
+        -moz-appearance: button;
+        appearance: button;
+      }
+    }
+
+    @include assert("Outputs a appearance[menu] for webkit moz and without a prefix") {
+      @include input {
+        @include appearance(menu);
+      }
+
+      @include expect {
+        -webkit-appearance: menu;
+        -moz-appearance: menu;
+        appearance: menu;
+      }
+    }
+
+    @include assert("Outputs a appearance[field] for webkit moz and without a prefix") {
+      @include input {
+        @include appearance(field);
+      }
+
+      @include expect {
+        -webkit-appearance: field;
+        -moz-appearance: field;
+        appearance: field;
+      }
+    }
+  }
+}

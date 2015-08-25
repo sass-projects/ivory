@@ -13,6 +13,5 @@
   border-color: rgba($color, $opacity);
 
   // Prevent the element's background from reaching the edge of the border
-  @include prefixer(background-clip, legacy-box(config-get("border-opacity")), moz webkit);
-  @include prefixer(background-clip, config-get("border-opacity"), spec);
+  @include prefixer(background-clip, config-get("i-border-opacity"), spec);
 }

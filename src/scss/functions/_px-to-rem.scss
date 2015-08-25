@@ -9,7 +9,7 @@
     $pxval: strip-units($pxval);
   }
 
-  $base: config-get("base-em");
+  $base: config-get("i-base-em");
 
   @if not unitless($base) {
     $base: strip-units($base);

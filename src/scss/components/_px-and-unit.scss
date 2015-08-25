@@ -14,15 +14,15 @@
 //   @include px-and-unit([property], [multiplier | explicit value] [, ...]);
 //
 // @example scss - Usage
-// .margin {
-//   @include px-and-unit(margin, 2);
-// }
+//   .margin {
+//     @include px-and-unit(margin, 2);
+//   }
 //
 // @example css - CSS Output
-// .margin {
-//   margin: 32px;
-//   margin: 2rem;
-// }
+//   .margin {
+//     margin: 32px;
+//     margin: 2rem;
+//   }
 // - - - - - - - - - - - - - - - - - - - - - - - - -
 @mixin px-and-unit($prop, $vals, $unit: rem) {
   $px-list: ();

@@ -1,5 +1,8 @@
 @charset "UTF-8";
 
+// Namespace
+$config-namespace: "i-" !global;
+
 // Colors
 //
 $gray20: #333;
@@ -16,9 +19,10 @@ $gray20: #333;
 @include config-set("border-opacity", "padding-box", true);
 
 
-@include config-get("box-shadow-inset", null, true);
-@include config-get("box-shadow-h-offset", 0, true);
-@include config-get("box-shadow-v-offset", 0, true);
-@include config-get("box-shadow-blur", 5px, true);
-@include config-get("box-shadow-spread", null, true);
-@include config-get("box-shadow-color", $gray20, true);
+@include config-set("box-shadow-inset", null, true);
+@include config-set("box-shadow-h-offset", 0, true);
+@include config-set("box-shadow-v-offset", 0, true);
+@include config-set("box-shadow-blur", 5px, true);
+@include config-set("box-shadow-spread", null, true);
+@include config-set("box-shadow-color", $gray20, true);
+

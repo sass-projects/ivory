@@ -42,7 +42,7 @@
 //     border-color: black;
 //   }
 // - - - - - - - - - - - - - - - - - - - - - - - - -
-@mixin border($border-width: config-get("border-width"), $border-color: config-get("border-color"), $border-style: config-get("border-style")) {
+@mixin border($border-width: config-get("i-border-width"), $border-color: config-get("i-border-color"), $border-style: config-get("i-border-style")) {
   @if length($border-width) > 1 {
     border-width: $border-width;
     border-style: $border-style;

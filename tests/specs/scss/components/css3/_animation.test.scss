@@ -1,0 +1,414 @@
+@include test-module("animation") {
+  // Testing animation functions
+  @include test("Check animation mixin works correct.") {
+    @include assert("Outputs a animation for webkit moz and without a prefix") {
+      @include input {
+        @include animation(example 5s linear 2s infinite alternate);
+      }
+
+      @include expect {
+        -webkit-animation: example 5s linear 2s infinite alternate;
+        -moz-animation: example 5s linear 2s infinite alternate;
+        animation: example 5s linear 2s infinite alternate;
+      }
+    }
+  }
+
+  @include test("Check animation-name mixin works correct.") {
+    @include assert("Outputs a animation-name[keyframes] for webkit moz and without a prefix") {
+      @include input {
+        @include animation-name("test-name");
+      }
+
+      @include expect {
+        -webkit-animation-name: "test-name";
+        -moz-animation-name: "test-name";
+        animation-name: "test-name";
+      }
+    }
+
+    @include assert("Outputs a animation-name[none] for webkit moz and without a prefix") {
+      @include input {
+        @include animation-name("none");
+      }
+
+      @include expect {
+        -webkit-animation-name: "none";
+        -moz-animation-name: "none";
+        animation-name: "none";
+      }
+    }
+
+    @include assert("Outputs a animation-name[initial] for webkit moz and without a prefix") {
+      @include input {
+        @include animation-name("initial");
+      }
+
+      @include expect {
+        -webkit-animation-name: "initial";
+        -moz-animation-name: "initial";
+        animation-name: "initial";
+      }
+    }
+
+    @include assert("Outputs a animation-name[inherit] for webkit moz and without a prefix") {
+      @include input {
+        @include animation-name("inherit");
+      }
+
+      @include expect {
+        -webkit-animation-name: "inherit";
+        -moz-animation-name: "inherit";
+        animation-name: "inherit";
+      }
+    }
+  }
+
+  @include test("Check animation-duration mixin works correct.") {
+    @include assert("Outputs a animation-duration[time] for webkit moz and without a prefix") {
+      @include input {
+        @include animation-duration(3);
+      }
+
+      @include expect {
+        -webkit-animation-duration: 3;
+        -moz-animation-duration: 3;
+        animation-duration: 3;
+      }
+    }
+
+    @include assert("Outputs a animation-duration[initial] for webkit moz and without a prefix") {
+      @include input {
+        @include animation-duration("initial");
+      }
+
+      @include expect {
+        -webkit-animation-duration: "initial";
+        -moz-animation-duration: "initial";
+        animation-duration: "initial";
+      }
+    }
+
+    @include assert("Outputs a animation-duration[inherit] for webkit moz and without a prefix") {
+      @include input {
+        @include animation-duration("inherit");
+      }
+
+      @include expect {
+        -webkit-animation-duration: "inherit";
+        -moz-animation-duration: "inherit";
+        animation-duration: "inherit";
+      }
+    }
+  }
+
+  @include test("Check animation-timing-function mixin works correct.") {
+    @include assert("Outputs a animation-timing-function[ease] for webkit moz and without a prefix") {
+      @include input {
+        @include animation-timing-function("ease");
+      }
+
+      @include expect {
+        -webkit-animation-timing-function: "ease";
+        -moz-animation-timing-function: "ease";
+        animation-timing-function: "ease";
+      }
+    }
+
+    @include assert("Outputs a animation-timing-function[linear] for webkit moz and without a prefix") {
+      @include input {
+        @include animation-timing-function("linear");
+      }
+
+      @include expect {
+        -webkit-animation-timing-function: "linear";
+        -moz-animation-timing-function: "linear";
+        animation-timing-function: "linear";
+      }
+    }
+
+    @include assert("Outputs a animation-timing-function[ease-in] for webkit moz and without a prefix") {
+      @include input {
+        @include animation-timing-function("ease-in");
+      }
+
+      @include expect {
+        -webkit-animation-timing-function: "ease-in";
+        -moz-animation-timing-function: "ease-in";
+        animation-timing-function: "ease-in";
+      }
+    }
+
+    @include assert("Outputs a animation-timing-function[ease-out] for webkit moz and without a prefix") {
+      @include input {
+        @include animation-timing-function("ease-out");
+      }
+
+      @include expect {
+        -webkit-animation-timing-function: "ease-out";
+        -moz-animation-timing-function: "ease-out";
+        animation-timing-function: "ease-out";
+      }
+    }
+
+    @include assert("Outputs a animation-timing-function[ease-in-out] for webkit moz and without a prefix") {
+      @include input {
+        @include animation-timing-function("ease-in-out");
+      }
+
+      @include expect {
+        -webkit-animation-timing-function: "ease-in-out";
+        -moz-animation-timing-function: "ease-in-out";
+        animation-timing-function: "ease-in-out";
+      }
+    }
+
+    @include assert("Outputs a animation-timing-function[cubic-bezier($number, $number, $number, $number)] for webkit moz and without a prefix") {
+      @include input {
+        @include animation-timing-function("cubic-bezier(1, 2, 3, 4)");
+      }
+
+      @include expect {
+        -webkit-animation-timing-function: "cubic-bezier(1, 2, 3, 4)";
+        -moz-animation-timing-function: "cubic-bezier(1, 2, 3, 4)";
+        animation-timing-function: "cubic-bezier(1, 2, 3, 4)";
+      }
+    }
+  }
+
+  @include test("Check animation-direction mixin works correct.") {
+    @include assert("Outputs a animation-direction[normal] for webkit moz and without a prefix") {
+      @include input {
+        @include animation-direction("normal");
+      }
+
+      @include expect {
+        -webkit-animation-direction: "normal";
+        -moz-animation-direction: "normal";
+        animation-direction: "normal";
+      }
+    }
+
+    @include assert("Outputs a animation-direction[reverse] for webkit moz and without a prefix") {
+      @include input {
+        @include animation-direction("reverse");
+      }
+
+      @include expect {
+        -webkit-animation-direction: "reverse";
+        -moz-animation-direction: "reverse";
+        animation-direction: "reverse";
+      }
+    }
+
+    @include assert("Outputs a animation-direction[alternate] for webkit moz and without a prefix") {
+      @include input {
+        @include animation-direction("alternate");
+      }
+
+      @include expect {
+        -webkit-animation-direction: "alternate";
+        -moz-animation-direction: "alternate";
+        animation-direction: "alternate";
+      }
+    }
+
+    @include assert("Outputs a animation-direction[alternate-reverse] for webkit moz and without a prefix") {
+      @include input {
+        @include animation-direction("alternate-reverse");
+      }
+
+      @include expect {
+        -webkit-animation-direction: "alternate-reverse";
+        -moz-animation-direction: "alternate-reverse";
+        animation-direction: "alternate-reverse";
+      }
+    }
+
+    @include assert("Outputs a animation-direction[initial] for webkit moz and without a prefix") {
+      @include input {
+        @include animation-direction("initial");
+      }
+
+      @include expect {
+        -webkit-animation-direction: "initial";
+        -moz-animation-direction: "initial";
+        animation-direction: "initial";
+      }
+    }
+
+    @include assert("Outputs a animation-direction[inherit] for webkit moz and without a prefix") {
+      @include input {
+        @include animation-direction("inherit");
+      }
+
+      @include expect {
+        -webkit-animation-direction: "inherit";
+        -moz-animation-direction: "inherit";
+        animation-direction: "inherit";
+      }
+    }
+  }
+
+  @include test("Check animation-play-state mixin works correct.") {
+    @include assert("Outputs a animation-play-state[running] for webkit moz and without a prefix") {
+      @include input {
+        @include animation-play-state("running");
+      }
+
+      @include expect {
+        -webkit-animation-play-state: "running";
+        -moz-animation-play-state: "running";
+        animation-play-state: "running";
+      }
+    }
+
+    @include assert("Outputs a animation-play-state[paused] for webkit moz and without a prefix") {
+      @include input {
+        @include animation-play-state("paused");
+      }
+
+      @include expect {
+        -webkit-animation-play-state: "paused";
+        -moz-animation-play-state: "paused";
+        animation-play-state: "paused";
+      }
+    }
+
+    @include assert("Outputs a animation-play-state[initial] for webkit moz and without a prefix") {
+      @include input {
+        @include animation-play-state("initial");
+      }
+
+      @include expect {
+        -webkit-animation-play-state: "initial";
+        -moz-animation-play-state: "initial";
+        animation-play-state: "initial";
+      }
+    }
+
+    @include assert("Outputs a animation-play-state[inherit] for webkit moz and without a prefix") {
+      @include input {
+        @include animation-play-state("inherit");
+      }
+
+      @include expect {
+        -webkit-animation-play-state: "inherit";
+        -moz-animation-play-state: "inherit";
+        animation-play-state: "inherit";
+      }
+    }
+  }
+
+  @include test("Check animation-delay mixin works correct.") {
+    @include assert("Outputs a animation-delay[time] for webkit moz and without a prefix") {
+      @include input {
+        @include animation-delay(4);
+      }
+
+      @include expect {
+        -webkit-animation-delay: 4;
+        -moz-animation-delay: 4;
+        animation-delay: 4;
+      }
+    }
+
+    @include assert("Outputs a animation-delay[initial] for webkit moz and without a prefix") {
+      @include input {
+        @include animation-delay("initial");
+      }
+
+      @include expect {
+        -webkit-animation-delay: "initial";
+        -moz-animation-delay: "initial";
+        animation-delay: "initial";
+      }
+    }
+
+    @include assert("Outputs a animation-delay[inherit] for webkit moz and without a prefix") {
+      @include input {
+        @include animation-delay("inherit");
+      }
+
+      @include expect {
+        -webkit-animation-delay: "inherit";
+        -moz-animation-delay: "inherit";
+        animation-delay: "inherit";
+      }
+    }
+  }
+
+  @include test("Check animation-fill-mode mixin works correct.") {
+    @include assert("Outputs a animation-fill-mode[none] for webkit moz and without a prefix") {
+      @include input {
+        @include animation-fill-mode("none");
+      }
+
+      @include expect {
+        -webkit-animation-fill-mode: "none";
+        -moz-animation-fill-mode: "none";
+        animation-fill-mode: "none";
+      }
+    }
+
+    @include assert("Outputs a animation-fill-mode[forwards] for webkit moz and without a prefix") {
+      @include input {
+        @include animation-fill-mode("forwards");
+      }
+
+      @include expect {
+        -webkit-animation-fill-mode: "forwards";
+        -moz-animation-fill-mode: "forwards";
+        animation-fill-mode: "forwards";
+      }
+    }
+
+    @include assert("Outputs a animation-fill-mode[backwards] for webkit moz and without a prefix") {
+      @include input {
+        @include animation-fill-mode("backwards");
+      }
+
+      @include expect {
+        -webkit-animation-fill-mode: "backwards";
+        -moz-animation-fill-mode: "backwards";
+        animation-fill-mode: "backwards";
+      }
+    }
+
+    @include assert("Outputs a animation-fill-mode[both] for webkit moz and without a prefix") {
+      @include input {
+        @include animation-fill-mode("both");
+      }
+
+      @include expect {
+        -webkit-animation-fill-mode: "both";
+        -moz-animation-fill-mode: "both";
+        animation-fill-mode: "both";
+      }
+    }
+
+    @include assert("Outputs a animation-fill-mode[initial] for webkit moz and without a prefix") {
+      @include input {
+        @include animation-fill-mode("initial");
+      }
+
+      @include expect {
+        -webkit-animation-fill-mode: "initial";
+        -moz-animation-fill-mode: "initial";
+        animation-fill-mode: "initial";
+      }
+    }
+
+    @include assert("Outputs a animation-fill-mode[inherit] for webkit moz and without a prefix") {
+      @include input {
+        @include animation-fill-mode("inherit");
+      }
+
+      @include expect {
+        -webkit-animation-fill-mode: "inherit";
+        -moz-animation-fill-mode: "inherit";
+        animation-fill-mode: "inherit";
+      }
+    }
+  }
+}
