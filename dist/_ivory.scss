@@ -704,7 +704,7 @@ $gray20: #333;
 ///     appearance: normal;
 ///   }
 ///
-/// @require {string} $value [normal | icon | window | button | menu | field]
+/// @param {String} $value [normal | icon | window | button | menu | field]
 @mixin appearance($value) {
   // There is no caniuse tracking for appearance.
   $value: unquote($value);
@@ -725,7 +725,7 @@ $gray20: #333;
 ///     backface-visibility: visible;
 ///   }
 ///
-/// @require {string} $visibility [visible | hidden | initial | inherit]
+/// @param {string} $visibility [visible | hidden | initial | inherit]
 @mixin backface-visibility($visibility) {
   $visibility: unquote($visibility);
   @include prefixer(backface-visibility, $visibility, webkit spec);
@@ -814,32 +814,28 @@ $gray20: #333;
 /// Note: webkit does not support shorthand syntax for several corners at once.
 /// So in the case where you pass several values only the first will be passed to webkit.
 ///
-/// Examples:
+/// @example scss - Usage
+///   .simple   {
+///     @include border-radius(4px, 4px);
+///   }
+///   .compound {
+///     @include border-radius(2px 5px, 3px 6px);
+///   }
+///   .crazy    {
+///     @include border-radius(1px 3px 5px 7px, 2px 4px 6px 8px)
+///   }
 ///
-///     .simple   {
-///       @include border-radius(4px, 4px);
-///     }
-///     .compound {
-///       @include border-radius(2px 5px, 3px 6px);
-///     }
-///     .crazy    {
-///       @include border-radius(1px 3px 5px 7px, 2px 4px 6px 8px)
-///     }
-///
-/// Which generates:
-///
-///     .simple {
-///       -moz-border-radius: 4px / 4px;
-///       -webkit-border-radius: 4px 4px;
-///       border-radius: 4px / 4px;
-///     }
-///
-///     .compound {
-///       -moz-border-radius: 2px 5px / 3px 6px;
-///       -webkit-border-radius: 2px 3px;
-///       border-radius: 2px 5px / 3px 6px;
-///     }
-///
+/// @example css - CSS Output
+///   .simple {
+///     -moz-border-radius: 4px / 4px;
+///     -webkit-border-radius: 4px 4px;
+///     border-radius: 4px / 4px;
+///   }
+///   .compound {
+///     -moz-border-radius: 2px 5px / 3px 6px;
+///     -webkit-border-radius: 2px 3px;
+///     border-radius: 2px 5px / 3px 6px;
+///   }
 ///  .crazy {
 ///    -moz-border-radius: 1px 3px 5px 7px / 2px 4px 6px 8px;
 ///    -webkit-border-radius: 1px 2px;
@@ -922,7 +918,7 @@ $gray20: #333;
     $shadow: compact(if(config-get("i-box-shadow-inset"), inset, null) config-get("i-box-shadow-h-offset") config-get("i-box-shadow-v-offset") config-get("i-box-shadow-blur") config-get("i-box-shadow-spread") config-get("i-box-shadow-color"));
   }
 
-  box-shadow: $shadow;
+  @include prefixer(box-shadow, $shadow, webkit moz spe);
 }
 
 /// Provides a single cross-browser CSS box shadow for Webkit, Gecko, and CSS3.
@@ -1007,5 +1003,35 @@ $gray20: #333;
 @mixin keyframe ($animation-name) {
   @include prefixer-content("keyframes #{$animation-name}", webkit moz ms o spec) {
     @content;
+  }
+}
+
+/// Shortcode for transitions transform
+///
+/// @param {Time}   $duration
+/// @param {String} $timing
+/// @param {Time}   $delay
+/// @param {List}   $preface
+///
+/// @example scss - Usage
+///   .transition-transform {
+///     @include transition-transform(0.8s, linear);
+///   }
+///
+/// @example css - CSS Output
+///   .transition-transform {
+///     -webkit-transition: -webkit-transform 0.8s linear 0s;
+///     -moz-transition: -moz-transform 0.8s linear 0s;
+///     -ms-transition: -ms-transform 0.8s linear 0s;
+///     -o-transition: -o-transform 0.8s linear 0s;
+///     transition: transform 0.8s linear 0s;
+///   }
+@mixin transition-transform($duration, $timing, $delay:0s, $preface:webkit moz ms o spec) {
+  @each $browser in $preface {
+    @if($browser == spec) {
+      transition: transform $duration $timing $delay;
+    } @else {
+      @include prefixer(transition, -#{$browser}-transform $duration $timing $delay, $browser);
+    }
   }
 }

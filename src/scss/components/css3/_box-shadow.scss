@@ -7,7 +7,7 @@
     $shadow: compact(if(config-get("i-box-shadow-inset"), inset, null) config-get("i-box-shadow-h-offset") config-get("i-box-shadow-v-offset") config-get("i-box-shadow-blur") config-get("i-box-shadow-spread") config-get("i-box-shadow-color"));
   }
 
-  box-shadow: $shadow;
+  @include prefixer(box-shadow, $shadow, webkit moz spe);
 }
 
 /// Provides a single cross-browser CSS box shadow for Webkit, Gecko, and CSS3.

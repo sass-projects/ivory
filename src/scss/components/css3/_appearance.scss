@@ -21,7 +21,7 @@
 ///     appearance: normal;
 ///   }
 ///
-/// @require {string} $value [normal | icon | window | button | menu | field]
+/// @param {String} $value [normal | icon | window | button | menu | field]
 @mixin appearance($value) {
   // There is no caniuse tracking for appearance.
   $value: unquote($value);

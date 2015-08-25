@@ -1,0 +1,31 @@
+@charset "UTF-8";
+
+/// Shortcode for transitions transform
+///
+/// @param {Time}   $duration
+/// @param {String} $timing
+/// @param {Time}   $delay
+/// @param {List}   $preface
+///
+/// @example scss - Usage
+///   .transition-transform {
+///     @include transition-transform(0.8s, linear);
+///   }
+///
+/// @example css - CSS Output
+///   .transition-transform {
+///     -webkit-transition: -webkit-transform 0.8s linear 0s;
+///     -moz-transition: -moz-transform 0.8s linear 0s;
+///     -ms-transition: -ms-transform 0.8s linear 0s;
+///     -o-transition: -o-transform 0.8s linear 0s;
+///     transition: transform 0.8s linear 0s;
+///   }
+@mixin transition-transform($duration, $timing, $delay:0s, $preface:webkit moz ms o spec) {
+  @each $browser in $preface {
+    @if($browser == spec) {
+      transition: transform $duration $timing $delay;
+    } @else {
+      @include prefixer(transition, -#{$browser}-transform $duration $timing $delay, $browser);
+    }
+  }
+}

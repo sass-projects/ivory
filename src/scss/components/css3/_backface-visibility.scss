@@ -14,7 +14,7 @@
 ///     backface-visibility: visible;
 ///   }
 ///
-/// @require {string} $visibility [visible | hidden | initial | inherit]
+/// @param {string} $visibility [visible | hidden | initial | inherit]
 @mixin backface-visibility($visibility) {
   $visibility: unquote($visibility);
   @include prefixer(backface-visibility, $visibility, webkit spec);
