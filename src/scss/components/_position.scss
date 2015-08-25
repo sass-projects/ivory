@@ -2,10 +2,10 @@
 
 /// Generate position properties in shorthand form.
 ///
-/// @param {list}   $values - List of numbers or `auto`
-/// @param {list}   $sides - List of sides (`top`, `left`, `bottom`, `right` or `all`)
-/// @param {string} $pos - Position keyword or `none`
-/// @param {bool}   $auto-overwrite - If `true` all non specified $sides will be set to `auto`
+/// @param {List}   $values         List of numbers or `auto`
+/// @param {List}   $sides          List of sides (`top`, `left`, `bottom`, `right` or `all`)
+/// @param {String} $pos            Position keyword or `none`
+/// @param {Bool}   $auto-overwrite If `true` all non specified $sides will be set to `auto`
 ///
 /// NOTE: `$values` get mapped to `$sides` in the order they are declared, see usage below
 ///

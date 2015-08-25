@@ -16,7 +16,6 @@
 ///   }
 ///
 /// @param {String} $visibility [source slice width outset repeat | initial | inherit]
-///
 @mixin border-image($borders...) {
   $webkit-borders: ();
   $spec-borders: ();
@@ -56,6 +55,6 @@
   }
 
   @include prefixer(border-image, $webkit-borders, webkit moz o);
-  @include prefixer(border-image, $spec-borders, spec);
+  border-image: $spec-borders;
   border-style: solid;
 }
