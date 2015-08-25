@@ -1,14 +1,13 @@
 @charset "UTF-8";
 
-// Enables hyphenation for text.
-//
-// @example scss - Usage
-//   .text-container {
-//     @include hyphens(auto);
-//   }
-// - - - - - - - - - - - - - - - - - - - - - - - - -
+/// Enables hyphenation for text.
+///
+/// @example scss - Usage
+///   .text-container {
+///     @include hyphens(auto);
+///   }
 @mixin hyphens($hyphenation: manual) {
-  // none | manual | auto
+  /// none | manual | auto
   @include prefixer(hyphens, $hyphenation, webkit moz ms spec);
 
   -webkit-hyphenate-character: "\2010";

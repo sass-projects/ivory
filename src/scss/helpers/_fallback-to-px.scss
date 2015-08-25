@@ -1,11 +1,10 @@
 @charset "UTF-8";
 
-//
-//
-// @param {string} $val
-// @param {string} $unit
-//
-// - - - - - - - - - - - - - - - - - - - - - - - - -
+///
+///
+/// @param {string} $val
+/// @param {string} $unit
+///
 @function fallback-to-px($val, $unit: rem) {
   $output: ();
 

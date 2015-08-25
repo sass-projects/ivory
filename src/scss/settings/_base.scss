@@ -1,14 +1,13 @@
 @charset "UTF-8";
 
-// Namespace
+/// Namespace
 $config-namespace: "i-" !global;
 
-// Colors
-//
+/// Colors
+///
 $gray20: #333;
 
-// Global variable for em.
-// - - - - - - - - - - - - - - - - - - - - - - - - -
+/// Global variable for em.
 @include config-set("base-em", 16px, true);
 
 @include config-set("background-clip", "padding-box", true);

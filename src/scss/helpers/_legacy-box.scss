@@ -1,8 +1,8 @@
 @charset "UTF-8";
 
-// @private Returns the legacy value for a given box-model
-// - Used by background-clip and -origin.
-// - - - - - - - - - - - - - - - - - - - - - - - - -
+/// Returns the legacy value for a given box-model
+///
+/// @access private
 @function legacy-box($box) {
   $box: unquote($box);
 

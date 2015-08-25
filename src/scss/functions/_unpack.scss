@@ -1,19 +1,18 @@
 @charset "UTF-8";
 
-// Converts shorthand to the 4-value syntax.
-//
-// @param {list} $shorthand
-//
-// @example scss - Usage
-//   .element {
-//     margin: unpack(1em 2em);
-//   }
-//
-// @example css - CSS Output
-//   .element {
-//     margin: 1em 2em 1em 2em;
-//   }
-// - - - - - - - - - - - - - - - - - - - - - - - - -
+/// Converts shorthand to the 4-value syntax.
+///
+/// @param {list} $shorthand
+///
+/// @example scss - Usage
+///   .element {
+///     margin: unpack(1em 2em);
+///   }
+///
+/// @example css - CSS Output
+///   .element {
+///     margin: 1em 2em 1em 2em;
+///   }
 @function unpack($shorthand) {
   @if length($shorthand) == 1 {
     @return nth($shorthand, 1) nth($shorthand, 1) nth($shorthand, 1) nth($shorthand, 1);

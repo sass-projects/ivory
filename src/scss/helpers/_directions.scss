@@ -1,7 +1,6 @@
 @charset "UTF-8";
 
-// Find Opposite Direction
-// - - - - - - - - - - - - - - - - - - - - - - - - -
+/// Find Opposite Direction
 @function grider-opposite-direction($dir) {
   @if $dir == "left" {
     @return right;
@@ -21,7 +20,7 @@
   }
 }
 
-// Find Direction Name
+/// Find Direction Name
 @function grider-named-direction($dir) {
   @if $dir == "LTR" {
     @return left;

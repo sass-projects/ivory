@@ -1,24 +1,22 @@
 @charset "UTF-8";
 
-// The border-image CSS property allows drawing an image on the borders of elements.
-//
-// @example scss - Usage
-//   .border-image {
-//     @include border-image(url(border.png) 30 round);
-//   }
-//
-// @example css - CSS Output
-//   .border-image {
-//     -webkit-border-image: url(border.png) 30 round;
-//     -moz-border-image: url(border.png) 30 round;
-//     -o-border-image: url(border.png) 30 round;
-//     border-image: url(border.png) 30 round;
-//   }
-//
-// @require {string} $visibility [source slice width outset repeat | initial | inherit]
-//
-// @return  string
-// - - - - - - - - - - - - - - - - - - - - - - - - -
+/// The border-image CSS property allows drawing an image on the borders of elements.
+///
+/// @example scss - Usage
+///   .border-image {
+///     @include border-image(url(border.png) 30 round);
+///   }
+///
+/// @example css - CSS Output
+///   .border-image {
+///     -webkit-border-image: url(border.png) 30 round;
+///     -moz-border-image: url(border.png) 30 round;
+///     -o-border-image: url(border.png) 30 round;
+///     border-image: url(border.png) 30 round;
+///   }
+///
+/// @param {String} $visibility [source slice width outset repeat | initial | inherit]
+///
 @mixin border-image($borders...) {
   $webkit-borders: ();
   $spec-borders: ();

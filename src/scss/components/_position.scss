@@ -1,80 +1,79 @@
 @charset "UTF-8";
 
-// Generate position properties in shorthand form.
-//
-// @param {list}   $values - List of numbers or `auto`
-// @param {list}   $sides - List of sides (`top`, `left`, `bottom`, `right` or `all`)
-// @param {string} $pos - Position keyword or `none`
-// @param {bool}   $auto-overwrite - If `true` all non specified $sides will be set to `auto`
-//
-// NOTE: `$values` get mapped to `$sides` in the order they are declared, see usage below
-//
-// https://gist.github.com/nicolas-cusan/8fc0cef0f466f6ca2ebc
-//
-// @example scss - Usage
-// .my-class {
-//   @include position(0, top left);
-// }
-//
-// @example css - CSS Output
-// .my-class {
-//   position: fixed;
-//   top: 0;
-//   left: 0;
-//   right: 0;
-//   bottom: 0;
-// }
-//
-// @example scss - Usage
-// .my-class {
-//   @include position(auto 200px 3em, top left right);
-// }
-//
-// @example css - CSS Output
-// .my-class {
-//   position: absolute;
-//   top: auto;
-//   left: 200px;
-//   right: 3em;
-// }
-//
-// @example scss - Usage
-// .my-class {
-//   @include position(0 3px, left top, none);
-// }
-//
-// @example css - CSS Output
-// .my-class {
-//   top: 3px;
-//   left: 0;
-// }
-//
-// @example scss - Usage
-// .my-class {
-//   @include position(0 200px, top left, $auto-overwrite: true);
-// }
-//
-// @example css - CSS Output
-// .my-class {
-//   position: absolute;
-//   top: 0;
-//   left: 200px;
-//   right: auto;
-//   bottom: auto;
-// }
-// - - - - - - - - - - - - - - - - - - - - - - - - -
+/// Generate position properties in shorthand form.
+///
+/// @param {list}   $values - List of numbers or `auto`
+/// @param {list}   $sides - List of sides (`top`, `left`, `bottom`, `right` or `all`)
+/// @param {string} $pos - Position keyword or `none`
+/// @param {bool}   $auto-overwrite - If `true` all non specified $sides will be set to `auto`
+///
+/// NOTE: `$values` get mapped to `$sides` in the order they are declared, see usage below
+///
+/// https:///gist.github.com/nicolas-cusan/8fc0cef0f466f6ca2ebc
+///
+/// @example scss - Usage
+/// .my-class {
+///   @include position(0, top left);
+/// }
+///
+/// @example css - CSS Output
+/// .my-class {
+///   position: fixed;
+///   top: 0;
+///   left: 0;
+///   right: 0;
+///   bottom: 0;
+/// }
+///
+/// @example scss - Usage
+/// .my-class {
+///   @include position(auto 200px 3em, top left right);
+/// }
+///
+/// @example css - CSS Output
+/// .my-class {
+///   position: absolute;
+///   top: auto;
+///   left: 200px;
+///   right: 3em;
+/// }
+///
+/// @example scss - Usage
+/// .my-class {
+///   @include position(0 3px, left top, none);
+/// }
+///
+/// @example css - CSS Output
+/// .my-class {
+///   top: 3px;
+///   left: 0;
+/// }
+///
+/// @example scss - Usage
+/// .my-class {
+///   @include position(0 200px, top left, $auto-overwrite: true);
+/// }
+///
+/// @example css - CSS Output
+/// .my-class {
+///   position: absolute;
+///   top: 0;
+///   left: 200px;
+///   right: auto;
+///   bottom: auto;
+/// }
 @mixin position($values, $sides, $pos: absolute, $auto-overwrite: false) {
-  // Vars
+  /// Vars
   $positions: absolute, relative, fixed, static;
   $map: (bottom: null, left: null, right: null, top: null);
 
-  // Set everything to auto to overwrite other styles.
-  // Edge case but can be useful.
+  /// Set everything to auto to overwrite other styles.
+  /// Edge case but can be useful.
   @if $auto-overwrite {
     $map: (bottom: auto, left: auto, right: auto, top: auto);
   }
 
-  // Validate `$values` & `$sides` input and warn (input gets rendered though)
+  /// Validate `$values` & `$sides` input and warn (input gets rendered though)
   @each $value in $values {
     @if type-of($value) == number or $value == auto {} @else {
       @warn "Invalid amount: #{$value}";
@@ -87,14 +86,14 @@
     }
   }
 
-  // Render & Validate `$pos`
+  /// Render & Validate `$pos`
   @if index($positions, $pos) {
     position: $pos;
   } @else if $pos != none {
     @warn "The $pos argument is invalid, use `absolute`, `fixed`, `relative`, `static`, or `none` (invalid value: #{$pos})";
   }
 
-  // Populate the map with `$sides`
+  /// Populate the map with `$sides`
   @if $sides == all and length($values) == 1 {
     bottom: $values; left: $values; right: $values; top: $values;
   } @else if length($sides) == length($values) {
@@ -109,7 +108,7 @@
     @warn "The number of $values has to match the $sides or be a single value";
   }
 
-  // Render (properties with value `null` don"t get rendered)
+  /// Render (properties with value `null` don"t get rendered)
   @each $key, $val in $map {
     #{$key}: #{$val};
   }

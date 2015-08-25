@@ -1,47 +1,46 @@
 @charset "UTF-8";
 
-// A simple shortcode for border.
-//
-// @example scss - Usage
-//   .example-basic-border {
-//     @include shorthand-border(1px, #000);
-//   }
-//
-//   .example-4sided-border  {
-//     @include shorthand-border(1px 1px 0px 1px, #ccc #000, dashed);
-//   }
-//
-//   .example-4color-border  {
-//     @include shorthand-border(1px, #ccc #000 #333 #555);
-//   }
-//
-//   .example-2style-border {
-//     @include shorthand-border(1px, #000, solid dashed);
-//   }
-//
-// @example css - CSS Output
-//   .example-basic-border {
-//     border: 1px solid black;
-//   }
-//
-//   .example-4sided-border {
-//     border-width: 1px 1px 0px 1px;
-//     border-style: dashed;
-//     border-color: #cccccc black;
-//   }
-//
-//   .example-4color-border {
-//     border-width: 1px;
-//     border-style: solid;
-//     border-color: #cccccc black #333333 #555555;
-//   }
-//
-//   .example-2style-border {
-//     border-width: 1px;
-//     border-style: solid dashed;
-//     border-color: black;
-//   }
-// - - - - - - - - - - - - - - - - - - - - - - - - -
+/// A simple shortcode for border.
+///
+/// @example scss - Usage
+///   .example-basic-border {
+///     @include shorthand-border(1px, #000);
+///   }
+///
+///   .example-4sided-border  {
+///     @include shorthand-border(1px 1px 0px 1px, #ccc #000, dashed);
+///   }
+///
+///   .example-4color-border  {
+///     @include shorthand-border(1px, #ccc #000 #333 #555);
+///   }
+///
+///   .example-2style-border {
+///     @include shorthand-border(1px, #000, solid dashed);
+///   }
+///
+/// @example css - CSS Output
+///   .example-basic-border {
+///     border: 1px solid black;
+///   }
+///
+///   .example-4sided-border {
+///     border-width: 1px 1px 0px 1px;
+///     border-style: dashed;
+///     border-color: #cccccc black;
+///   }
+///
+///   .example-4color-border {
+///     border-width: 1px;
+///     border-style: solid;
+///     border-color: #cccccc black #333333 #555555;
+///   }
+///
+///   .example-2style-border {
+///     border-width: 1px;
+///     border-style: solid dashed;
+///     border-color: black;
+///   }
 @mixin border($border-width: config-get("i-border-width"), $border-color: config-get("i-border-color"), $border-style: config-get("i-border-style")) {
   @if length($border-width) > 1 {
     border-width: $border-width;
