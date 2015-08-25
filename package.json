@@ -1,6 +1,6 @@
 {
   "name": "growcss-ivory",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "A simple mixin library for Sass.",
   "author": {
     "name": "Daniel Bannert",
@@ -26,7 +26,7 @@
     "node": ">= 0.10.0"
   },
   "dependencies": {
-    "growcss-sass-config-manager": "^2.0.6",
+    "growcss-sass-config-manager": "^2.1.0",
     "include-media": "^1.4.0"
   },
   "devDependencies": {
