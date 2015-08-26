@@ -7,7 +7,7 @@
     "email": "d.bannert@anolilab.de"
   },
   "homepage": "http://growcss.com/",
-  "main": "./dist/ivory.scss",
+  "main": "./dist/_ivory.scss",
   "repository": {
     "type": "git",
     "url": "https://github.com/growcss/ivory.git"
