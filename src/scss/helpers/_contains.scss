@@ -2,16 +2,16 @@
 
 /// Checks if a list contains a value(s).
 ///
-/// @param {list} $list
+/// @param {List} $list
 ///   The list to check against.
 ///
-/// @param {list} $values
+/// @param {List} $values
 ///   A single value or list of values to check for.
 ///
 /// @example scss - Usage
 ///   contains($list, $value)
 ///
-/// @return {bool}
+/// @return {Bool}
 @function contains($list, $values...) {
   @if not is-list($list) {
     @warn "argument error: #{$list}";

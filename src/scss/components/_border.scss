@@ -2,6 +2,10 @@
 
 /// A simple shortcode for border.
 ///
+/// @param {Color (Hex)} $color
+/// @param {Number}      $width
+/// @param {String}      $style
+///
 /// @example scss - Usage
 ///   .example-basic-border {
 ///     @include shorthand-border(1px, #000);
@@ -41,20 +45,20 @@
 ///     border-style: solid dashed;
 ///     border-color: black;
 ///   }
-@mixin border($border-width: config-get("i-border-width"), $border-color: config-get("i-border-color"), $border-style: config-get("i-border-style")) {
-  @if length($border-width) > 1 {
-    border-width: $border-width;
-    border-style: $border-style;
-    border-color: $border-color;
+@mixin border($width: config-get("i-border-width"), $color: config-get("i-border-color"), $style: config-get("i-border-style")) {
+  @if length($width) > 1 {
+    border-width: $width;
+    border-style: $style;
+    border-color: $color;
   } @else if length($border-style) > 1 {
-    border-width: $border-width;
-    border-style: $border-style;
-    border-color: $border-color;
-  } @else if length($border-color) > 1 {
-    border-width: $border-width;
-    border-style: $border-style;
-    border-color: $border-color;
+    border-width: $width;
+    border-style: $style;
+    border-color: $color;
+  } @else if length($color) > 1 {
+    border-width: $width;
+    border-style: $style;
+    border-color: $color;
   } @else  {
-      border: $border-width $border-style $border-color;
+      border: $width $style $color;
   }
 }

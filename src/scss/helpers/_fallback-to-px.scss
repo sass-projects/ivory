@@ -2,10 +2,14 @@
 
 ///
 ///
-/// @param {string} $val
+/// @param {number} $val
 /// @param {string} $unit
-///
-@function fallback-to-px($val, $unit: rem) {
+/// @param {number} $unit
+@function fallback-to-px($val, $unit: rem, $base: config-get("i-base-em")) {
+  @if not unitless($val) {
+    $val: strip-units($val);
+  }
+
   $output: ();
 
   @if type-of($val) == "string" {
@@ -16,8 +20,12 @@
   } @else {
     @if $val == 0 {
       $output: join(0, 0);
-    } @else if unitless($val) {
-      $output: join($val * config-get("i-base-em"), $val + $unit);
+    } @else if $val {
+      @if not unitless($base) {
+        $base: strip-units($base);
+      }
+
+      $output: join(($val / $base) * 1 + $unit, $val + $unit);
     } @else {
       $output: join($val, $val);
     }

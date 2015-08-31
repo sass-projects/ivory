@@ -3,6 +3,8 @@
 /// Returns the legacy value for a given box-model
 ///
 /// @access private
+///
+/// @param {String} $box
 @function legacy-box($box) {
   $box: unquote($box);
 

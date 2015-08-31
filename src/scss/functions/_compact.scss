@@ -1,7 +1,6 @@
 @charset "UTF-8";
 
 /// Remove all non-true value of a list.
-///
 @function compact($list...) {
   $result: ();
 

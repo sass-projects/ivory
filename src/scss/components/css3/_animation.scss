@@ -1,86 +1,94 @@
 @charset "UTF-8";
 
-// Each of these mixins support comma separated lists of values, which allows different transitions for individual properties to be described in a single style rule.
-// Each value in the list corresponds to the value at that same position in the other properties.
-// - - - - - - - - - - - - - - - - - - - - - - - - -
+/// Each of these mixins support comma separated lists of values, which allows different transitions for individual properties to be described in a single style rule.
+/// Each value in the list corresponds to the value at that same position in the other properties.
+///
+/// @param {List}
+///
 @mixin animation($animations...) {
   @include prefixer(animation, $animations, webkit moz spec);
 }
 
-// Name of any animation as a string. [keyframename | none | initial | inherit]
-// - - - - - - - - - - - - - - - - - - - - - - - - -
+/// Name of any animation as a string.
+///
+/// @param {List} $names [keyframename | none | initial | inherit]
+///
+/// @example scss - Usage
+///   .animation-name {
+///     @include animation-name(test);
+///   }
+///
+/// @example css - CSS Output
+///   .animation-name {
+///     -webkit-animation-name: test;
+///     -moz-animation-name: test;
+///     animation-name: test;
+///   }
 @mixin animation-name($names...) {
-  // @if contains("none initial inherit", $names) == false or $names != "string" {
-  //   @error "`animation-name` supports only `keyframename | none | initial | inherit` you used #{$names}";
-  //   @return "error";
-  // }
+  /// @if contains("none initial inherit", $names) == false or $names != "string" {
+  ///   @error "`animation-name` supports only `keyframename | none | initial | inherit` you used #{$names}";
+  ///   @return "error";
+  /// }
 
   @include prefixer(animation-name, $names, webkit moz spec);
 }
 
-// Duration of the entire animation in seconds. [time | initial | inherit]
-// - - - - - - - - - - - - - - - - - - - - - - - - -
+/// Duration of the entire animation in seconds. [time | initial | inherit]
 @mixin animation-duration($times...) {
-  // @if contains("initial inherit", $times) == false or $times != "number" {
-  //   @error "`animation-duration` supports only `time | initial | inherit` you used #{$times}";
-  //   @return "error";
-  // }
+  /// @if contains("initial inherit", $times) == false or $times != "number" {
+  ///   @error "`animation-duration` supports only `time | initial | inherit` you used #{$times}";
+  ///   @return "error";
+  /// }
 
   @include prefixer(animation-duration, $times, webkit moz spec);
 }
 
-// The timing function(s) to be used between keyframes. [ease | linear | ease-in | ease-out | ease-in-out | cubic-bezier($number, $number, $number, $number)]
-// - - - - - - - - - - - - - - - - - - - - - - - - -
+/// The timing function(s) to be used between keyframes. [ease | linear | ease-in | ease-out | ease-in-out | cubic-bezier($number, $number, $number, $number)]
 @mixin animation-timing-function($motions...) {
   @include prefixer(animation-timing-function, $motions, webkit moz spec);
 }
 
-// The number of times an animation cycle is played. [number | infinite | initial | inherit]
-// - - - - - - - - - - - - - - - - - - - - - - - - -
+/// The number of times an animation cycle is played. [number | infinite | initial | inherit]
 @mixin animation-iteration-count($values...) {
-  // @if contains("infinite initial inherit", $values) == false or $values != "number" {
-  //   @error "`animation-iteration-count` supports only `number | infinite | initial | inherit` you used #{$values}";
-  //   @return "error";
-  // }
+  /// @if contains("infinite initial inherit", $values) == false or $values != "number" {
+  ///   @error "`animation-iteration-count` supports only `number | infinite | initial | inherit` you used #{$values}";
+  ///   @return "error";
+  /// }
 
   @include prefixer(animation-iteration-count, $values, webkit moz spec);
 }
 
-// Whether or not the animation should play in reverse on alternate cycles. [normal | reverse | alternate | alternate-reverse | initial | inherit]
-// - - - - - - - - - - - - - - - - - - - - - - - - -
+/// Whether or not the animation should play in reverse on alternate cycles. [normal | reverse | alternate | alternate-reverse | initial | inherit]
 @mixin animation-direction($directions...) {
-  // @if contains("normal reverse alternate alternate-reverse initial inherit", $directions) == false {
-  //   @error "`animation-direction` supports only `normal | reverse | alternate | alternate-reverse | initial | inherit` you used #{$directions}";
-  //   @return "error";
-  // }
+  /// @if contains("normal reverse alternate alternate-reverse initial inherit", $directions) == false {
+  ///   @error "`animation-direction` supports only `normal | reverse | alternate | alternate-reverse | initial | inherit` you used #{$directions}";
+  ///   @return "error";
+  /// }
 
   @include prefixer(animation-direction, $directions, webkit moz spec);
 }
 
-// Whether the animation is running or paused. [running | paused | initial | inherit]
-// - - - - - - - - - - - - - - - - - - - - - - - - -
+/// Whether the animation is running or paused. [running | paused | initial | inherit]
 @mixin animation-play-state($states...) {
-  // @if contains("running paused initial inherit", $states) == false {
-  //   @error "`animation-play-state` supports only `running | paused | initial | inherit` you used #{$states}";
-  //   @return "error";
-  // }
+  /// @if contains("running paused initial inherit", $states) == false {
+  ///   @error "`animation-play-state` supports only `running | paused | initial | inherit` you used #{$states}";
+  ///   @return "error";
+  /// }
 
   @include prefixer(animation-play-state, $states, webkit moz spec);
 }
 
-// The animation-delay property specifies a delay for the start of an animation. [time | initial | inherit]
-// - - - - - - - - - - - - - - - - - - - - - - - - -
+/// The animation-delay property specifies a delay for the start of an animation. [time | initial | inherit]
 @mixin animation-delay($times...) {
   @include prefixer(animation-delay, $times, webkit moz spec);
 }
 
-// What values are applied by the animation outside the time it is executing. [none | forwards | backwards | both | initial | inherit]
-// - - - - - - - - - - - - - - - - - - - - - - - - -
+/// What values are applied by the animation outside the time it is executing. [none | forwards | backwards | both | initial | inherit]
 @mixin animation-fill-mode($modes...) {
-  // @if contains("none forwards backwards both initial inherit", $modes) == false {
-  //   @error "`animation-fill-mode` supports only `none | forwards | backwards | both | initial | inherit` you used #{$modes}";
-  //   @return "error";
-  // }
+  /// @if contains("none forwards backwards both initial inherit", $modes) == false {
+  ///   @error "`animation-fill-mode` supports only `none | forwards | backwards | both | initial | inherit` you used #{$modes}";
+  ///   @return "error";
+  /// }
 
   @include prefixer(animation-fill-mode, $modes, webkit moz spec);
 }

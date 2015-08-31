@@ -1,0 +1,41 @@
+/// Generates `placeholder` content for a given element
+///
+/// @author romamatusevich
+///
+/// @link MDN https://developer.mozilla.org/en-US/docs/Web/CSS/:-moz-placeholder
+/// @link css-tricks http://css-tricks.com/snippets/css/style-placeholder-text/
+///
+/// @example scss - Usage
+///   .selector {
+///     @include x-placeholder {
+///         color: #bada55;
+///         font-weight: bold;
+///     }
+///   }
+/// @example css - CSS Output
+///  &::-webkit-input-placeholder {
+///      <content property 1>: <content value 1>;
+///      ...
+///      <content property n>: <content value n>;
+///  }
+///  &::-moz-placeholder {
+///      <content property 1>: <content value 1>;
+///      ...
+///      <content property n>: <content value n>;
+///  }
+///  &:-ms-input-placeholder {
+///      <content property 1>: <content value 1>;
+///      ...
+///      <content property n>: <content value n>;
+///  }
+@mixin x-placeholder {
+  &::-webkit-input-placeholder {
+    @content // Chrome, Safari, Opera
+  }
+  &::-moz-placeholder {
+    @content // Firefox 19+
+  }
+  &:-ms-input-placeholder {
+    @content // IE 10+
+  }
+}

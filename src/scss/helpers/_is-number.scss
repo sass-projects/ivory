@@ -2,7 +2,9 @@
 
 /// Checks for a valid number.
 ///
-/// @param {number} $value
+/// @access private
+///
+/// @param {Number} $value
 ///
 /// @require {function} contains
 @function is-number($value) {

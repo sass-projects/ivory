@@ -1,0 +1,46 @@
+@charset "UTF-8";
+
+/// Attribute Modules for CSS
+///
+/// @param {String} $module
+/// @param {String} $trait
+///
+/// @link http://amcss.github.io/
+///
+/// @example scss - Usage
+///   @include am(module) {
+///      color: red;
+///    }
+///
+///    @include am(module, blue) {
+///      color: blue;
+///    }
+///
+///    @include am(module, large) {
+///      font-size: 2em;
+///    }
+///
+/// @example css - CSS Output
+///  [am-module] {
+///    color: red;
+///  }
+///
+///  [am-module~="blue"] {
+///    color: blue;
+///  }
+///
+///  [am-module~="large"] {
+///    font-size: 2em;
+///  }
+@mixin am($module, $trait: null) {
+  @if $trait != null {
+    [am-#{$module}~="#{$trait}"]{
+      @content;
+    }
+  }
+  @else {
+    [am-#{$module}]{
+      @content;
+    }
+  }
+}

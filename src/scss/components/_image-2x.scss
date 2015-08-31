@@ -2,6 +2,10 @@
 
 /// Retina Images
 ///
+/// @param {String)} $image
+/// @param {String)} $type
+/// @param {Number)} $size
+///
 /// @example scss - Usage
 ///   .my-class {
 ///     @include image-2x("logo.png", "png", 100px 25px);
@@ -18,9 +22,6 @@
 ///       background-size: 100px 25px;
 ///     }
 ///   }
-/// @param {string)} $image
-/// @param {string)} $type
-/// @param {string)} $size
 @mixin image-2x($image, $type, $size: 100%) {
   background-image: url($image + "." + $type);
 

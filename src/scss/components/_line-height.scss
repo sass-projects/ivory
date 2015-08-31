@@ -1,0 +1,24 @@
+/// Generates line-height values in both pixels and rems.
+///
+/// @access public
+///
+/// @param {Number} $height-value [12] - Height value
+/// @param {String} $unit
+///
+/// @example scss - Usage
+///   .foo {
+///     @include line-height(16);
+///   }
+///
+/// @example css - Result
+///   .foo {
+///     line-height: 16px;
+///     line-height: 1rem;
+///   }
+@mixin line-height($height-value: 12, $unit: rem) {
+  @if $unit == em {
+    @include em("line-height", $height-value);
+  } @else {
+    @include rem("line-height", $height-value);
+  }
+}
