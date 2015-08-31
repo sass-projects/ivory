@@ -1,0 +1,18 @@
+@charset "UTF-8";
+
+/// In functions/_import-once.scss
+$imported-modules: () !global;
+
+/// Import all modules onces.
+///
+/// @param {String} $module
+///
+/// @return {Bool}
+@function import-once($module) {
+  @if index($imported-modules, $module) {
+    @return false;
+  }
+
+  $imported-once-files: append($imported-modules, $module) !global;
+  @return true;
+}

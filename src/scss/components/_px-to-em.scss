@@ -1,8 +1,7 @@
 @charset "UTF-8";
 
-/// Convert pixels to rems
-/// eg. for a relational value of 12px write rem(12)
-/// Assumes config-get("i-base-em") is the font-size of <html>
+/// Convert pixels to ems
+/// eg. for a relational value of 12px write em(12) when the parent is 16px.
 ///
 /// @param {String} $prop
 /// @param {Number} $pxval
@@ -10,26 +9,24 @@
 ///
 /// @example scss - Usage
 ///   .unit {
-///     width: rem(16);
+///     width: em(16);
 ///   }
 ///
 /// @example css - CSS Output
 ///   .unit {
 ///     width: 16px;
-///     width: 1rem;
+///     width: 1em;
 ///   }
-///
-/// @return {number (Unitless)}
-@mixin rem($prop, $pxval, $base) {
+@mixin em($prop, $pxval, $base) {
   $px-list: ();
-  $rem-list: ();
+  $em-list: ();
 
   @each $val in $vals {
-    $calcs: fallback-to-px($val, $unit: rem, $base);
+    $calcs: fallback-to-px($val, em, $base);
     $px-list: append($px-list, nth($calcs, 1));
-    $rem-list: append($rem-list, nth($calcs, 2));
+    $em-list: append($em-list, nth($calcs, 2));
   }
 
   #{$prop}: $px-list;
-  #{$prop}: $rem-list;
+  #{$prop}: $em-list;
 }

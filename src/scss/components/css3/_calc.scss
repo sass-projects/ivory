@@ -1,0 +1,23 @@
+@charset "UTF-8";
+
+/// Method of allowing calculated values for length units.
+///
+/// @param {String} $prop
+/// @param {Number} $pxval
+///
+/// @example scss - Usage
+///   .calc {
+///    @include calc(width, 100% - 3em);
+///   }
+///
+/// @example css - CSS Output
+///   .calc {
+///     width: -moz-calc(100% - 3em);
+///     width: -webkit-calc(100% - 3em);
+///     width: calc(100% - 3em);
+///   }
+@mixin calc($prop, $value) {
+  #{$prop}: -moz-calc(#{$value});
+  #{$prop}: -webkit-calc(#{$value});
+  #{$prop}: calc(#{$value});
+}

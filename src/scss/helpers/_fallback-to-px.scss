@@ -2,9 +2,9 @@
 
 ///
 ///
-/// @param {number} $val
-/// @param {string} $unit
-/// @param {number} $unit
+/// @param {Number} $val
+/// @param {String} $unit
+/// @param {Number} $unit
 @function fallback-to-px($val, $unit: rem, $base: config-get("i-base-em")) {
   @if not unitless($val) {
     $val: strip-units($val);

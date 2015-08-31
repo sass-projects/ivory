@@ -6,12 +6,12 @@
 // Set all prefixes to true for tests.
 // - - - - - - - - - - - - - - - - - - - - - - - - -
 @include config-set("prefix.webkit", true);
-@include config-set("prefix.mozilla", true);
-@include config-set("prefix.microsoft", true);
-@include config-set("prefix.opera", true);
+@include config-set("prefix.moz", true);
+@include config-set("prefix.ms", true);
+@include config-set("prefix.o", true);
 @include config-set("prefix.spec", true);
 
 // Import scss test files
 @import "scss/components/css3/animation.test";
-@import "scss/components/css3/_appearance.test";
-@import "scss/components/css3/_backface-visibility.test";
+@import "scss/components/css3/appearance.test";
+@import "scss/components/css3/backface-visibility.test";

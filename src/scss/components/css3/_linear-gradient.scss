@@ -1,0 +1,42 @@
+@charset "UTF-8";
+
+/// Mixin printing a linear-gradient
+/// as well as a plain color fallback
+/// and the `-webkit-` prefixed declaration
+///
+/// @access public
+///
+/// @author Hugo Giraudel
+///
+/// @param {String | List | Angle} $direction - Linear gradient direction
+/// @param {Arglist} $color-stops - List of color-stops composing the gradient
+///
+/// @example scss - Usage
+///   .gradient {
+///     @include linear-gradient(#31B7D7, #EDAC7D);
+///   }
+///   .gradient2 {
+///     @include linear-gradient(to right, #E47D7D 0%, #C195D3 50%, #4FB4E8 100%);
+///   }
+///
+/// @example css - Result
+///   .gradient {
+///     background: #31B7D7;
+///     background: -webkit-linear-gradient(-90deg, #31B7D7, #EDAC7D);
+///     background: linear-gradient(180deg, #31B7D7, #EDAC7D);
+///   }
+///   .gradient2 {
+///     background: #E47D7D;
+///     background: -webkit-linear-gradient(left, #E47D7D 0%, #C195D3 50%, #4FB4E8 100%);
+///     background: linear-gradient(to right, #E47D7D 0%, #C195D3 50%, #4FB4E8 100%);
+///   }
+@mixin linear-gradient($direction, $color-stops...) {
+  @if is-direction($direction) == false {
+    $color-stops: ($direction, $color-stops);
+    $direction: 180deg;
+  }
+
+  background: nth(nth($color-stops, 1), 1);
+  background: -webkit-linear-gradient(legacy-direction($direction), $color-stops);
+  background: linear-gradient($direction, $color-stops);
+}

@@ -2,7 +2,7 @@
 
 /// Global variables to enable or disable vendor prefixes.
 @include config-set("prefix.webkit", true, true);
-@include config-set("prefix.mozilla", true, true);
-@include config-set("prefix.microsoft", true, true);
-@include config-set("prefix.opera", true, true);
+@include config-set("prefix.moz", true, true);
+@include config-set("prefix.ms", true, true);
+@include config-set("prefix.o", true, true);
 @include config-set("prefix.spec", true, true);

@@ -59,6 +59,6 @@
     border-style: $style;
     border-color: $color;
   } @else  {
-      border: $width $style $color;
+    border: $width $style $color;
   }
 }

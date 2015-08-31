@@ -7,76 +7,58 @@
 //      This project is licensed under the terms of the MIT license
 // - - - - - - - - - - - - - - - - - - - - - - - - -
 
-// Sass Mixins
-// - - - - - - - - - - - - - - - - - - - - - - - - -
-
-// Sets a value to a configuration path
-//
-// @mixin config-set
-//
-// @param $key     {string} The configuration key
-// @param $value   {*|null} The value to set
-// @param $default {bool}   Whether the configuration is default
+/// Sets a value to a configuration path
+///
+/// @param {String} $key     The configuration key
+/// @param {*|Null} $value   The value to set
+/// @param {Bool}   $default Whether the configuration is default
 @mixin config-set($key, $value, $default: false) {
   $config: config-set($key, $value, $default);
 }
 
-// Gets a value to/from a configuration path
-//
-// @function config-get
-//
-// @param $key     {string} The configuration path
-// @param $default {bool}   Whether the configuration is default
-//
-// @return         {*}      The value of the configuration path
+/// Gets a value to/from a configuration path
+///
+/// @param {String} $key     The configuration path
+/// @param {Bool}   $default Whether the configuration is default
 @mixin config-get($key, $default: false) {
   $config: config-get($key, $default);
 }
 
-// Remove settings
-//
-// @mixin config-reset
-//
-// @param $settings {string} Configuration path
-// @param $default  {bool}   Whether the configuration is default
-//
-// @return          {bool}   True if the configuration path is removed.
+/// Remove settings
+///
+/// @param {String} $settings Configuration path
+/// @param {Bool}   $default  Whether the configuration is default
 @mixin config-reset($settings, $default:false) {
   $config-reset: config-reset($settings);
 }
 
-// Sass Variables
-// - - - - - - - - - - - - - - - - - - - - - - - - -
-
-// The delimiter of configuration path
-//
-// @private
+/// The delimiter of configuration path
+///
+/// @access private
 $config-delimiter: "." !default;
 
-// The configuration storage
-//
-// @private
+/// The configuration storage
+///
+/// @access private
 $config-attr: () !default;
 
-// The default configuration storage
-//
-// @private
+/// The default configuration storage
+///
+/// @access private
 $config-default: () !default;
 
-// Namespace for settings
-//
-// @public
+/// Namespace for settings
+///
+/// @access public
 $config-namespace: "" !default;
 
-// Return list-map from `$list` and ensure input list-map is list-of-lists
-//
-// @function list-map-check
-//
-// @access public
-//
-// @param $list {list}
-//
-// @return      {list-map}
+/// Return list-map from `$list` and ensure input list-map is list-of-lists
+///
+/// @access public
+///
+/// @param  {List} $list
+///
+/// @return {List}
 @function list-map-check($list) {
   @if length($list) == 2 and length(nth($list, 1)) == 1 {
     @return append((), $list, "comma");
@@ -85,17 +67,15 @@ $config-namespace: "" !default;
   @return $list;
 }
 
-// Extracts a slice of a list
-//
-// @function list-slice
-//
-// @access private
-//
-// @param  $list  {list}   The list to extract
-// @param  $start {number} The start index to extract
-// @param  $end   {number} The end index to extract
-//
-// @return        {list}   The extracted list
+/// Extracts a slice of a list
+///
+/// @access private
+///
+/// @param  {List}   $list  The list to extract
+/// @param  {Number} $start The start index to extract
+/// @param  {Number} $end   The end index to extract
+///
+/// @return {List}          The extracted list
 @function list-slice($list, $start: 1, $end: length($list)) {
   $output: ();
 
@@ -108,17 +88,15 @@ $config-namespace: "" !default;
   @return $output;
 }
 
-// Sets a value to a Map by the map path
-//
-// @function config-map-set
-//
-// @access private
-//
-// @param $map   {map}    The Map
-// @param $path  {string} The map path
-// @param $value {*|null} The value to set
-//
-// @return       {map...} A new Map
+/// Sets a value to a Map by the map path
+///
+/// @access private
+///
+/// @param  {Map}    $map   The Map
+/// @param  {String} $path  The map path
+/// @param  {*|Null} $value The value to set
+///
+/// @return {Map}           A new Map
 @function config-map-set($map, $path, $value) {
   $map: list-map-check($map);
   $keys: str-split($path, $config-delimiter);
@@ -155,16 +133,14 @@ $config-namespace: "" !default;
   @return $map;
 }
 
-// Gets a value from a Map by the map path
-//
-// @function config-map-get
-//
-// @access private
-//
-// @param $map  {map...} The Map
-// @param $path {string} The map path
-//
-// @return      {*}      The value of the map path
+/// Gets a value from a Map by the map path
+///
+/// @access private
+///
+/// @param  {Map}    $map  The Map
+/// @param  {String} $path The map path
+///
+/// @return {*}            The value of the map path
 @function config-map-get($map, $path) {
   $keys: str-split($path, $config-delimiter);
   $value: list-map-check($map);
@@ -182,17 +158,14 @@ $config-namespace: "" !default;
   @return $value;
 }
 
-// Returns whether the key of a map path exists in a Map
-//
-// @function config-map-has
-//
-// @access private
-//
-// @param $map {map...} The Map
-// @param $key {string} The map path
-//
-// @return     {bool}   True if the map path has a value,
-//                            otherwise false
+/// Returns whether the key of a map path exists in a Map
+///
+/// @access private
+///
+/// @param  {Map}    $map The Map
+/// @param  {String} $key The map path
+///
+/// @return {Bool}       True if the map path has a value, otherwise false
 @function config-map-has($map, $key) {
   $keys: str-split($key, $config-delimiter);
   $value: list-map-check($map);
@@ -208,15 +181,13 @@ $config-namespace: "" !default;
   @return true;
 }
 
-// Recursively merges one or more maps
-//
-// @function config-map-merge
-//
-// @access private
-//
-// @param $maps {map...} The map(s) to merge
-//
-// @return      {map}    The merged map
+/// Recursively merges one or more maps
+///
+/// @access private
+///
+/// @param  {Map} $maps... The map(s) to merge
+///
+/// @return {Map}          The merged map
 @function config-map-merge($maps...) {
   $result: nth($maps, 1);
 
@@ -239,16 +210,14 @@ $config-namespace: "" !default;
   @return $result;
 }
 
-// Joins list elements with a string
-//
-// @function str-join
-//
-// @access private
-//
-// @param $list {list}   The list to join
-// @param $glue {string} The glue string to join list elements
-//
-// @return      {string} The joined string
+/// Joins list elements with a string
+///
+/// @access private
+///
+/// @param  {List}   $list The list to join
+/// @param  {String} $glue The glue string to join list elements
+///
+/// @return {String} The joined string
 @function str-join($list, $glue: "") {
   $result: "";
 
@@ -267,16 +236,14 @@ $config-namespace: "" !default;
   @return $result;
 }
 
-// Splits a string by a delimiter
-//
-// @function str-split
-//
-// @access private
-//
-// @param $string    {string} The string to split
-// @param $delimiter {string} The boundary string to split the string
-//
-// @return           {list}   The splitted list
+/// Splits a string by a delimiter
+///
+/// @access private
+///
+/// @param  {String} $string    The string to split
+/// @param  {String} $delimiter The boundary string to split the string
+///
+/// @return {List}              The splitted list
 @function str-split($string, $delimiter: "") {
   $result: ();
   $length: str-length($string);
@@ -306,14 +273,12 @@ $config-namespace: "" !default;
   @return append($result, $string);
 }
 
-// Gets a value to/from a configuration path
-//
-// @function config-get
-//
-// @param $key     {string} The configuration path
-// @param $default {bool}   Whether the configuration is default
-//
-// @return         {*}      The value of the configuration path
+/// Gets a value to/from a configuration path
+///
+/// @param {String} $key      The configuration path
+/// @param {Bool}   $default  Whether the configuration is default
+///
+/// @return         {*}       The value of the configuration path
 @function config-get($key, $default: false) {
   @if $default {
     @if config-map-has($config-default, $key) {
@@ -332,14 +297,11 @@ $config-namespace: "" !default;
   @return null;
 }
 
-// Returns whether a configuration path exists
-//
-// @function config-has
-//
-// @param $key {string} The configuration path
-//
-// @return     {bool}   True if the configuration path has a value,
-//                           otherwise false
+/// Returns whether a configuration path exists
+///
+/// @param  {String} $key The configuration path
+///
+/// @return {Bool}        True if the configuration path has a value, otherwise false
 @function config-has($key) {
   $key: $config-namespace + $key;
 
@@ -350,14 +312,12 @@ $config-namespace: "" !default;
   @return false;
 }
 
-// Remove settings
-//
-// @function config-reset
-//
-// @param $settings {string} Configuration path
-// @param $default  {bool}   Whether the configuration is default
-//
-// @return          {bool}   True if the configuration path is removed.
+/// Remove settings
+///
+/// @param  {String} $settings Configuration path
+/// @param  {Bool}   $default  Whether the configuration is default
+///
+/// @return {Bool}             True if the configuration path is removed.
 @function config-reset($settings, $default: false) {
   $settings: $config-namespace + $settings;
 
@@ -376,15 +336,13 @@ $config-namespace: "" !default;
   @return true;
 }
 
-// Sets a value to/from a configuration path
-//
-// @function config
-//
-// @param $key     {string} The configuration key
-// @param $value   {*}      The value to set
-// @param $default {bool}   Whether the configuration is default
-//
-// @return         {*}      The value of the configuration path
+/// Sets a value to/from a configuration path
+///
+/// @param {String} $key     The configuration key
+/// @param {*}      $value   The value to set
+/// @param {Bool}   $default Whether the configuration is default
+///
+/// @return         {*}      The value of the configuration path
 @function config-set($key, $value, $default: false) {
   $key: $config-namespace + $key;
 
@@ -964,8 +922,14 @@ $im-no-media-expressions: ('screen', 'portrait', 'landscape') !default;
 $config-namespace: "i-" !global;
 
 /// Colors
-///
+$black: #000;
+$white: #fff;
 $gray20: #333;
+
+$media-expressions: ();
+
+@include config-set("color-black", $black, true);
+@include config-set("color-white", $white, true);
 
 /// Global variable for em.
 @include config-set("base-em", 16px, true);
@@ -988,13 +952,12 @@ $gray20: #333;
 
 /// Global variables to enable or disable vendor prefixes.
 @include config-set("prefix.webkit", true, true);
-@include config-set("prefix.mozilla", true, true);
-@include config-set("prefix.microsoft", true, true);
-@include config-set("prefix.opera", true, true);
+@include config-set("prefix.moz", true, true);
+@include config-set("prefix.ms", true, true);
+@include config-set("prefix.o", true, true);
 @include config-set("prefix.spec", true, true);
 
 /// Remove all non-true value of a list.
-///
 @function compact($list...) {
   $result: ();
 
@@ -1007,6 +970,43 @@ $gray20: #333;
   @return $result;
 }
 
+/// Convert angle
+///
+/// @author Chris Eppstein
+///
+/// @param {Number} $value - Value to convert
+/// @param {String} $unit - Unit to convert to
+///
+/// @return {Number} Converted angle
+@function convert-angle($value, $unit) {
+  $convertable-units: deg grad turn rad;
+  $conversion-factors: 1 (10grad/9deg) (1turn/360deg) (3.1415926rad/180deg);
+  @if index($convertable-units, unit($value)) and index($convertable-units, $unit) {
+    @return $value
+             / nth($conversion-factors, index($convertable-units, unit($value)))
+             * nth($conversion-factors, index($convertable-units, $unit));
+  }
+
+  @warn "Cannot convert `#{unit($value)}` to `#{$unit}`.";
+}
+
+/// Programatically determines whether a color is light or dark.
+///
+/// @param {Color (Hex)} $color
+///
+/// @example scss - Usage
+///   is-light($color)
+///
+/// @return {bool}
+@function is-light($hex-color) {
+  $-local-red: red(rgba($hex-color, 1));
+  $-local-green: green(rgba($hex-color, 1));
+  $-local-blue: blue(rgba($hex-color, 1));
+  $-local-lightness: ($-local-red * 0.2126 + $-local-green * 0.7152 + $-local-blue * 0.0722) / 255;
+
+  @return $-local-lightness > 0.6;
+}
+
 /// Function checking if $value is a valid length
 ///
 /// @param {mixed} $value: value to test
@@ -1015,38 +1015,6 @@ $gray20: #333;
 @function is-valid-length($value) {
   @return (type-of($value) == "number" and not unitless($value))
        or (index(auto initial inherit 0, $value) != false);
-}
-
-/// Convert pixels to ems
-/// eg. for a relational value of 12px write em(12) when the parent is 16px
-/// if the parent is another value say 24px write em(12, 24)
-@function em($pxval, $base: config-get("i-base-em")) {
-  @if not unitless($pxval) {
-    $pxval: strip-units($pxval);
-  }
-
-  @if not unitless($base) {
-    $base: strip-units($base);
-  }
-
-  @return ($pxval / $base) * 1em;
-}
-
-/// Convert pixels to rems
-/// eg. for a relational value of 12px write rem(12)
-/// Assumes $em-base is the font-size of <html>
-@function rem($pxval) {
-  @if not unitless($pxval) {
-    $pxval: strip-units($pxval);
-  }
-
-  $base: config-get("i-base-em");
-
-  @if not unitless($base) {
-    $base: strip-units($base);
-  }
-
-  @return ($pxval / $base) * 1rem;
 }
 
 /// Strips the unit from a number.
@@ -1066,7 +1034,7 @@ $gray20: #333;
 
 /// Converts shorthand to the 4-value syntax.
 ///
-/// @param {list} $shorthand
+/// @param {List} $shorthand
 ///
 /// @example scss - Usage
 ///   .element {
@@ -1091,16 +1059,16 @@ $gray20: #333;
 
 /// Checks if a list contains a value(s).
 ///
-/// @param {list} $list
+/// @param {List} $list
 ///   The list to check against.
 ///
-/// @param {list} $values
+/// @param {List} $values
 ///   A single value or list of values to check for.
 ///
 /// @example scss - Usage
 ///   contains($list, $value)
 ///
-/// @return {bool}
+/// @return {Bool}
 @function contains($list, $values...) {
   @if not is-list($list) {
     @warn "argument error: #{$list}";
@@ -1148,12 +1116,62 @@ $gray20: #333;
   }
 }
 
+
+/// Test if `$value` is an angle
+///
+/// @param {*} $value - Value to test
+///
+/// @return {Bool}
+@function is-direction($value) {
+  $is-direction: index((to top, to top right, to right top, to right, to bottom right, to right bottom, to bottom, to bottom left, to left bottom, to left, to left top, to top left), $value);
+  $is-angle: type-of($value) == "number" and index("deg" "grad" "turn" "rad", unit($value));
+
+  @return $is-direction or $is-angle;
+}
+
+/// Convert a direction to legacy syntax
+///
+/// @param {Keyword | Angle} $value - Value to convert
+///
+/// @require {function} is-direction
+/// @require {function} convert-angle
+@function legacy-direction($value) {
+  @if is-direction($value) == false {
+    @warn "Cannot convert `#{$value}` to legacy syntax because it doesn't seem to be an angle or a direction";
+  }
+
+  $conversion-map: (
+    to top          : bottom,
+    to top right    : bottom left,
+    to right top    : left bottom,
+    to right        : left,
+    to bottom right : top left,
+    to right bottom : left top,
+    to bottom       : top,
+    to bottom left  : top right,
+    to left bottom  : right top,
+    to left         : right,
+    to left top     : right bottom,
+    to top left     : bottom right
+  );
+
+  @if map-has-key($conversion-map, $value) {
+    @return map-get($conversion-map, $value);
+  }
+
+  @return 90deg - convert-angle($value, "deg");
+}
+
 ///
 ///
-/// @param {string} $val
-/// @param {string} $unit
-///
-@function fallback-to-px($val, $unit: rem) {
+/// @param {Number} $val
+/// @param {String} $unit
+/// @param {Number} $unit
+@function fallback-to-px($val, $unit: rem, $base: config-get("i-base-em")) {
+  @if not unitless($val) {
+    $val: strip-units($val);
+  }
+
   $output: ();
 
   @if type-of($val) == "string" {
@@ -1164,8 +1182,12 @@ $gray20: #333;
   } @else {
     @if $val == 0 {
       $output: join(0, 0);
-    } @else if unitless($val) {
-      $output: join($val * config-get("i-base-em"), $val + $unit);
+    } @else if $val {
+      @if not unitless($base) {
+        $base: strip-units($base);
+      }
+
+      $output: join(($val / $base) * 1 + $unit, $val + $unit);
     } @else {
       $output: join($val, $val);
     }
@@ -1179,7 +1201,9 @@ $gray20: #333;
 
 /// Checks for a valid number.
 ///
-/// @param {number} $value
+/// @access private
+///
+/// @param {Number} $value
 ///
 /// @require {function} contains
 @function is-number($value) {
@@ -1189,6 +1213,8 @@ $gray20: #333;
 /// Returns the legacy value for a given box-model
 ///
 /// @access private
+///
+/// @param {String} $box
 @function legacy-box($box) {
   $box: unquote($box);
 
@@ -1209,18 +1235,18 @@ $gray20: #333;
 
 /// A mixin for generating vendor prefixes on non-standardized properties.
 ///
-/// @param {string} $property
+/// @param {String} $property
 ///   Property to prefix
 ///
 /// @param {*} $value
 ///   Value to use
 ///
-/// @param {list} $prefixes
+/// @param {List} $prefixes
 ///   Prefixes to define
 ///
 /// @example scss - Usage
 ///   .element {
-///     @include prefixer(keyframes identifier, webkit ms spec) {
+///     @include prefixer(keyframes identifier, webkit ms spec, @) {
 ///       0% { top: 0; left: 0; }
 ///       30% { top: 50px; }
 ///       68%, 72% { left: 50px; }
@@ -1249,49 +1275,36 @@ $gray20: #333;
 ///       100% { top: 100px; left: 100%; }
 ///     }
 ///   }
-///
-@mixin prefixer-content($property, $prefixes) {
+@mixin prefixer-content($property, $prefixes: (), $at: "") {
   @each $prefix in $prefixes {
-    @if $prefix == webkit and config-get("i-prefix.webkit") {
-      -webkit-#{$property} {
+    @if $prefix != spec and config-get("i-prefix.#{$prefix}") {
+      #{$at + "-" + $prefix + "-" + $property} {
         @content;
       }
-    } @else if $prefix == moz and config-get("i-prefix.mozilla") {
-      -moz-#{$property} {
+    }
+
+    @if $prefix == spec and config-get("i-prefix.spec") {
+      #{$at+$property} {
         @content;
       }
-    } @else if $prefix == ms and config-get("i-prefix.microsoft") {
-      -ms-#{$property} {
-        @content;
-      }
-    } @else if $prefix == o and config-get("i-prefix.opera") {
-      -o-#{$property} {
-        @content;
-      }
-    } @else if $prefix == spec and config-get("i-prefix.spec") {
-      #{$property} {
-        @content;
-      }
-    } @else  {
-      @warn "Unrecognized prefix: #{$prefix}";
     }
   }
 }
 
 /// A mixin for generating vendor prefixes on non-standardized properties.
 ///
-/// @param {string} $property
+/// @param {String} $property
 ///   Property to prefix
 ///
 /// @param {*} $value
 ///   Value to use
 ///
-/// @param {list} $prefixes
+/// @param {List} $prefixes
 ///   Prefixes to define
 ///
 /// @example scss - Usage
 ///   .element {
-///     @include prefixer(border-radius, 10px, webkit ms spec);
+///     @include prefixer(border-radius, 10px, (webkit, ms, spec));
 ///   }
 ///
 /// @example css - CSS Output
@@ -1300,34 +1313,77 @@ $gray20: #333;
 ///     -moz-border-radius: 10px;
 ///     border-radius: 10px;
 ///   }
-///
-@mixin prefixer($property, $value, $prefixes) {
+@mixin prefixer($property, $value, $prefixes: ()) {
   @each $prefix in $prefixes {
-    @if $prefix == webkit and config-get("i-prefix.webkit") {
-      -webkit-#{$property}: $value;
-    } @else if $prefix == moz and config-get("i-prefix.mozilla") {
-      -moz-#{$property}: $value;
-    } @else if $prefix == ms and config-get("i-prefix.microsoft") {
-      -ms-#{$property}: $value;
-    } @else if $prefix == o and config-get("i-prefix.opera") {
-      -o-#{$property}: $value;
-    } @else if $prefix == spec and config-get("i-prefix.spec") {
+    @if $prefix != spec and config-get("i-prefix.#{$prefix}") {
+      #{"-" + $prefix + "-" + $property}: $value;
+    }
+
+    @if $prefix == spec and config-get("i-prefix.spec") {
       #{$property}: $value;
-    } @else {
-      @warn "Unrecognized prefix: #{$prefix}";
     }
   }
 }
 
+/// Disable all prefixes.
 @mixin disable-prefixes() {
   @include config-set("prefix.webkit", false, true);
-  @include config-set("prefix.mozilla", false, true);
-  @include config-set("prefix.microsoft", false, true);
-  @include config-set("prefix.opera", false, true);
+  @include config-set("prefix.moz", false, true);
+  @include config-set("prefix.ms", false, true);
+  @include config-set("prefix.o", false, true);
   @include config-set("prefix.spec", false, true);
 }
 
+/// Attribute Modules for CSS
+///
+/// @param {String} $module
+/// @param {String} $trait
+///
+/// @link http://amcss.github.io/
+///
+/// @example scss - Usage
+///   @include am(module) {
+///      color: red;
+///    }
+///
+///    @include am(module, blue) {
+///      color: blue;
+///    }
+///
+///    @include am(module, large) {
+///      font-size: 2em;
+///    }
+///
+/// @example css - CSS Output
+///  [am-module] {
+///    color: red;
+///  }
+///
+///  [am-module~="blue"] {
+///    color: blue;
+///  }
+///
+///  [am-module~="large"] {
+///    font-size: 2em;
+///  }
+@mixin am($module, $trait: null) {
+  @if $trait != null {
+    [am-#{$module}~="#{$trait}"]{
+      @content;
+    }
+  }
+  @else {
+    [am-#{$module}]{
+      @content;
+    }
+  }
+}
+
 /// A simple shortcode for border.
+///
+/// @param {Color (Hex)} $color
+/// @param {Number}      $width
+/// @param {String}      $style
 ///
 /// @example scss - Usage
 ///   .example-basic-border {
@@ -1368,21 +1424,99 @@ $gray20: #333;
 ///     border-style: solid dashed;
 ///     border-color: black;
 ///   }
-@mixin border($border-width: config-get("i-border-width"), $border-color: config-get("i-border-color"), $border-style: config-get("i-border-style")) {
-  @if length($border-width) > 1 {
-    border-width: $border-width;
-    border-style: $border-style;
-    border-color: $border-color;
+@mixin border($width: config-get("i-border-width"), $color: config-get("i-border-color"), $style: config-get("i-border-style")) {
+  @if length($width) > 1 {
+    border-width: $width;
+    border-style: $style;
+    border-color: $color;
   } @else if length($border-style) > 1 {
-    border-width: $border-width;
-    border-style: $border-style;
-    border-color: $border-color;
-  } @else if length($border-color) > 1 {
-    border-width: $border-width;
-    border-style: $border-style;
-    border-color: $border-color;
+    border-width: $width;
+    border-style: $style;
+    border-color: $color;
+  } @else if length($color) > 1 {
+    border-width: $width;
+    border-style: $style;
+    border-color: $color;
   } @else  {
-      border: $border-width $border-style $border-color;
+    border: $width $style $color;
+  }
+}
+
+/// Horizontally centers block elements
+///
+/// @access public
+///
+/// @example scss - Usage
+///   .foo {
+///     @include center-block;
+///   }
+///
+/// @example css - Result
+///   .foo {
+///     display: block;
+///     margin-left: auto;
+///     margin-right: auto;
+///   }
+@mixin center-block {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/// Micro Clearfix by Nicolas Gallagher.
+///
+/// @link http://nicolasgallagher.com/micro-clearfix-hack/
+///
+/// @access public
+///
+/// @example scss - Usage
+///   body {
+///     @include clearfix();
+///   }
+///
+/// @example css - CSS Output
+///   body {
+///     *zoom: 1;
+///   }
+///
+///   body:before {
+///     content: " ";
+///     display: table;
+///   }
+///
+///   body:after {
+///     content: " ";
+///     display: table;
+///     clear: both;
+///   }
+@mixin clearfix() {
+  *zoom: 1;
+
+  &:before,
+  &:after {
+    content: " ";
+    display: table;
+  }
+
+  &:after {
+    clear: both;
+  }
+}
+
+/// Allows you to pass it arguments to easily output a
+/// light or dark color of your choosing based on the
+/// lightness of another color.
+///
+/// @param {Color (Hex)} $background-color
+/// @param {Color (Hex)} $light-color
+/// @param {Color (Hex)} $dark-color
+///
+/// @return {Color (Hex)}
+@function contrasting-color($background-color, $light-color: config-get("contrasting-color-light"), $dark-color: config-get("contrasting-color-dark")) {
+  @if is-light($background-color) {
+    @return $light-color;
+  } @else {
+    @return $dark-color;
   }
 }
 
@@ -1391,13 +1525,108 @@ $gray20: #333;
 ///
 /// @example scss - Usage
 ///   .text-container {
-///     @extend %dotdotdot;
+///     @include dotdotdot();
+///   }
+///
+/// @example css - CSS Output
+///   .text-container {
+///     max-width: 100%;
+///     overflow: hidden;
+///     text-overflow: ellipsis;
+///     white-space: nowrap;
 ///   }
 @mixin dotdotdot() {
   max-width: 100%;          /// Disallow expansion beyond parent container
   overflow: hidden;         /// Must be different from 'visible'
   text-overflow: ellipsis;  /// This is where the magic happens
   white-space: nowrap;      /// Allow one line of text only
+}
+
+/// Given a font size in pixels, reproduces that font size in rems.
+///
+/// @access public
+///
+/// @param {Length} $size - Font size
+/// @param {String} $unit
+///
+/// @example scss - Usage
+///   .foo {
+///     @include font-size(16px);
+///   }
+///
+/// @example css - Result
+///   .foo {
+///     font-size: 16px;
+///     font-size: 1rem;
+///   }
+@mixin font-size($size, $unit: rem) {
+  @if $unit == em {
+    @include em("font-size", $size);
+  } @else {
+    @include rem("font-size", $size);
+  }
+}
+
+/// Retina Images
+///
+/// @param {String)} $image
+/// @param {String)} $type
+/// @param {Number)} $size
+///
+/// @example scss - Usage
+///   .my-class {
+///     @include image-2x("logo.png", "png", 100px 25px);
+///   }
+///
+/// @example css - CSS Output
+///   .logo {
+///     background: url("logo.png") no-repeat;
+///   }
+///
+///   @media (min--moz-device-pixel-ratio: 1.3), (-o-min-device-pixel-ratio: 2.6 / 2), (-webkit-min-device-pixel-ratio: 1.3), (min-device-pixel-ratio: 1.3), (min-resolution: 1.3dppx) {
+///     div.logo {
+///       background-image: url("logo@2x.png");
+///       background-size: 100px 25px;
+///     }
+///   }
+@mixin image-2x($image, $type, $size: 100%) {
+  background-image: url($image + "." + $type);
+
+  // @include media('>=tablet', 'retina2x') {
+  @media (min--moz-device-pixel-ratio: 1.3),
+         (-o-min-device-pixel-ratio: 2.6/2),
+         (-webkit-min-device-pixel-ratio: 1.3),
+         (min-device-pixel-ratio: 1.3),
+         (min-resolution: 1.3dppx) {
+    /* on retina, use image that's scaled by 2 */
+    background-image: url($image + "@2x." + $type);
+    background-size: $size;
+  }
+}
+
+/// Generates line-height values in both pixels and rems.
+///
+/// @access public
+///
+/// @param {Number} $height-value [12] - Height value
+/// @param {String} $unit
+///
+/// @example scss - Usage
+///   .foo {
+///     @include line-height(16);
+///   }
+///
+/// @example css - Result
+///   .foo {
+///     line-height: 16px;
+///     line-height: 1rem;
+///   }
+@mixin line-height($height-value: 12, $unit: rem) {
+  @if $unit == em {
+    @include em("line-height", $height-value);
+  } @else {
+    @include rem("line-height", $height-value);
+  }
 }
 
 /// Generate position properties in shorthand form.
@@ -1412,56 +1641,56 @@ $gray20: #333;
 /// https:///gist.github.com/nicolas-cusan/8fc0cef0f466f6ca2ebc
 ///
 /// @example scss - Usage
-/// .my-class {
-///   @include position(0, top left);
-/// }
+///   .my-class {
+///     @include position(0, top left);
+///   }
 ///
 /// @example css - CSS Output
-/// .my-class {
-///   position: fixed;
-///   top: 0;
-///   left: 0;
-///   right: 0;
-///   bottom: 0;
-/// }
+///   .my-class {
+///     position: fixed;
+///     top: 0;
+///     left: 0;
+///     right: 0;
+///     bottom: 0;
+///   }
 ///
 /// @example scss - Usage
-/// .my-class {
-///   @include position(auto 200px 3em, top left right);
-/// }
+///   .my-class {
+///     @include position(auto 200px 3em, top left right);
+///   }
 ///
 /// @example css - CSS Output
-/// .my-class {
-///   position: absolute;
-///   top: auto;
-///   left: 200px;
-///   right: 3em;
-/// }
+///   .my-class {
+///     position: absolute;
+///     top: auto;
+///     left: 200px;
+///     right: 3em;
+///   }
 ///
 /// @example scss - Usage
-/// .my-class {
-///   @include position(0 3px, left top, none);
-/// }
+///   .my-class {
+///     @include position(0 3px, left top, none);
+///   }
 ///
 /// @example css - CSS Output
-/// .my-class {
-///   top: 3px;
-///   left: 0;
-/// }
+///   .my-class {
+///     top: 3px;
+///     left: 0;
+///   }
 ///
 /// @example scss - Usage
-/// .my-class {
-///   @include position(0 200px, top left, $auto-overwrite: true);
-/// }
+///   .my-class {
+///     @include position(0 200px, top left, $auto-overwrite: true);
+///   }
 ///
 /// @example css - CSS Output
-/// .my-class {
-///   position: absolute;
-///   top: 0;
-///   left: 200px;
-///   right: auto;
-///   bottom: auto;
-/// }
+///   .my-class {
+///     position: absolute;
+///     top: 0;
+///     left: 200px;
+///     right: auto;
+///     bottom: auto;
+///   }
 @mixin position($values, $sides, $pos: absolute, $auto-overwrite: false) {
   /// Vars
   $positions: absolute, relative, fixed, static;
@@ -1514,33 +1743,29 @@ $gray20: #333;
   }
 }
 
-/// This mixin outputs a property with rem or em units and a px fallback.
-/// Values passed without units are used as multipliers for the final
-/// rem or em and px values, all other units are output without modification.
+/// Convert pixels to ems
+/// eg. for a relational value of 12px write em(12) when the parent is 16px.
 ///
-/// @param {string} $prop
-/// @param {list}   $vals
-/// @param {string} $unit
-///
-/// @example scss - Usage
-///   @include px-and-unit([property], [multiplier | explicit value] [, ...]);
+/// @param {String} $prop
+/// @param {Number} $pxval
+/// @param {Number} $base  if you like to change the base px config-get("i-base-em")
 ///
 /// @example scss - Usage
-///   .margin {
-///     @include px-and-unit(margin, 2);
+///   .unit {
+///     width: em(16);
 ///   }
 ///
 /// @example css - CSS Output
-///   .margin {
-///     margin: 32px;
-///     margin: 2rem;
+///   .unit {
+///     width: 16px;
+///     width: 1em;
 ///   }
-@mixin px-and-unit($prop, $vals, $unit: rem) {
+@mixin em($prop, $pxval, $base) {
   $px-list: ();
   $em-list: ();
 
   @each $val in $vals {
-    $calcs: fallback-to-px($val, $unit);
+    $calcs: fallback-to-px($val, em, $base);
     $px-list: append($px-list, nth($calcs, 1));
     $em-list: append($em-list, nth($calcs, 2));
   }
@@ -1549,87 +1774,127 @@ $gray20: #333;
   #{$prop}: $em-list;
 }
 
-// Each of these mixins support comma separated lists of values, which allows different transitions for individual properties to be described in a single style rule.
-// Each value in the list corresponds to the value at that same position in the other properties.
-// - - - - - - - - - - - - - - - - - - - - - - - - -
+/// Convert pixels to rems
+/// eg. for a relational value of 12px write rem(12)
+/// Assumes config-get("i-base-em") is the font-size of <html>
+///
+/// @param {String} $prop
+/// @param {Number} $pxval
+/// @param {Number} $base  if you like to change the base px config-get("i-base-em")
+///
+/// @example scss - Usage
+///   .unit {
+///     width: rem(16);
+///   }
+///
+/// @example css - CSS Output
+///   .unit {
+///     width: 16px;
+///     width: 1rem;
+///   }
+@mixin rem($prop, $pxval, $base) {
+  $px-list: ();
+  $rem-list: ();
+
+  @each $val in $vals {
+    $calcs: fallback-to-px($val, rem, $base);
+    $px-list: append($px-list, nth($calcs, 1));
+    $rem-list: append($rem-list, nth($calcs, 2));
+  }
+
+  #{$prop}: $px-list;
+  #{$prop}: $rem-list;
+}
+
+/// Each of these mixins support comma separated lists of values, which allows different transitions for individual properties to be described in a single style rule.
+/// Each value in the list corresponds to the value at that same position in the other properties.
+///
+/// @param {List} $animations...
+///
 @mixin animation($animations...) {
   @include prefixer(animation, $animations, webkit moz spec);
 }
 
-// Name of any animation as a string. [keyframename | none | initial | inherit]
-// - - - - - - - - - - - - - - - - - - - - - - - - -
+/// Name of any animation as a string.
+///
+/// @param {List} $names [keyframename | none | initial | inherit]
+///
+/// @example scss - Usage
+///   .animation-name {
+///     @include animation-name(test);
+///   }
+///
+/// @example css - CSS Output
+///   .animation-name {
+///     -webkit-animation-name: test;
+///     -moz-animation-name: test;
+///     animation-name: test;
+///   }
 @mixin animation-name($names...) {
-  // @if contains("none initial inherit", $names) == false or $names != "string" {
-  //   @error "`animation-name` supports only `keyframename | none | initial | inherit` you used #{$names}";
-  //   @return "error";
-  // }
+  /// @if contains("none initial inherit", $names) == false or $names != "string" {
+  ///   @error "`animation-name` supports only `keyframename | none | initial | inherit` you used #{$names}";
+  ///   @return "error";
+  /// }
 
   @include prefixer(animation-name, $names, webkit moz spec);
 }
 
-// Duration of the entire animation in seconds. [time | initial | inherit]
-// - - - - - - - - - - - - - - - - - - - - - - - - -
+/// Duration of the entire animation in seconds. [time | initial | inherit]
 @mixin animation-duration($times...) {
-  // @if contains("initial inherit", $times) == false or $times != "number" {
-  //   @error "`animation-duration` supports only `time | initial | inherit` you used #{$times}";
-  //   @return "error";
-  // }
+  /// @if contains("initial inherit", $times) == false or $times != "number" {
+  ///   @error "`animation-duration` supports only `time | initial | inherit` you used #{$times}";
+  ///   @return "error";
+  /// }
 
   @include prefixer(animation-duration, $times, webkit moz spec);
 }
 
-// The timing function(s) to be used between keyframes. [ease | linear | ease-in | ease-out | ease-in-out | cubic-bezier($number, $number, $number, $number)]
-// - - - - - - - - - - - - - - - - - - - - - - - - -
+/// The timing function(s) to be used between keyframes. [ease | linear | ease-in | ease-out | ease-in-out | cubic-bezier($number, $number, $number, $number)]
 @mixin animation-timing-function($motions...) {
   @include prefixer(animation-timing-function, $motions, webkit moz spec);
 }
 
-// The number of times an animation cycle is played. [number | infinite | initial | inherit]
-// - - - - - - - - - - - - - - - - - - - - - - - - -
+/// The number of times an animation cycle is played. [number | infinite | initial | inherit]
 @mixin animation-iteration-count($values...) {
-  // @if contains("infinite initial inherit", $values) == false or $values != "number" {
-  //   @error "`animation-iteration-count` supports only `number | infinite | initial | inherit` you used #{$values}";
-  //   @return "error";
-  // }
+  /// @if contains("infinite initial inherit", $values) == false or $values != "number" {
+  ///   @error "`animation-iteration-count` supports only `number | infinite | initial | inherit` you used #{$values}";
+  ///   @return "error";
+  /// }
 
   @include prefixer(animation-iteration-count, $values, webkit moz spec);
 }
 
-// Whether or not the animation should play in reverse on alternate cycles. [normal | reverse | alternate | alternate-reverse | initial | inherit]
-// - - - - - - - - - - - - - - - - - - - - - - - - -
+/// Whether or not the animation should play in reverse on alternate cycles. [normal | reverse | alternate | alternate-reverse | initial | inherit]
 @mixin animation-direction($directions...) {
-  // @if contains("normal reverse alternate alternate-reverse initial inherit", $directions) == false {
-  //   @error "`animation-direction` supports only `normal | reverse | alternate | alternate-reverse | initial | inherit` you used #{$directions}";
-  //   @return "error";
-  // }
+  /// @if contains("normal reverse alternate alternate-reverse initial inherit", $directions) == false {
+  ///   @error "`animation-direction` supports only `normal | reverse | alternate | alternate-reverse | initial | inherit` you used #{$directions}";
+  ///   @return "error";
+  /// }
 
   @include prefixer(animation-direction, $directions, webkit moz spec);
 }
 
-// Whether the animation is running or paused. [running | paused | initial | inherit]
-// - - - - - - - - - - - - - - - - - - - - - - - - -
+/// Whether the animation is running or paused. [running | paused | initial | inherit]
 @mixin animation-play-state($states...) {
-  // @if contains("running paused initial inherit", $states) == false {
-  //   @error "`animation-play-state` supports only `running | paused | initial | inherit` you used #{$states}";
-  //   @return "error";
-  // }
+  /// @if contains("running paused initial inherit", $states) == false {
+  ///   @error "`animation-play-state` supports only `running | paused | initial | inherit` you used #{$states}";
+  ///   @return "error";
+  /// }
 
   @include prefixer(animation-play-state, $states, webkit moz spec);
 }
 
-// The animation-delay property specifies a delay for the start of an animation. [time | initial | inherit]
-// - - - - - - - - - - - - - - - - - - - - - - - - -
+/// The animation-delay property specifies a delay for the start of an animation. [time | initial | inherit]
 @mixin animation-delay($times...) {
   @include prefixer(animation-delay, $times, webkit moz spec);
 }
 
-// What values are applied by the animation outside the time it is executing. [none | forwards | backwards | both | initial | inherit]
-// - - - - - - - - - - - - - - - - - - - - - - - - -
+/// What values are applied by the animation outside the time it is executing. [none | forwards | backwards | both | initial | inherit]
 @mixin animation-fill-mode($modes...) {
-  // @if contains("none forwards backwards both initial inherit", $modes) == false {
-  //   @error "`animation-fill-mode` supports only `none | forwards | backwards | both | initial | inherit` you used #{$modes}";
-  //   @return "error";
-  // }
+  /// @if contains("none forwards backwards both initial inherit", $modes) == false {
+  ///   @error "`animation-fill-mode` supports only `none | forwards | backwards | both | initial | inherit` you used #{$modes}";
+  ///   @return "error";
+  /// }
 
   @include prefixer(animation-fill-mode, $modes, webkit moz spec);
 }
@@ -1935,6 +2200,76 @@ $gray20: #333;
   }
 }
 
+/// Method of allowing calculated values for length units.
+///
+/// @param {String} $prop
+/// @param {Number} $pxval
+///
+/// @example scss - Usage
+///   .calc {
+///    @include calc(width, 100% - 3em);
+///   }
+///
+/// @example css - CSS Output
+///   .calc {
+///     width: -moz-calc(100% - 3em);
+///     width: -webkit-calc(100% - 3em);
+///     width: calc(100% - 3em);
+///   }
+@mixin calc($prop, $value) {
+  #{$prop}: -moz-calc(#{$value});
+  #{$prop}: -webkit-calc(#{$value});
+  #{$prop}: calc(#{$value});
+}
+
+@mixin columns($arg: auto) {
+  // <column-count> || <column-width>
+  @include prefixer(columns, $arg, webkit moz spec);
+}
+
+@mixin column-count($int: auto) {
+  // auto || integer
+  @include prefixer(column-count, $int, webkit moz spec);
+}
+
+@mixin column-gap($length: normal) {
+  // normal || length
+  @include prefixer(column-gap, $length, webkit moz spec);
+}
+
+@mixin column-fill($arg: auto) {
+  // auto || length
+  @include prefixer(column-fill, $arg, webkit moz spec);
+}
+
+@mixin column-rule($arg) {
+  // <border-width> || <border-style> || <color>
+  @include prefixer(column-rule, $arg, webkit moz spec);
+}
+
+@mixin column-rule-color($color) {
+  @include prefixer(column-rule-color, $color, webkit moz spec);
+}
+
+@mixin column-rule-style($style: none) {
+  // none | hidden | dashed | dotted | double | groove | inset | inset | outset | ridge | solid
+  @include prefixer(column-rule-style, $style, webkit moz spec);
+}
+
+@mixin column-rule-width ($width: none) {
+  @include prefixer(column-rule-width, $width, webkit moz spec);
+}
+
+@mixin column-span($arg: none) {
+  // none || all
+  @include prefixer(column-span, $arg, webkit moz spec);
+}
+
+@mixin column-width($length: auto) {
+  // auto || length
+  @include prefixer(column-width, $length, webkit moz spec);
+}
+
 /// Enables hyphenation for text.
 ///
 /// @example scss - Usage
@@ -1954,6 +2289,89 @@ $gray20: #333;
 @mixin keyframe ($animation-name) {
   @include prefixer-content("keyframes #{$animation-name}", webkit moz ms o spec) {
     @content;
+  }
+}
+
+/// Mixin printing a linear-gradient
+/// as well as a plain color fallback
+/// and the `-webkit-` prefixed declaration
+///
+/// @access public
+///
+/// @author Hugo Giraudel
+///
+/// @param {String | List | Angle} $direction - Linear gradient direction
+/// @param {Arglist} $color-stops - List of color-stops composing the gradient
+///
+/// @example scss - Usage
+///   .gradient {
+///     @include linear-gradient(#31B7D7, #EDAC7D);
+///   }
+///   .gradient2 {
+///     @include linear-gradient(to right, #E47D7D 0%, #C195D3 50%, #4FB4E8 100%);
+///   }
+///
+/// @example css - Result
+///   .gradient {
+///     background: #31B7D7;
+///     background: -webkit-linear-gradient(-90deg, #31B7D7, #EDAC7D);
+///     background: linear-gradient(180deg, #31B7D7, #EDAC7D);
+///   }
+///   .gradient2 {
+///     background: #E47D7D;
+///     background: -webkit-linear-gradient(left, #E47D7D 0%, #C195D3 50%, #4FB4E8 100%);
+///     background: linear-gradient(to right, #E47D7D 0%, #C195D3 50%, #4FB4E8 100%);
+///   }
+@mixin linear-gradient($direction, $color-stops...) {
+  @if is-direction($direction) == false {
+    $color-stops: ($direction, $color-stops);
+    $direction: 180deg;
+  }
+
+  background: nth(nth($color-stops, 1), 1);
+  background: -webkit-linear-gradient(legacy-direction($direction), $color-stops);
+  background: linear-gradient($direction, $color-stops);
+}
+
+/// Generates `placeholder` content for a given element
+///
+/// @link MDN https://developer.mozilla.org/en-US/docs/Web/CSS/:-moz-placeholder
+/// @link css-tricks http://css-tricks.com/snippets/css/style-placeholder-text/
+///
+/// @example scss - Usage
+///   .selector {
+///     @include x-placeholder {
+///         color: #bada55;
+///         font-weight: bold;
+///     }
+///   }
+/// @example css - CSS Output
+///  &::-webkit-input-placeholder {
+///      <content property 1>: <content value 1>;
+///      ...
+///      <content property n>: <content value n>;
+///  }
+///  &::-moz-placeholder {
+///      <content property 1>: <content value 1>;
+///      ...
+///      <content property n>: <content value n>;
+///  }
+///  &:-ms-input-placeholder {
+///      <content property 1>: <content value 1>;
+///      ...
+///      <content property n>: <content value n>;
+///  }
+@mixin placeholder {
+  &::-webkit-input-placeholder {
+    @content
+  }
+
+  &::-moz-placeholder {
+    @content
+  }
+
+  &:-ms-input-placeholder {
+    @content
   }
 }
 

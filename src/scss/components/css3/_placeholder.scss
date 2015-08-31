@@ -1,6 +1,6 @@
+@charset "UTF-8";
+
 /// Generates `placeholder` content for a given element
-///
-/// @author romamatusevich
 ///
 /// @link MDN https://developer.mozilla.org/en-US/docs/Web/CSS/:-moz-placeholder
 /// @link css-tricks http://css-tricks.com/snippets/css/style-placeholder-text/
@@ -28,14 +28,16 @@
 ///      ...
 ///      <content property n>: <content value n>;
 ///  }
-@mixin x-placeholder {
+@mixin placeholder {
   &::-webkit-input-placeholder {
-    @content // Chrome, Safari, Opera
+    @content
   }
+
   &::-moz-placeholder {
-    @content // Firefox 19+
+    @content
   }
+
   &:-ms-input-placeholder {
-    @content // IE 10+
+    @content
   }
 }

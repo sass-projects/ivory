@@ -13,7 +13,7 @@
 ///
 /// @example scss - Usage
 ///   .element {
-///     @include prefixer(keyframes identifier, webkit ms spec) {
+///     @include prefixer(keyframes identifier, webkit ms spec, @) {
 ///       0% { top: 0; left: 0; }
 ///       30% { top: 50px; }
 ///       68%, 72% { left: 50px; }
@@ -42,17 +42,16 @@
 ///       100% { top: 100px; left: 100%; }
 ///     }
 ///   }
-///
-@mixin prefixer-content($property, $prefixes) {
+@mixin prefixer-content($property, $prefixes: (), $at: "") {
   @each $prefix in $prefixes {
     @if $prefix != spec and config-get("i-prefix.#{$prefix}") {
-      -#{$prefix}-#{$property} {
+      #{$at + "-" + $prefix + "-" + $property} {
         @content;
       }
     }
 
     @if $prefix == spec and config-get("i-prefix.spec") {
-      #{$property} {
+      #{$at+$property} {
         @content;
       }
     }

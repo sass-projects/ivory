@@ -13,7 +13,7 @@
 ///
 /// @example scss - Usage
 ///   .element {
-///     @include prefixer(border-radius, 10px, webkit ms spec);
+///     @include prefixer(border-radius, 10px, (webkit, ms, spec));
 ///   }
 ///
 /// @example css - CSS Output
@@ -22,11 +22,10 @@
 ///     -moz-border-radius: 10px;
 ///     border-radius: 10px;
 ///   }
-///
-@mixin prefixer($property, $value, $prefixes...) {
+@mixin prefixer($property, $value, $prefixes: ()) {
   @each $prefix in $prefixes {
     @if $prefix != spec and config-get("i-prefix.#{$prefix}") {
-      -#{$prefix}-#{$property}: $value;
+      #{"-" + $prefix + "-" + $property}: $value;
     }
 
     @if $prefix == spec and config-get("i-prefix.spec") {
@@ -35,10 +34,11 @@
   }
 }
 
+/// Disable all prefixes.
 @mixin disable-prefixes() {
   @include config-set("prefix.webkit", false, true);
-  @include config-set("prefix.mozilla", false, true);
-  @include config-set("prefix.microsoft", false, true);
-  @include config-set("prefix.opera", false, true);
+  @include config-set("prefix.moz", false, true);
+  @include config-set("prefix.ms", false, true);
+  @include config-set("prefix.o", false, true);
   @include config-set("prefix.spec", false, true);
 }
