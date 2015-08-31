@@ -5,7 +5,15 @@
 ///
 /// @example scss - Usage
 ///   .text-container {
-///     @extend %dotdotdot;
+///     @include dotdotdot();
+///   }
+///
+/// @example css - CSS Output
+///   .text-container {
+///     max-width: 100%;
+///     overflow: hidden;
+///     text-overflow: ellipsis;
+///     white-space: nowrap;
 ///   }
 @mixin dotdotdot() {
   max-width: 100%;          /// Disallow expansion beyond parent container
