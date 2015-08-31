@@ -1,0 +1,18 @@
+@charset "UTF-8";
+
+/// Allows you to pass it arguments to easily output a
+/// light or dark color of your choosing based on the
+/// lightness of another color.
+///
+/// @param {color (Hex)} $background-color
+/// @param {color (Hex)} $light-color
+/// @param {color (Hex)} $dark-color
+///
+/// @return {color (Hex)}
+@function contrasting-color($background-color, $light-color: config-get("contrasting-color-light"), $dark-color: config-get("contrasting-color-dark")) {
+  @if is-light($background-color) {
+    @return $light-color;
+  } @else {
+    @return $dark-color;
+  }
+}

@@ -4,8 +4,14 @@
 $config-namespace: "i-" !global;
 
 /// Colors
-///
+$black: #000;
+$white: #fff;
 $gray20: #333;
+
+$media-expressions: ();
+
+@include config-set("color-black", $black, true);
+@include config-set("color-white", $white, true);
 
 /// Global variable for em.
 @include config-set("base-em", 16px, true);

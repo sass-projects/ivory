@@ -12,56 +12,56 @@
 /// https:///gist.github.com/nicolas-cusan/8fc0cef0f466f6ca2ebc
 ///
 /// @example scss - Usage
-/// .my-class {
-///   @include position(0, top left);
-/// }
+///   .my-class {
+///     @include position(0, top left);
+///   }
 ///
 /// @example css - CSS Output
-/// .my-class {
-///   position: fixed;
-///   top: 0;
-///   left: 0;
-///   right: 0;
-///   bottom: 0;
-/// }
+///   .my-class {
+///     position: fixed;
+///     top: 0;
+///     left: 0;
+///     right: 0;
+///     bottom: 0;
+///   }
 ///
 /// @example scss - Usage
-/// .my-class {
-///   @include position(auto 200px 3em, top left right);
-/// }
+///   .my-class {
+///     @include position(auto 200px 3em, top left right);
+///   }
 ///
 /// @example css - CSS Output
-/// .my-class {
-///   position: absolute;
-///   top: auto;
-///   left: 200px;
-///   right: 3em;
-/// }
+///   .my-class {
+///     position: absolute;
+///     top: auto;
+///     left: 200px;
+///     right: 3em;
+///   }
 ///
 /// @example scss - Usage
-/// .my-class {
-///   @include position(0 3px, left top, none);
-/// }
+///   .my-class {
+///     @include position(0 3px, left top, none);
+///   }
 ///
 /// @example css - CSS Output
-/// .my-class {
-///   top: 3px;
-///   left: 0;
-/// }
+///   .my-class {
+///     top: 3px;
+///     left: 0;
+///   }
 ///
 /// @example scss - Usage
-/// .my-class {
-///   @include position(0 200px, top left, $auto-overwrite: true);
-/// }
+///   .my-class {
+///     @include position(0 200px, top left, $auto-overwrite: true);
+///   }
 ///
 /// @example css - CSS Output
-/// .my-class {
-///   position: absolute;
-///   top: 0;
-///   left: 200px;
-///   right: auto;
-///   bottom: auto;
-/// }
+///   .my-class {
+///     position: absolute;
+///     top: 0;
+///     left: 200px;
+///     right: auto;
+///     bottom: auto;
+///   }
 @mixin position($values, $sides, $pos: absolute, $auto-overwrite: false) {
   /// Vars
   $positions: absolute, relative, fixed, static;
