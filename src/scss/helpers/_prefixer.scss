@@ -26,9 +26,7 @@
   @each $prefix in $prefixes {
     @if $prefix != spec and config-get("i-prefix.#{$prefix}") {
       #{"-" + $prefix + "-" + $property}: $value;
-    }
-
-    @if $prefix == spec and config-get("i-prefix.spec") {
+    } @else if $prefix == spec {
       #{$property}: $value;
     }
   }
@@ -36,9 +34,8 @@
 
 /// Disable all prefixes.
 @mixin disable-prefixes() {
-  @include config-set("prefix.webkit", false, true);
-  @include config-set("prefix.moz", false, true);
-  @include config-set("prefix.ms", false, true);
-  @include config-set("prefix.o", false, true);
-  @include config-set("prefix.spec", false, true);
+  @include config-set("prefix.webkit", false);
+  @include config-set("prefix.moz", false);
+  @include config-set("prefix.ms", false);
+  @include config-set("prefix.o", false);
 }

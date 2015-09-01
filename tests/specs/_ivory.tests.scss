@@ -956,7 +956,6 @@ $media-expressions: ();
 @include config-set("prefix.moz", true, true);
 @include config-set("prefix.ms", true, true);
 @include config-set("prefix.o", true, true);
-@include config-set("prefix.spec", true, true);
 
 /// Remove all non-true value of a list.
 @function compact($list...) {
@@ -1263,7 +1262,7 @@ $imported-modules: () !global;
 /// @param {List} $prefixes
 ///   Prefixes to define
 ///
-/// @param {String} $at
+/// @param {String} $pseudo
 ///
 /// @example scss - Usage
 ///   .element {
@@ -1296,20 +1295,38 @@ $imported-modules: () !global;
 ///       100% { top: 100px; left: 100%; }
 ///     }
 ///   }
-@mixin prefixer-content($property, $prefixes: (), $at: "") {
+
+@mixin prefixer-content($property, $prefixes, $pseudo: "") {
   @each $prefix in $prefixes {
+    $pseudo: check-ms-content-prefix($prefix, $pseudo);
+
     @if $prefix != spec and config-get("i-prefix.#{$prefix}") {
-      #{$at + "-" + $prefix + "-" + $property} {
+      #{$pseudo}-#{$prefix}-#{$property} {
         @content;
       }
-    }
-
-    @if $prefix == spec and config-get("i-prefix.spec") {
-      #{$at+$property} {
+    } @else if $prefix == spec {
+      #{$pseudo}#{$property} {
         @content;
       }
     }
   }
+}
+
+///
+/// @param {String} $prefix
+/// @param {String} $pseudo
+///
+/// @access private
+@function check-ms-content-prefix($prefix, $pseudo) {
+  @if $prefix == "ms" {
+    @if $pseudo == "&::" {
+      $pseudo: "&:";
+    } @else if $pseudo == "::" {
+      $pseudo: ":";
+    }
+  }
+
+  @return $pseudo;
 }
 
 /// A mixin for generating vendor prefixes on non-standardized properties.
@@ -1338,9 +1355,7 @@ $imported-modules: () !global;
   @each $prefix in $prefixes {
     @if $prefix != spec and config-get("i-prefix.#{$prefix}") {
       #{"-" + $prefix + "-" + $property}: $value;
-    }
-
-    @if $prefix == spec and config-get("i-prefix.spec") {
+    } @else if $prefix == spec {
       #{$property}: $value;
     }
   }
@@ -1348,11 +1363,10 @@ $imported-modules: () !global;
 
 /// Disable all prefixes.
 @mixin disable-prefixes() {
-  @include config-set("prefix.webkit", false, true);
-  @include config-set("prefix.moz", false, true);
-  @include config-set("prefix.ms", false, true);
-  @include config-set("prefix.o", false, true);
-  @include config-set("prefix.spec", false, true);
+  @include config-set("prefix.webkit", false);
+  @include config-set("prefix.moz", false);
+  @include config-set("prefix.ms", false);
+  @include config-set("prefix.o", false);
 }
 
 /// Attribute Modules for CSS
@@ -1485,6 +1499,8 @@ $imported-modules: () !global;
   margin-right: auto;
 }
 
+/// scss-lint:disable PropertySpelling
+///
 /// Micro Clearfix by Nicolas Gallagher.
 ///
 /// @link http://nicolasgallagher.com/micro-clearfix-hack/
@@ -2222,6 +2238,8 @@ $imported-modules: () !global;
   }
 }
 
+/// scss-lint:disable VendorPrefix
+///
 /// Method of allowing calculated values for length units.
 ///
 /// @param {String} $prop
@@ -2316,6 +2334,8 @@ $imported-modules: () !global;
   }
 }
 
+/// scss-lint:disable VendorPrefix
+///
 /// Mixin printing a linear-gradient
 /// as well as a plain color fallback
 /// and the `-webkit-` prefixed declaration
@@ -2363,19 +2383,19 @@ $imported-modules: () !global;
 /// @link css-tricks http://css-tricks.com/snippets/css/style-placeholder-text/
 ///
 /// @example scss - Usage
-///   .selector {
-///     @include x-placeholder {
+///   .placeholder {
+///     @include placeholder {
 ///         color: #bada55;
 ///         font-weight: bold;
 ///     }
 ///   }
 /// @example css - CSS Output
-///  &::-webkit-input-placeholder {
+///  .placeholder::-webkit-input-placeholder {
 ///      <content property 1>: <content value 1>;
 ///      ...
 ///      <content property n>: <content value n>;
 ///  }
-///  &::-moz-placeholder {
+///  .placeholder::-moz-placeholder {
 ///      <content property 1>: <content value 1>;
 ///      ...
 ///      <content property n>: <content value n>;
@@ -2386,15 +2406,11 @@ $imported-modules: () !global;
 ///      <content property n>: <content value n>;
 ///  }
 @mixin placeholder {
-  &::-webkit-input-placeholder {
+  @include prefixer(input-placeholder, webkit ms, "&::") {
     @content
   }
 
-  &::-moz-placeholder {
-    @content
-  }
-
-  &:-ms-input-placeholder {
+  @include prefixer(placeholder, moz, "&::") {
     @content
   }
 }

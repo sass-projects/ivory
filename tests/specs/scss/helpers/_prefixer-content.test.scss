@@ -1,0 +1,51 @@
+// Waiting for fix!
+
+// @include test-module("prefixer-content") {
+  // Testing prefixer functions
+  // @include test("Check if prefixer-content mixin perfix correct.") {
+    // @include assert("Outputs a animation for webkit moz ms o and without a prefix") {
+    //   @include input {
+    //     @include prefixer-content(keyframes identifier, webkit ms spec) {
+    //       0% { top: 0; left: 0; }
+    //       30% { top: 50px; }
+    //       68%, 72% { left: 50px; }
+    //       100% { top: 100px; left: 100%; }
+    //     }
+    //   }
+
+    //   @include expect {
+    //     -webkit-keyframes identifier {
+    //       0% { top: 0; left: 0; }
+    //       30% { top: 50px; }
+    //       68%, 72% { left: 50px; }
+    //       100% { top: 100px; left: 100%; }
+    //     }
+    //     -moz-keyframes identifier {
+    //       0% { top: 0; left: 0; }
+    //       30% { top: 50px; }
+    //       68%, 72% { left: 50px; }
+    //       100% { top: 100px; left: 100%; }
+    //     }
+    //     keyframes identifier {
+    //       0% { top: 0; left: 0; }
+    //       30% { top: 50px; }
+    //       68%, 72% { left: 50px; }
+    //       100% { top: 100px; left: 100%; }
+    //     }
+    //   }
+    // }
+  // }
+
+  // @include test("Check if prefixer-content mixin dont perfix.") {
+  //   @include assert("Outputs emptiness prefix.") {
+  //     @include input {
+  //       @include disable-prefixes();
+  //       @include prefixer-content(animation, example 5s linear 2s infinite alternate, webkit moz ms o spec);
+  //     }
+
+  //     @include expect {
+  //       animation: example 5s linear 2s infinite alternate;
+  //     }
+  //   }
+  // }
+// }

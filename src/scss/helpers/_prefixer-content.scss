@@ -8,7 +8,7 @@
 /// @param {List} $prefixes
 ///   Prefixes to define
 ///
-/// @param {String} $at
+/// @param {String} $pseudo
 ///
 /// @example scss - Usage
 ///   .element {
@@ -21,38 +21,54 @@
 ///   }
 ///
 /// @example css - CSS Output
-///   .element {
-///     @-webkit-keyframes identifier {
-///       0% { top: 0; left: 0; }
-///       30% { top: 50px; }
-///       68%, 72% { left: 50px; }
-///       100% { top: 100px; left: 100%; }
-///     }
-///     @-moz-keyframes identifier {
-///       0% { top: 0; left: 0; }
-///       30% { top: 50px; }
-///       68%, 72% { left: 50px; }
-///       100% { top: 100px; left: 100%; }
-///     }
-///     @keyframes identifier {
-///       0% { top: 0; left: 0; }
-///       30% { top: 50px; }
-///       68%, 72% { left: 50px; }
-///       100% { top: 100px; left: 100%; }
-///     }
+///   @-webkit-keyframes identifier {
+///     0% { top: 0; left: 0; }
+///     30% { top: 50px; }
+///     68%, 72% { left: 50px; }
+///     100% { top: 100px; left: 100%; }
 ///   }
-@mixin prefixer-content($property, $prefixes: (), $at: "") {
-  @each $prefix in $prefixes {
-    @if $prefix != spec and config-get("i-prefix.#{$prefix}") {
-      #{$at + "-" + $prefix + "-" + $property} {
-        @content;
-      }
-    }
+///   @-moz-keyframes identifier {
+///     0% { top: 0; left: 0; }
+///     30% { top: 50px; }
+///     68%, 72% { left: 50px; }
+///     100% { top: 100px; left: 100%; }
+///   }
+///   @keyframes identifier {
+///     0% { top: 0; left: 0; }
+///     30% { top: 50px; }
+///     68%, 72% { left: 50px; }
+///     100% { top: 100px; left: 100%; }
+///   }
+// @mixin prefixer-content($property, $prefixes, $pseudo: "") {
+//   @each $prefix in $prefixes {
+//     $pseudo: check-ms-content-prefix($prefix, $pseudo);
 
-    @if $prefix == spec and config-get("i-prefix.spec") {
-      #{$at+$property} {
-        @content;
-      }
-    }
-  }
-}
+//     @if $prefix != spec and config-get("i-prefix.#{$prefix}") {
+//       #{$pseudo}-#{$prefix}-#{$property} {
+//         @content;
+//       }
+//     } @else if $prefix == spec {
+//       #{$pseudo}#{$property} {
+//         @content;
+//       }
+//     }
+//   }
+// }
+
+/// Fix for ie pseudo.
+///
+/// @param {String} $prefix
+/// @param {String} $pseudo
+///
+/// @access private
+// @function check-ms-content-prefix($prefix, $pseudo) {
+//   @if $prefix == "ms" {
+//     @if $pseudo == "&::" {
+//       $pseudo: "&:";
+//     } @else if $pseudo == "::" {
+//       $pseudo: ":";
+//     }
+//   }
+
+//   @return $pseudo;
+// }

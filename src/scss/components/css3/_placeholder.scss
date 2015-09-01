@@ -6,19 +6,19 @@
 /// @link css-tricks http://css-tricks.com/snippets/css/style-placeholder-text/
 ///
 /// @example scss - Usage
-///   .selector {
-///     @include x-placeholder {
+///   .placeholder {
+///     @include placeholder {
 ///         color: #bada55;
 ///         font-weight: bold;
 ///     }
 ///   }
 /// @example css - CSS Output
-///  &::-webkit-input-placeholder {
+///  .placeholder::-webkit-input-placeholder {
 ///      <content property 1>: <content value 1>;
 ///      ...
 ///      <content property n>: <content value n>;
 ///  }
-///  &::-moz-placeholder {
+///  .placeholder::-moz-placeholder {
 ///      <content property 1>: <content value 1>;
 ///      ...
 ///      <content property n>: <content value n>;
@@ -29,15 +29,11 @@
 ///      <content property n>: <content value n>;
 ///  }
 @mixin placeholder {
-  &::-webkit-input-placeholder {
+  @include prefixer(input-placeholder, webkit ms, "&::") {
     @content
   }
 
-  &::-moz-placeholder {
-    @content
-  }
-
-  &:-ms-input-placeholder {
+  @include prefixer(placeholder, moz, "&::") {
     @content
   }
 }
