@@ -3,7 +3,7 @@
 /// Attribute Modules for CSS
 ///
 /// @param {String} $module
-/// @param {String} $trait
+/// @param {String | Null} $trait [null]
 ///
 /// @link http://amcss.github.io/
 ///
@@ -21,25 +21,26 @@
 ///    }
 ///
 /// @example css - CSS Output
-///  [am-module] {
+///  [ui-module] {
 ///    color: red;
 ///  }
 ///
-///  [am-module~="blue"] {
+///  [ui-module~="blue"] {
 ///    color: blue;
 ///  }
 ///
-///  [am-module~="large"] {
+///  [ui-module~="large"] {
 ///    font-size: 2em;
 ///  }
 @mixin am($module, $trait: null) {
+  $prefix: config-get("i-am-prefix");
+
   @if $trait != null {
-    [am-#{$module}~="#{$trait}"]{
+    [#{$prefix}-#{$module}~="#{$trait}"] {
       @content;
     }
-  }
-  @else {
-    [am-#{$module}]{
+  } @else {
+    [#{$prefix + "-" + $module}] {
       @content;
     }
   }

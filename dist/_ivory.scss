@@ -25,6 +25,9 @@ $media-expressions: ();
 /// Global variable for em.
 @include config-set("base-em", 16px, true);
 
+/// Components Settings
+@include config-set("am-prefix", "ui", true);
+
 @include config-set("background-clip", "padding-box", true);
 @include config-set("background-origin", "content-box", true);
 @include config-set("background-size", 100% auto, true);
@@ -32,14 +35,12 @@ $media-expressions: ();
 @include config-set("border-radius", rem(5), true);
 @include config-set("border-opacity", "padding-box", true);
 
-
 @include config-set("box-shadow-inset", null, true);
 @include config-set("box-shadow-h-offset", 0, true);
 @include config-set("box-shadow-v-offset", 0, true);
 @include config-set("box-shadow-blur", 5px, true);
 @include config-set("box-shadow-spread", null, true);
 @include config-set("box-shadow-color", $gray20, true);
-
 
 /// Global variables to enable or disable vendor prefixes.
 @include config-set("prefix.webkit", true, true);
@@ -98,16 +99,6 @@ $media-expressions: ();
   @return $-local-lightness > 0.6;
 }
 
-/// Function checking if $value is a valid length
-///
-/// @param {mixed} $value: value to test
-///
-/// @return {bool}
-@function is-valid-length($value) {
-  @return (type-of($value) == "number" and not unitless($value))
-       or (index(auto initial inherit 0, $value) != false);
-}
-
 /// Strips the unit from a number.
 ///
 /// @param {Number (With Unit)} $value
@@ -150,10 +141,10 @@ $media-expressions: ();
 
 /// Checks if a list contains a value(s).
 ///
-/// @param {List} $list
+/// @param {ArgList} $list
 ///   The list to check against.
 ///
-/// @param {List} $values
+/// @param {ArgList} $values
 ///   A single value or list of values to check for.
 ///
 /// @example scss - Usage
@@ -176,7 +167,7 @@ $media-expressions: ();
 }
 
 /// Find Opposite Direction
-@function grider-opposite-direction($dir) {
+@function opposite-direction($dir) {
   @if $dir == "left" {
     @return right;
   } @else if  $dir == "right" {
@@ -196,7 +187,7 @@ $media-expressions: ();
 }
 
 /// Find Direction Name
-@function grider-named-direction($dir) {
+@function named-direction($dir) {
   @if $dir == "LTR" {
     @return left;
   } @else if $dir == "RTL" {
@@ -210,6 +201,8 @@ $media-expressions: ();
 
 /// Test if `$value` is an angle
 ///
+/// @author Hugo Giraudel
+///
 /// @param {*} $value - Value to test
 ///
 /// @return {Bool}
@@ -221,6 +214,8 @@ $media-expressions: ();
 }
 
 /// Convert a direction to legacy syntax
+///
+/// @author Hugo Giraudel
 ///
 /// @param {Keyword | Angle} $value - Value to convert
 ///
@@ -253,11 +248,11 @@ $media-expressions: ();
   @return 90deg - convert-angle($value, "deg");
 }
 
-///
+/// TODO
 ///
 /// @param {Number} $val
-/// @param {String} $unit
-/// @param {Number} $unit
+/// @param {String} $unit [rem]
+/// @param {Number} $base [config-get('i-base-em')]
 @function fallback-to-px($val, $unit: rem, $base: config-get("i-base-em")) {
   @if not unitless($val) {
     $val: strip-units($val);
@@ -290,6 +285,23 @@ $media-expressions: ();
   @return false;
 }
 
+/// In functions/_import-once.scss
+$imported-modules: () !global;
+
+/// Import all modules onces.
+///
+/// @param {String} $module
+///
+/// @return {Bool}
+@function import-once($module) {
+  @if index($imported-modules, $module) {
+    @return false;
+  }
+
+  $imported-once-files: append($imported-modules, $module) !global;
+  @return true;
+}
+
 /// Checks for a valid number.
 ///
 /// @access private
@@ -299,6 +311,16 @@ $media-expressions: ();
 /// @require {function} contains
 @function is-number($value) {
   @return contains("0" "1" "2" "3" "4" "5" "6" "7" "8" "9" 0 1 2 3 4 5 6 7 8 9, $value);
+}
+
+/// Function checking if $value is a valid length
+///
+/// @param {*} $value - Value to test
+///
+/// @return {Bool}
+@function is-valid-length($value) {
+  @return (type-of($value) == "number" and not unitless($value))
+       or (index(auto initial inherit 0, $value) != null);
 }
 
 /// Returns the legacy value for a given box-model
@@ -329,11 +351,10 @@ $media-expressions: ();
 /// @param {String} $property
 ///   Property to prefix
 ///
-/// @param {*} $value
-///   Value to use
-///
 /// @param {List} $prefixes
 ///   Prefixes to define
+///
+/// @param {String} $at
 ///
 /// @example scss - Usage
 ///   .element {
@@ -428,7 +449,7 @@ $media-expressions: ();
 /// Attribute Modules for CSS
 ///
 /// @param {String} $module
-/// @param {String} $trait
+/// @param {String | Null} $trait [null]
 ///
 /// @link http://amcss.github.io/
 ///
@@ -446,25 +467,26 @@ $media-expressions: ();
 ///    }
 ///
 /// @example css - CSS Output
-///  [am-module] {
+///  [ui-module] {
 ///    color: red;
 ///  }
 ///
-///  [am-module~="blue"] {
+///  [ui-module~="blue"] {
 ///    color: blue;
 ///  }
 ///
-///  [am-module~="large"] {
+///  [ui-module~="large"] {
 ///    font-size: 2em;
 ///  }
 @mixin am($module, $trait: null) {
+  $prefix: config-get("i-am-prefix");
+
   @if $trait != null {
-    [am-#{$module}~="#{$trait}"]{
+    [#{$prefix}-#{$module}~="#{$trait}"] {
       @content;
     }
-  }
-  @else {
-    [am-#{$module}]{
+  } @else {
+    [#{$prefix + "-" + $module}] {
       @content;
     }
   }
@@ -472,9 +494,9 @@ $media-expressions: ();
 
 /// A simple shortcode for border.
 ///
-/// @param {Color (Hex)} $color
-/// @param {Number}      $width
-/// @param {String}      $style
+/// @param {Color} $color [config-get('i-border-color')]
+/// @param {Length} $width [config-get('i-border-width')]
+/// @param {String} $style [config-get('i-border-style')]
 ///
 /// @example scss - Usage
 ///   .example-basic-border {
@@ -520,7 +542,7 @@ $media-expressions: ();
     border-width: $width;
     border-style: $style;
     border-color: $color;
-  } @else if length($border-style) > 1 {
+  } @else if length($style) > 1 {
     border-width: $width;
     border-style: $style;
     border-color: $color;
@@ -598,16 +620,16 @@ $media-expressions: ();
 /// light or dark color of your choosing based on the
 /// lightness of another color.
 ///
-/// @param {Color (Hex)} $background-color
-/// @param {Color (Hex)} $light-color
-/// @param {Color (Hex)} $dark-color
+/// @param {Color} $background-color
+/// @param {Color} $light-color [config-get('contrasting-color-light')]
+/// @param {Color} $dark-color [config-get('contrasting-color-dark')]
 ///
-/// @return {Color (Hex)}
+/// @return {Color}
 @function contrasting-color($background-color, $light-color: config-get("contrasting-color-light"), $dark-color: config-get("contrasting-color-dark")) {
   @if is-light($background-color) {
-    @return $light-color;
-  } @else {
     @return $dark-color;
+  } @else {
+    @return $light-color;
   }
 }
 
@@ -638,7 +660,7 @@ $media-expressions: ();
 /// @access public
 ///
 /// @param {Length} $size - Font size
-/// @param {String} $unit
+/// @param {String} $unit [rem]
 ///
 /// @example scss - Usage
 ///   .foo {
@@ -660,13 +682,13 @@ $media-expressions: ();
 
 /// Retina Images
 ///
-/// @param {String)} $image
-/// @param {String)} $type
-/// @param {Number)} $size
+/// @param {String} $image
+/// @param {String} $type
+/// @param {Number} $size [100%]
 ///
 /// @example scss - Usage
 ///   .my-class {
-///     @include image-2x("logo.png", "png", 100px 25px);
+///     @include image-2x("logo", "png", 100px 25px);
 ///   }
 ///
 /// @example css - CSS Output
@@ -700,7 +722,7 @@ $media-expressions: ();
 /// @access public
 ///
 /// @param {Number} $height-value [12] - Height value
-/// @param {String} $unit
+/// @param {String} $unit [rem]
 ///
 /// @example scss - Usage
 ///   .foo {
@@ -1377,8 +1399,10 @@ $media-expressions: ();
 }
 
 /// Adds keyframes blocks for supported prefixes, removing redundant prefixes in the block"s content
+///
+/// @param {String} $animation-name - animation name
 @mixin keyframe ($animation-name) {
-  @include prefixer-content("keyframes #{$animation-name}", webkit moz ms o spec) {
+  @include prefixer-content("keyframes #{$animation-name}", webkit moz ms o spec, "@") {
     @content;
   }
 }

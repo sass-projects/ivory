@@ -35,6 +35,8 @@
 
 /// Test if `$value` is an angle
 ///
+/// @author Hugo Giraudel
+///
 /// @param {*} $value - Value to test
 ///
 /// @return {Bool}
@@ -46,6 +48,8 @@
 }
 
 /// Convert a direction to legacy syntax
+///
+/// @author Hugo Giraudel
 ///
 /// @param {Keyword | Angle} $value - Value to convert
 ///

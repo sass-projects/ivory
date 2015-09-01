@@ -2,13 +2,13 @@
 
 /// Retina Images
 ///
-/// @param {String)} $image
-/// @param {String)} $type
-/// @param {Number)} $size
+/// @param {String} $image
+/// @param {String} $type
+/// @param {Number} $size [100%]
 ///
 /// @example scss - Usage
 ///   .my-class {
-///     @include image-2x("logo.png", "png", 100px 25px);
+///     @include image-2x("logo", "png", 100px 25px);
 ///   }
 ///
 /// @example css - CSS Output

@@ -2,10 +2,10 @@
 
 /// Function checking if $value is a valid length
 ///
-/// @param {mixed} $value: value to test
+/// @param {*} $value - Value to test
 ///
-/// @return {bool}
+/// @return {Bool}
 @function is-valid-length($value) {
   @return (type-of($value) == "number" and not unitless($value))
-       or (index(auto initial inherit 0, $value) != false);
+       or (index(auto initial inherit 0, $value) != null);
 }

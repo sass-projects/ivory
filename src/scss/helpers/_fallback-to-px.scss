@@ -1,10 +1,10 @@
 @charset "UTF-8";
 
-///
+/// TODO
 ///
 /// @param {Number} $val
-/// @param {String} $unit
-/// @param {Number} $unit
+/// @param {String} $unit [rem]
+/// @param {Number} $base [config-get('i-base-em')]
 @function fallback-to-px($val, $unit: rem, $base: config-get("i-base-em")) {
   @if not unitless($val) {
     $val: strip-units($val);

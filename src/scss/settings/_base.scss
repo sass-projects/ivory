@@ -16,6 +16,9 @@ $media-expressions: ();
 /// Global variable for em.
 @include config-set("base-em", 16px, true);
 
+/// Components Settings
+@include config-set("am-prefix", "ui", true);
+
 @include config-set("background-clip", "padding-box", true);
 @include config-set("background-origin", "content-box", true);
 @include config-set("background-size", 100% auto, true);
@@ -23,11 +26,9 @@ $media-expressions: ();
 @include config-set("border-radius", rem(5), true);
 @include config-set("border-opacity", "padding-box", true);
 
-
 @include config-set("box-shadow-inset", null, true);
 @include config-set("box-shadow-h-offset", 0, true);
 @include config-set("box-shadow-v-offset", 0, true);
 @include config-set("box-shadow-blur", 5px, true);
 @include config-set("box-shadow-spread", null, true);
 @include config-set("box-shadow-color", $gray20, true);
-

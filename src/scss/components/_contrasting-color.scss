@@ -4,15 +4,15 @@
 /// light or dark color of your choosing based on the
 /// lightness of another color.
 ///
-/// @param {Color (Hex)} $background-color
-/// @param {Color (Hex)} $light-color
-/// @param {Color (Hex)} $dark-color
+/// @param {Color} $background-color
+/// @param {Color} $light-color [config-get('contrasting-color-light')]
+/// @param {Color} $dark-color [config-get('contrasting-color-dark')]
 ///
-/// @return {Color (Hex)}
+/// @return {Color}
 @function contrasting-color($background-color, $light-color: config-get("contrasting-color-light"), $dark-color: config-get("contrasting-color-dark")) {
   @if is-light($background-color) {
-    @return $light-color;
-  } @else {
     @return $dark-color;
+  } @else {
+    @return $light-color;
   }
 }
