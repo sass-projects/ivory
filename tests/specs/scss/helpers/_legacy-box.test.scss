@@ -4,13 +4,13 @@
     @include assert("Outputs padding if we use padding-box") {
       @include input {
         .box-padding {
-          box-sizing: legacy-box(padding-box)
+          box-sizing: legacy-box(padding-box);
         }
       }
 
       @include expect {
         .box-padding {
-          box-sizing: padding
+          box-sizing: padding;
         }
       }
     }
@@ -20,13 +20,13 @@
     @include assert("Outputs border if we use border-box") {
       @include input {
         .box-border {
-          box-sizing: legacy-box(border-box)
+          box-sizing: legacy-box(border-box);
         }
       }
 
       @include expect {
         .box-border {
-          box-sizing: border
+          box-sizing: border;
         }
       }
     }
@@ -36,13 +36,13 @@
     @include assert("Outputs content if we use content-box") {
       @include input {
         .box-content {
-          box-sizing: legacy-box(content-box)
+          box-sizing: legacy-box(content-box);
         }
       }
 
       @include expect {
         .box-content {
-          box-sizing: content
+          box-sizing: content;
         }
       }
     }
