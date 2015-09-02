@@ -1,7 +1,4 @@
 sudo: false
-cache:
-  directories:
-    - bundler
 
 language: node_js
 
@@ -14,8 +11,6 @@ script:
 
 before_install:
   - npm install -g grunt-cli bower
-  - gem install bundler
-  - bundle install
 
 before_script:
   - npm install

@@ -1,0 +1,50 @@
+@include test-module("legacy-box") {
+  // Testing prefixer functions
+  @include test("Check if legacy-box works correct.") {
+    @include assert("Outputs padding if we use padding-box") {
+      @include input {
+        .box-padding {
+          box-sizing: legacy-box(padding-box)
+        }
+      }
+
+      @include expect {
+        .box-padding {
+          box-sizing: padding
+        }
+      }
+    }
+  }
+
+  @include test("Check if legacy-box works correct.") {
+    @include assert("Outputs border if we use border-box") {
+      @include input {
+        .box-border {
+          box-sizing: legacy-box(border-box)
+        }
+      }
+
+      @include expect {
+        .box-border {
+          box-sizing: border
+        }
+      }
+    }
+  }
+
+  @include test("Check if legacy-box works correct.") {
+    @include assert("Outputs content if we use content-box") {
+      @include input {
+        .box-content {
+          box-sizing: legacy-box(content-box)
+        }
+      }
+
+      @include expect {
+        .box-content {
+          box-sizing: content
+        }
+      }
+    }
+  }
+}

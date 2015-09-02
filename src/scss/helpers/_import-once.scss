@@ -3,16 +3,21 @@
 /// In functions/_import-once.scss
 $imported-modules: () !global;
 
-/// Import all modules onces.
+/// This function helps making sure a module is imported once and only once.
 ///
-/// @param {String} $module
+/// @access public
+///
+/// @param {String} $module - Name of exported module
 ///
 /// @return {Bool}
+///
+/// @require $imported-modules
 @function import-once($module) {
   @if index($imported-modules, $module) {
+    @warn "Module `#{$module}` has already been imported.";
     @return false;
   }
 
-  $imported-once-files: append($imported-modules, $module) !global;
+  $imported-modules: append($imported-modules, $module) !global;
   @return true;
 }

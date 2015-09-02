@@ -8,7 +8,8 @@
   "description": "A simple mixin library for Sass.",
   "moduleType": [
     "amd",
-    "node"
+    "node",
+    "sass",
   ],
   "keywords": [
     "grunt",
@@ -25,7 +26,8 @@
     "sass",
     "scss",
     "sass-config-manager",
-    "growcss"
+    "growcss",
+    "ivory"
   ],
   "license": "MIT",
   "ignore": [

@@ -1,0 +1,30 @@
+@include test-module("is-valid-length") {
+  // Testing prefixer functions
+  @include test("Outputs true if number has a valid length.") {
+    @include assert("Outputs true.") {
+      @include input {
+        @if is-valid-length(100px) {
+          width: 100%;
+        }
+      }
+
+      @include expect {
+        width: 100%;
+      }
+    }
+  }
+
+  @include test("Outputs false if number has not a valid length.") {
+    @include assert("Outputs false.") {
+      @include input {
+        @if not is-valid-length(100) {
+          width: 0;
+        }
+      }
+
+      @include expect {
+        width: 0;
+      }
+    }
+  }
+}

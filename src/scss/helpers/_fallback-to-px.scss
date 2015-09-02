@@ -1,13 +1,20 @@
 @charset "UTF-8";
 
-/// TODO
+/// Convert pixel units to rem|em units with a px fallback.
+///
+/// @access private
 ///
 /// @param {Number} $val
-/// @param {String} $unit [rem]
 /// @param {Number} $base [config-get('i-base-em')]
-@function fallback-to-px($val, $unit: rem, $base: config-get("i-base-em")) {
-  @if not unitless($val) {
-    $val: strip-units($val);
+@function fallback-to-px($val, $base: config-get("i-base-em")) {
+  @if type-of($val) != "string" {
+    @if not unitless($val) {
+      $val: strip-units($val);
+    }
+  }
+
+  @if not unitless($base) {
+    $base: strip-units($base);
   }
 
   $output: ();
@@ -21,11 +28,7 @@
     @if $val == 0 {
       $output: join(0, 0);
     } @else if $val {
-      @if not unitless($base) {
-        $base: strip-units($base);
-      }
-
-      $output: join(($val / $base) * 1 + $unit, $val + $unit);
+      $output: join(($val / $base) * 1, $val + "px");
     } @else {
       $output: join($val, $val);
     }

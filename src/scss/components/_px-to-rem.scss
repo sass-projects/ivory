@@ -24,10 +24,10 @@
 
   @each $val in $vals {
     $calcs: fallback-to-px($val, rem, $base);
-    $px-list: append($px-list, nth($calcs, 1));
-    $rem-list: append($rem-list, nth($calcs, 2));
+    $px-list: append($px-list, nth($calcs, 2));
+    $rem-list: append($rem-list, nth($calcs, 1));
   }
 
-  #{$prop}: $px-list;
-  #{$prop}: $rem-list;
+  #{$prop}: $px-list + "px";
+  #{$prop}: $rem-list + "rem";
 }

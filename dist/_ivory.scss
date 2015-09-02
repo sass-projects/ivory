@@ -47,7 +47,6 @@ $media-expressions: ();
 @include config-set("prefix.moz", true, true);
 @include config-set("prefix.ms", true, true);
 @include config-set("prefix.o", true, true);
-@include config-set("prefix.spec", true, true);
 
 /// Remove all non-true value of a list.
 @function compact($list...) {
@@ -248,14 +247,21 @@ $media-expressions: ();
   @return 90deg - convert-angle($value, "deg");
 }
 
-/// TODO
+/// Convert pixel units to rem|em units with a px fallback.
+///
+/// @access private
 ///
 /// @param {Number} $val
-/// @param {String} $unit [rem]
 /// @param {Number} $base [config-get('i-base-em')]
-@function fallback-to-px($val, $unit: rem, $base: config-get("i-base-em")) {
-  @if not unitless($val) {
-    $val: strip-units($val);
+@function fallback-to-px($val, $base: config-get("i-base-em")) {
+  @if type-of($val) != "string" {
+    @if not unitless($val) {
+      $val: strip-units($val);
+    }
+  }
+
+  @if not unitless($base) {
+    $base: strip-units($base);
   }
 
   $output: ();
@@ -269,11 +275,7 @@ $media-expressions: ();
     @if $val == 0 {
       $output: join(0, 0);
     } @else if $val {
-      @if not unitless($base) {
-        $base: strip-units($base);
-      }
-
-      $output: join(($val / $base) * 1 + $unit, $val + $unit);
+      $output: join(($val / $base) * 1, $val + "px");
     } @else {
       $output: join($val, $val);
     }
@@ -288,32 +290,28 @@ $media-expressions: ();
 /// In functions/_import-once.scss
 $imported-modules: () !global;
 
-/// Import all modules onces.
+/// This function helps making sure a module is imported once and only once.
 ///
-/// @param {String} $module
+/// @access public
+///
+/// @param {String} $module - Name of exported module
 ///
 /// @return {Bool}
+///
+/// @require $imported-modules
 @function import-once($module) {
   @if index($imported-modules, $module) {
+    @warn "Module `#{$module}` has already been imported.";
     @return false;
   }
 
-  $imported-once-files: append($imported-modules, $module) !global;
+  $imported-modules: append($imported-modules, $module) !global;
   @return true;
 }
 
-/// Checks for a valid number.
+/// Function checking if $value is a valid length
 ///
 /// @access private
-///
-/// @param {Number} $value
-///
-/// @require {function} contains
-@function is-number($value) {
-  @return contains("0" "1" "2" "3" "4" "5" "6" "7" "8" "9" 0 1 2 3 4 5 6 7 8 9, $value);
-}
-
-/// Function checking if $value is a valid length
 ///
 /// @param {*} $value - Value to test
 ///
@@ -328,6 +326,32 @@ $imported-modules: () !global;
 /// @access private
 ///
 /// @param {String} $box
+///
+/// @example scss - Usage
+///   .box-padding {
+///     box-sizing: legacy-box(padding-box)
+///   }
+///
+///   .box-border {
+///     box-sizing: legacy-box(border-box)
+///   }
+///
+///   .box-content {
+///     box-sizing: legacy-box(content-box)
+///   }
+///
+/// @example css - CSS Output
+///   .box-padding {
+///     box-sizing: padding
+///   }
+///
+///   .box-border {
+///     box-sizing: border
+///   }
+///
+///   .box-content {
+///     box-sizing: content
+///   }
 @function legacy-box($box) {
   $box: unquote($box);
 
@@ -354,54 +378,75 @@ $imported-modules: () !global;
 /// @param {List} $prefixes
 ///   Prefixes to define
 ///
-/// @param {String} $at
+/// @param {String} $pseudo
 ///
 /// @example scss - Usage
-///   .element {
-///     @include prefixer(keyframes identifier, webkit ms spec, @) {
-///       0% { top: 0; left: 0; }
-///       30% { top: 50px; }
-///       68%, 72% { left: 50px; }
-///       100% { top: 100px; left: 100%; }
-///     }
+///   @include prefixer(keyframes identifier, webkit ms spec, @) {
+///     0% { top: 0; left: 0; }
+///     30% { top: 50px; }
+///     68%, 72% { left: 50px; }
+///     100% { top: 100px; left: 100%; }
 ///   }
 ///
 /// @example css - CSS Output
-///   .element {
-///     @-webkit-keyframes identifier {
-///       0% { top: 0; left: 0; }
-///       30% { top: 50px; }
-///       68%, 72% { left: 50px; }
-///       100% { top: 100px; left: 100%; }
-///     }
-///     @-moz-keyframes identifier {
-///       0% { top: 0; left: 0; }
-///       30% { top: 50px; }
-///       68%, 72% { left: 50px; }
-///       100% { top: 100px; left: 100%; }
-///     }
-///     @keyframes identifier {
-///       0% { top: 0; left: 0; }
-///       30% { top: 50px; }
-///       68%, 72% { left: 50px; }
-///       100% { top: 100px; left: 100%; }
-///     }
+///   @-webkit-keyframes identifier {
+///     0% { top: 0; left: 0; }
+///     30% { top: 50px; }
+///     68%, 72% { left: 50px; }
+///     100% { top: 100px; left: 100%; }
 ///   }
-@mixin prefixer-content($property, $prefixes: (), $at: "") {
+///   @-moz-keyframes identifier {
+///     0% { top: 0; left: 0; }
+///     30% { top: 50px; }
+///     68%, 72% { left: 50px; }
+///     100% { top: 100px; left: 100%; }
+///   }
+///   @keyframes identifier {
+///     0% { top: 0; left: 0; }
+///     30% { top: 50px; }
+///     68%, 72% { left: 50px; }
+///     100% { top: 100px; left: 100%; }
+///   }
+@mixin prefixer-content($property, $prefixes, $pseudo: "") {
   @each $prefix in $prefixes {
-    @if $prefix != spec and config-get("i-prefix.#{$prefix}") {
-      #{$at + "-" + $prefix + "-" + $property} {
-        @content;
-      }
-    }
+    $pseudo: check-ms-content-prefix($prefix, $pseudo);
 
-    @if $prefix == spec and config-get("i-prefix.spec") {
-      #{$at+$property} {
+    @if $prefix != spec and config-get("i-prefix.#{$prefix}") {
+      @if $pseudo == "@" {
+        #{$pseudo}-#{$prefix}-#{$property} {
+          @content;
+        }
+      } @else {
+        #{$pseudo + $prefix}-#{$property} {
+          @content;
+        }
+      }
+    } @else if $prefix == spec {
+      #{$pseudo}#{$property} {
         @content;
       }
     }
   }
 }
+
+/// Fix for ie pseudo.
+///
+/// @param {String} $prefix
+/// @param {String} $pseudo
+///
+/// @access private
+@function check-ms-content-prefix($prefix, $pseudo) {
+  @if $prefix == "ms" {
+    @if $pseudo == "&::" {
+      $pseudo: "&:";
+    } @else if $pseudo == "::" {
+      $pseudo: ":";
+    }
+  }
+
+  @return $pseudo;
+}
+
 
 /// A mixin for generating vendor prefixes on non-standardized properties.
 ///
@@ -429,9 +474,7 @@ $imported-modules: () !global;
   @each $prefix in $prefixes {
     @if $prefix != spec and config-get("i-prefix.#{$prefix}") {
       #{"-" + $prefix + "-" + $property}: $value;
-    }
-
-    @if $prefix == spec and config-get("i-prefix.spec") {
+    } @else if $prefix == spec {
       #{$property}: $value;
     }
   }
@@ -439,11 +482,10 @@ $imported-modules: () !global;
 
 /// Disable all prefixes.
 @mixin disable-prefixes() {
-  @include config-set("prefix.webkit", false, true);
-  @include config-set("prefix.moz", false, true);
-  @include config-set("prefix.ms", false, true);
-  @include config-set("prefix.o", false, true);
-  @include config-set("prefix.spec", false, true);
+  @include config-set("prefix.webkit", false);
+  @include config-set("prefix.moz", false);
+  @include config-set("prefix.ms", false);
+  @include config-set("prefix.o", false);
 }
 
 /// Attribute Modules for CSS
@@ -576,6 +618,8 @@ $imported-modules: () !global;
   margin-right: auto;
 }
 
+/// scss-lint:disable PropertySpelling
+///
 /// Micro Clearfix by Nicolas Gallagher.
 ///
 /// @link http://nicolasgallagher.com/micro-clearfix-hack/
@@ -879,12 +923,12 @@ $imported-modules: () !global;
 
   @each $val in $vals {
     $calcs: fallback-to-px($val, em, $base);
-    $px-list: append($px-list, nth($calcs, 1));
-    $em-list: append($em-list, nth($calcs, 2));
+    $px-list: append($px-list, nth($calcs, 2));
+    $em-list: append($em-list, nth($calcs, 1));
   }
 
-  #{$prop}: $px-list;
-  #{$prop}: $em-list;
+  #{$prop}: $px-list + "em";
+  #{$prop}: $em-list + "px";
 }
 
 /// Convert pixels to rems
@@ -911,12 +955,12 @@ $imported-modules: () !global;
 
   @each $val in $vals {
     $calcs: fallback-to-px($val, rem, $base);
-    $px-list: append($px-list, nth($calcs, 1));
-    $rem-list: append($rem-list, nth($calcs, 2));
+    $px-list: append($px-list, nth($calcs, 2));
+    $rem-list: append($rem-list, nth($calcs, 1));
   }
 
-  #{$prop}: $px-list;
-  #{$prop}: $rem-list;
+  #{$prop}: $px-list + "px";
+  #{$prop}: $rem-list + "rem";
 }
 
 /// Each of these mixins support comma separated lists of values, which allows different transitions for individual properties to be described in a single style rule.
@@ -1313,6 +1357,8 @@ $imported-modules: () !global;
   }
 }
 
+/// scss-lint:disable VendorPrefix
+///
 /// Method of allowing calculated values for length units.
 ///
 /// @param {String} $prop
@@ -1407,6 +1453,8 @@ $imported-modules: () !global;
   }
 }
 
+/// scss-lint:disable VendorPrefix
+///
 /// Mixin printing a linear-gradient
 /// as well as a plain color fallback
 /// and the `-webkit-` prefixed declaration
@@ -1454,19 +1502,19 @@ $imported-modules: () !global;
 /// @link css-tricks http://css-tricks.com/snippets/css/style-placeholder-text/
 ///
 /// @example scss - Usage
-///   .selector {
-///     @include x-placeholder {
+///   .placeholder {
+///     @include placeholder {
 ///         color: #bada55;
 ///         font-weight: bold;
 ///     }
 ///   }
 /// @example css - CSS Output
-///  &::-webkit-input-placeholder {
+///  .placeholder::-webkit-input-placeholder {
 ///      <content property 1>: <content value 1>;
 ///      ...
 ///      <content property n>: <content value n>;
 ///  }
-///  &::-moz-placeholder {
+///  .placeholder::-moz-placeholder {
 ///      <content property 1>: <content value 1>;
 ///      ...
 ///      <content property n>: <content value n>;
@@ -1477,15 +1525,11 @@ $imported-modules: () !global;
 ///      <content property n>: <content value n>;
 ///  }
 @mixin placeholder {
-  &::-webkit-input-placeholder {
+  @include prefixer(input-placeholder, webkit ms, "&::") {
     @content
   }
 
-  &::-moz-placeholder {
-    @content
-  }
-
-  &:-ms-input-placeholder {
+  @include prefixer(placeholder, moz, "&::") {
     @content
   }
 }

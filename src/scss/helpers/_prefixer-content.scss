@@ -11,13 +11,11 @@
 /// @param {String} $pseudo
 ///
 /// @example scss - Usage
-///   .element {
-///     @include prefixer(keyframes identifier, webkit ms spec, @) {
-///       0% { top: 0; left: 0; }
-///       30% { top: 50px; }
-///       68%, 72% { left: 50px; }
-///       100% { top: 100px; left: 100%; }
-///     }
+///   @include prefixer(keyframes identifier, webkit ms spec, @) {
+///     0% { top: 0; left: 0; }
+///     30% { top: 50px; }
+///     68%, 72% { left: 50px; }
+///     100% { top: 100px; left: 100%; }
 ///   }
 ///
 /// @example css - CSS Output
@@ -39,21 +37,27 @@
 ///     68%, 72% { left: 50px; }
 ///     100% { top: 100px; left: 100%; }
 ///   }
-// @mixin prefixer-content($property, $prefixes, $pseudo: "") {
-//   @each $prefix in $prefixes {
-//     $pseudo: check-ms-content-prefix($prefix, $pseudo);
+@mixin prefixer-content($property, $prefixes, $pseudo: "") {
+  @each $prefix in $prefixes {
+    $pseudo: check-ms-content-prefix($prefix, $pseudo);
 
-//     @if $prefix != spec and config-get("i-prefix.#{$prefix}") {
-//       #{$pseudo}-#{$prefix}-#{$property} {
-//         @content;
-//       }
-//     } @else if $prefix == spec {
-//       #{$pseudo}#{$property} {
-//         @content;
-//       }
-//     }
-//   }
-// }
+    @if $prefix != spec and config-get("i-prefix.#{$prefix}") {
+      @if $pseudo == "@" {
+        #{$pseudo}-#{$prefix}-#{$property} {
+          @content;
+        }
+      } @else {
+        #{$pseudo + $prefix}-#{$property} {
+          @content;
+        }
+      }
+    } @else if $prefix == spec {
+      #{$pseudo}#{$property} {
+        @content;
+      }
+    }
+  }
+}
 
 /// Fix for ie pseudo.
 ///
@@ -61,14 +65,15 @@
 /// @param {String} $pseudo
 ///
 /// @access private
-// @function check-ms-content-prefix($prefix, $pseudo) {
-//   @if $prefix == "ms" {
-//     @if $pseudo == "&::" {
-//       $pseudo: "&:";
-//     } @else if $pseudo == "::" {
-//       $pseudo: ":";
-//     }
-//   }
+@function check-ms-content-prefix($prefix, $pseudo) {
+  @if $prefix == "ms" {
+    @if $pseudo == "&::" {
+      $pseudo: "&:";
+    } @else if $pseudo == "::" {
+      $pseudo: ":";
+    }
+  }
 
-//   @return $pseudo;
-// }
+  @return $pseudo;
+}
+
