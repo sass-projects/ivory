@@ -9,7 +9,7 @@
   "moduleType": [
     "amd",
     "node",
-    "sass",
+    "sass"
   ],
   "keywords": [
     "grunt",
