@@ -6,6 +6,8 @@
 ///
 /// @param {Number} $val
 /// @param {Number} $base [config-get('i-base-em')]
+///
+/// @require strip-units
 @function fallback-to-px($val, $base: config-get("i-base-em")) {
   @if type-of($val) != "string" {
     @if not unitless($val) {

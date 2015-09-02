@@ -1075,14 +1075,19 @@ $media-expressions: ();
 }
 
 /// Find Opposite Direction
+///
+/// @param {String} $dir
+///
+/// @return {String|Bool}
 @function opposite-direction($dir) {
+
   @if $dir == "left" {
     @return right;
   } @else if  $dir == "right" {
     @return left;
-  } @else if $dir == "LTR" {
+  } @else if $dir == "LTR" or $dir == "ltr" {
     @return rtl;
-  } @else if $dir == "RTL" {
+  } @else if $dir == "RTL" or $dir == "rtl" {
     @return ltr;
   } @else if $dir == "top" {
     @return bottom;
@@ -1095,10 +1100,14 @@ $media-expressions: ();
 }
 
 /// Find Direction Name
+///
+/// @param {String} $dir
+///
+/// @return {String|Bool}
 @function named-direction($dir) {
-  @if $dir == "LTR" {
+  @if $dir == "LTR" or $dir == "ltr" {
     @return left;
-  } @else if $dir == "RTL" {
+  } @else if $dir == "RTL" or $dir == "rtl" {
     @return right;
   } @else {
     @warn "#{$dir} is not a valid HTML direction! Make sure you are using a valid HTML direction";
@@ -1118,7 +1127,11 @@ $media-expressions: ();
   $is-direction: index((to top, to top right, to right top, to right, to bottom right, to right bottom, to bottom, to bottom left, to left bottom, to left, to left top, to top left), $value);
   $is-angle: type-of($value) == "number" and index("deg" "grad" "turn" "rad", unit($value));
 
-  @return $is-direction or $is-angle;
+  @if $is-direction or $is-angle {
+    @return true;
+  }
+
+  @return false;
 }
 
 /// Convert a direction to legacy syntax
@@ -1162,6 +1175,8 @@ $media-expressions: ();
 ///
 /// @param {Number} $val
 /// @param {Number} $base [config-get('i-base-em')]
+///
+/// @require strip-units
 @function fallback-to-px($val, $base: config-get("i-base-em")) {
   @if type-of($val) != "string" {
     @if not unitless($val) {
