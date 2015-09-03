@@ -60,6 +60,8 @@
     "sass",
     "scss",
     "sass-config-manager",
-    "growcss"
+    "growcss",
+    "ivory",
+    "mixin"
   ]
 }
