@@ -47,4 +47,19 @@
     @include assert-equal(is-direction(to left top), true, "should be true for direction.");
     @include assert-equal(is-direction(to top left), true, "should be true for direction.");
   }
+
+  // @include test("is-direction should output true if is a direction") {
+  //   @include assert-equal(legacy-direction(to top), bottom, "should be true for direction.");
+  //   @include assert-equal(legacy-direction(to top right), bottom left, "should be true for direction.");
+  //   @include assert-equal(legacy-direction(to right top), left bottom, "should be true for direction.");
+  //   @include assert-equal(legacy-direction(to right), left, "should be true for direction.");
+  //   @include assert-equal(legacy-direction(to bottom right), top left, "should be true for direction.");
+  //   @include assert-equal(legacy-direction(to right bottom), left top, "should be true for direction.");
+  //   @include assert-equal(legacy-direction(to bottom), top, "should be true for direction.");
+  //   @include assert-equal(legacy-direction(to bottom left), top right, "should be true for direction.");
+  //   @include assert-equal(legacy-direction(to left bottom), right top, "should be true for direction.");
+  //   @include assert-equal(legacy-direction(to left), right, "should be true for direction.");
+  //   @include assert-equal(legacy-direction(to left top), right bottom, "should be true for direction.");
+  //   @include assert-equal(legacy-direction(to top left), bottom right, "should be true for direction.");
+  // }
 }

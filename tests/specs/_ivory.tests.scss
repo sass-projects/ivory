@@ -1150,7 +1150,7 @@ $media-expressions: ();
   $conversion-map: (
     to top          : bottom,
     to top right    : bottom left,
-    to right top    : left bottom,
+    // to right top    : left bottom,
     to right        : left,
     to bottom right : top left,
     to right bottom : left top,

@@ -9,6 +9,18 @@ $imported-modules: () !global;
 ///
 /// @param {String} $module - Name of exported module
 ///
+/// @example scss - Usage
+///   @if import-once(test) {
+///     .class {
+///       width: 100%;
+///     }
+///   }
+///
+/// @example css - CSS Output
+///   .class {
+///     width: 100%;
+///   }
+///
 /// @return {Bool}
 ///
 /// @require $imported-modules
