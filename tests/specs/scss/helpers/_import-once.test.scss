@@ -1,0 +1,15 @@
+@include test-module("import-once") {
+  // Testing char-at functions
+  @include test("import-once should include all modules only once.") {
+    $expect: ("test" "test-1");
+
+    @if import-once("test") {}
+
+    @if import-once("test-1") {}
+
+    @if import-once("test") {}
+
+    @include assert-equal($imported-modules, $expect, "should import 2 modules.");
+  }
+}
+

@@ -1,78 +1,79 @@
 @charset "UTF-8";
 
-// A mixin for generating vendor prefixes on non-standardized properties.
-//
-// @param {string} $property
-//   Property to prefix
-//
-// @param {*} $value
-//   Value to use
-//
-// @param {list} $prefixes
-//   Prefixes to define
-//
-// @example scss - Usage
-//   .element {
-//     @include prefixer(keyframes identifier, webkit ms spec) {
-//       0% { top: 0; left: 0; }
-//       30% { top: 50px; }
-//       68%, 72% { left: 50px; }
-//       100% { top: 100px; left: 100%; }
-//     }
-//   }
-//
-// @example css - CSS Output
-//   .element {
-//     @-webkit-keyframes identifier {
-//       0% { top: 0; left: 0; }
-//       30% { top: 50px; }
-//       68%, 72% { left: 50px; }
-//       100% { top: 100px; left: 100%; }
-//     }
-//     @-moz-keyframes identifier {
-//       0% { top: 0; left: 0; }
-//       30% { top: 50px; }
-//       68%, 72% { left: 50px; }
-//       100% { top: 100px; left: 100%; }
-//     }
-//     @keyframes identifier {
-//       0% { top: 0; left: 0; }
-//       30% { top: 50px; }
-//       68%, 72% { left: 50px; }
-//       100% { top: 100px; left: 100%; }
-//     }
-//   }
-//
-// @require config "prefix.webkit"
-// @require config "prefix.mozilla"
-// @require config "prefix.microsoft"
-// @require config "prefix.opera"
-// @require config "prefix.spec"
-// - - - - - - - - - - - - - - - - - - - - - - - - -
-@mixin prefixer-content($property, $prefixes) {
+/// A mixin for generating vendor prefixes on non-standardized properties.
+///
+/// @param {String} $property
+///   Property to prefix
+///
+/// @param {List} $prefixes
+///   Prefixes to define
+///
+/// @param {String} $pseudo
+///
+/// @example scss - Usage
+///   @include prefixer(keyframes identifier, webkit ms spec, @) {
+///     0% { top: 0; left: 0; }
+///     30% { top: 50px; }
+///     68%, 72% { left: 50px; }
+///     100% { top: 100px; left: 100%; }
+///   }
+///
+/// @example css - CSS Output
+///   @-webkit-keyframes identifier {
+///     0% { top: 0; left: 0; }
+///     30% { top: 50px; }
+///     68%, 72% { left: 50px; }
+///     100% { top: 100px; left: 100%; }
+///   }
+///   @-moz-keyframes identifier {
+///     0% { top: 0; left: 0; }
+///     30% { top: 50px; }
+///     68%, 72% { left: 50px; }
+///     100% { top: 100px; left: 100%; }
+///   }
+///   @keyframes identifier {
+///     0% { top: 0; left: 0; }
+///     30% { top: 50px; }
+///     68%, 72% { left: 50px; }
+///     100% { top: 100px; left: 100%; }
+///   }
+@mixin prefixer-content($property, $prefixes, $pseudo: "") {
   @each $prefix in $prefixes {
-    @if $prefix == webkit and config-get("prefix.webkit") {
-      -webkit-#{$property} {
+    $pseudo: check-ms-content-prefix($prefix, $pseudo);
+
+    @if $prefix != spec and config-get("i-prefix.#{$prefix}") {
+      @if $pseudo == "@" {
+        #{$pseudo}-#{$prefix}-#{$property} {
+          @content;
+        }
+      } @else {
+        #{$pseudo + $prefix}-#{$property} {
+          @content;
+        }
+      }
+    } @else if $prefix == spec {
+      #{$pseudo}#{$property} {
         @content;
       }
-    } @else if $prefix == moz and config-get("prefix.mozilla") {
-      -moz-#{$property} {
-        @content;
-      }
-    } @else if $prefix == ms and config-get("prefix.microsoft") {
-      -ms-#{$property} {
-        @content;
-      }
-    } @else if $prefix == o and config-get("prefix.opera") {
-      -o-#{$property} {
-        @content;
-      }
-    } @else if $prefix == spec and config-get("prefix.spec") {
-      #{$property} {
-        @content;
-      }
-    } @else  {
-      @warn "Unrecognized prefix: #{$prefix}";
     }
   }
 }
+
+/// Fix for ie pseudo.
+///
+/// @param {String} $prefix
+/// @param {String} $pseudo
+///
+/// @access private
+@function check-ms-content-prefix($prefix, $pseudo) {
+  @if $prefix == "ms" {
+    @if $pseudo == "&::" {
+      $pseudo: "&:";
+    } @else if $pseudo == "::" {
+      $pseudo: ":";
+    }
+  }
+
+  @return $pseudo;
+}
+

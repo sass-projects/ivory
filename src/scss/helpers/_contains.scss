@@ -1,18 +1,17 @@
 @charset "UTF-8";
 
-// Checks if a list contains a value(s).
-//
-// @param {list} $list
-//   The list to check against.
-//
-// @param {list} $values
-//   A single value or list of values to check for.
-//
-// @example scss - Usage
-//   contains($list, $value)
-//
-// @return {bool}
-// - - - - - - - - - - - - - - - - - - - - - - - - -
+/// Checks if a list contains a value(s).
+///
+/// @param {ArgList} $list
+///   The list to check against.
+///
+/// @param {ArgList} $values
+///   A single value or list of values to check for.
+///
+/// @example scss - Usage
+///   contains($list, $value)
+///
+/// @return {Bool}
 @function contains($list, $values...) {
   @if not is-list($list) {
     @warn "argument error: #{$list}";

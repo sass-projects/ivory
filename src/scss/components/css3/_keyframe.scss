@@ -1,7 +1,10 @@
-// Adds keyframes blocks for supported prefixes, removing redundant prefixes in the block"s content
-// - - - - - - - - - - - - - - - - - - - - - - - - -
+@charset "UTF-8";
+
+/// Adds keyframes blocks for supported prefixes, removing redundant prefixes in the block"s content
+///
+/// @param {String} $animation-name - animation name
 @mixin keyframe ($animation-name) {
-  @include prefixer-content("keyframes #{$animation-name}", webkit moz ms o spec) {
+  @include prefixer-content("keyframes #{$animation-name}", webkit moz ms o spec, "@") {
     @content;
   }
 }

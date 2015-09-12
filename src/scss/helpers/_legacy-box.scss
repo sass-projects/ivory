@@ -1,0 +1,50 @@
+@charset "UTF-8";
+
+/// Returns the legacy value for a given box-model
+///
+/// @access private
+///
+/// @param {String} $box
+///
+/// @example scss - Usage
+///   .box-padding {
+///     box-sizing: legacy-box(padding-box)
+///   }
+///
+///   .box-border {
+///     box-sizing: legacy-box(border-box)
+///   }
+///
+///   .box-content {
+///     box-sizing: legacy-box(content-box)
+///   }
+///
+/// @example css - CSS Output
+///   .box-padding {
+///     box-sizing: padding
+///   }
+///
+///   .box-border {
+///     box-sizing: border
+///   }
+///
+///   .box-content {
+///     box-sizing: content
+///   }
+@function legacy-box($box) {
+  $box: unquote($box);
+
+  @if $box == padding-box {
+    $box: padding;
+  }
+
+  @if $box == border-box {
+    $box: border;
+  }
+
+  @if $box == content-box {
+    $box: content;
+  }
+
+  @return $box;
+}

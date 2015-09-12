@@ -1,0 +1,21 @@
+@charset "UTF-8";
+
+/// The backface-visibility property defines whether or not an
+/// element should be visible when not facing the screen.
+///
+/// @example scss - Usage
+///   .backface-visibility {
+///     @include backface-visibility(visible);
+///   }
+///
+/// @example css - CSS Output
+///   .backface-visibility {
+///     -webkit-backface-visibility: visible;
+///     backface-visibility: visible;
+///   }
+///
+/// @param {string} $visibility [visible | hidden | initial | inherit]
+@mixin backface-visibility($visibility) {
+  $visibility: unquote($visibility);
+  @include prefixer(backface-visibility, $visibility, webkit spec);
+}

@@ -1,0 +1,33 @@
+@charset "UTF-8";
+
+/// Convert pixels to rems
+/// eg. for a relational value of 12px write rem(12)
+/// Assumes config-get("i-base-em") is the font-size of <html>
+///
+/// @param {String} $prop
+/// @param {Number} $pxval
+/// @param {Number} $base  if you like to change the base px config-get("i-base-em")
+///
+/// @example scss - Usage
+///   .unit {
+///     width: rem(16);
+///   }
+///
+/// @example css - CSS Output
+///   .unit {
+///     width: 16px;
+///     width: 1rem;
+///   }
+@mixin rem($prop, $pxval, $base) {
+  $px-list: ();
+  $rem-list: ();
+
+  @each $val in $vals {
+    $calcs: fallback-to-px($val, rem, $base);
+    $px-list: append($px-list, nth($calcs, 2));
+    $rem-list: append($rem-list, nth($calcs, 1));
+  }
+
+  #{$prop}: $px-list + "px";
+  #{$prop}: $rem-list + "rem";
+}

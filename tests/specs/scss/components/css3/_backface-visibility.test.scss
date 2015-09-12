@@ -1,0 +1,48 @@
+@include test-module("backface-visibility") {
+  // Testing animation functions
+  @include test("Check backface-visibility mixin works correct.") {
+    @include assert("Outputs a backface-visibility[visible] for webkit moz and without a prefix") {
+      @include input {
+        @include backface-visibility(visible);
+      }
+
+      @include expect {
+        -webkit-backface-visibility: visible;
+        backface-visibility: visible;
+      }
+    }
+
+    @include assert("Outputs a backface-visibility[hidden] for webkit moz and without a prefix") {
+      @include input {
+        @include backface-visibility("hidden");
+      }
+
+      @include expect {
+        -webkit-backface-visibility: hidden;
+        backface-visibility: hidden;
+      }
+    }
+
+    @include assert("Outputs a backface-visibility[initial] for webkit moz and without a prefix") {
+      @include input {
+        @include backface-visibility("initial");
+      }
+
+      @include expect {
+        -webkit-backface-visibility: initial;
+        backface-visibility: initial;
+      }
+    }
+
+    @include assert("Outputs a backface-visibility[inherit] for webkit moz and without a prefix") {
+      @include input {
+        @include backface-visibility(inherit);
+      }
+
+      @include expect {
+        -webkit-backface-visibility: inherit;
+        backface-visibility: inherit;
+      }
+    }
+  }
+}

@@ -1,56 +1,41 @@
 @charset "UTF-8";
 
-// A mixin for generating vendor prefixes on non-standardized properties.
-//
-// @param {string} $property
-//   Property to prefix
-//
-// @param {*} $value
-//   Value to use
-//
-// @param {list} $prefixes
-//   Prefixes to define
-//
-// @example scss - Usage
-//   .element {
-//     @include prefixer(border-radius, 10px, webkit ms spec);
-//   }
-//
-// @example css - CSS Output
-//   .element {
-//     -webkit-border-radius: 10px;
-//     -moz-border-radius: 10px;
-//     border-radius: 10px;
-//   }
-//
-// @require config "prefix.webkit"
-// @require config "prefix.mozilla"
-// @require config "prefix.microsoft"
-// @require config "prefix.opera"
-// @require config "prefix.spec"
-// - - - - - - - - - - - - - - - - - - - - - - - - -
-@mixin prefixer($property, $value, $prefixes) {
+/// A mixin for generating vendor prefixes on non-standardized properties.
+///
+/// @param {String} $property
+///   Property to prefix
+///
+/// @param {*} $value
+///   Value to use
+///
+/// @param {List} $prefixes
+///   Prefixes to define
+///
+/// @example scss - Usage
+///   .element {
+///     @include prefixer(border-radius, 10px, (webkit, ms, spec));
+///   }
+///
+/// @example css - CSS Output
+///   .element {
+///     -webkit-border-radius: 10px;
+///     -moz-border-radius: 10px;
+///     border-radius: 10px;
+///   }
+@mixin prefixer($property, $value, $prefixes: ()) {
   @each $prefix in $prefixes {
-    @if $prefix == webkit and config-get("prefix.webkit") {
-      -webkit-#{$property}: $value;
-    } @else if $prefix == moz and config-get("prefix.mozilla") {
-      -moz-#{$property}: $value;
-    } @else if $prefix == ms and config-get("prefix.microsoft") {
-      -ms-#{$property}: $value;
-    } @else if $prefix == o and config-get("prefix.opera") {
-      -o-#{$property}: $value;
-    } @else if $prefix == spec and config-get("prefix.spec") {
+    @if $prefix != spec and config-get("i-prefix.#{$prefix}") {
+      #{"-" + $prefix + "-" + $property}: $value;
+    } @else if $prefix == spec {
       #{$property}: $value;
-    } @else {
-      @warn "Unrecognized prefix: #{$prefix}";
     }
   }
 }
 
+/// Disable all prefixes.
 @mixin disable-prefixes() {
-  @include config-set("prefix.webkit", false, true);
-  @include config-set("prefix.mozilla", false, true);
-  @include config-set("prefix.microsoft", false, true);
-  @include config-set("prefix.opera", false, true);
-  @include config-set("prefix.spec", false, true);
+  @include config-set("prefix.webkit", false);
+  @include config-set("prefix.moz", false);
+  @include config-set("prefix.ms", false);
+  @include config-set("prefix.o", false);
 }

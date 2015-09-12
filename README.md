@@ -3,7 +3,7 @@
 [![Author](http://img.shields.io/badge/author-@anolilab-blue.svg?style=flat-square)](https://twitter.com/@anolilab)
 [![npm](https://img.shields.io/npm/v/growcss-ivory.svg?style=flat-square)](https://www.npmjs.com/package/growcss-ivory)
 [![David](https://img.shields.io/david/growcss/ivory.svg?style=flat-square)](https://david-dm.org/growcss/ivory#info=dependencies&view=table)
-[![GitHub release](https://img.shields.io/github/release/qubyte/rubidium.svg?style=flat-square)](https://github.com/growcss/ivory/releases)
+[![GitHub release](https://img.shields.io/github/release/growcss/ivory.svg?style=flat-square)](https://github.com/growcss/ivory/releases)
 [![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE)
 
 ## Master

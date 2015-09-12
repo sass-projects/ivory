@@ -1,0 +1,31 @@
+@include test-module("prefixer") {
+  // Testing prefixer functions
+  @include test("Check if prefixer mixin perfix correct.") {
+    @include assert("Outputs a animation for webkit moz ms o and without a prefix") {
+      @include input {
+        @include prefixer(animation, example 5s linear 2s infinite alternate, webkit moz ms o spec);
+      }
+
+      @include expect {
+        -webkit-animation: example 5s linear 2s infinite alternate;
+        -moz-animation: example 5s linear 2s infinite alternate;
+        -ms-animation: example 5s linear 2s infinite alternate;
+        -o-animation: example 5s linear 2s infinite alternate;
+        animation: example 5s linear 2s infinite alternate;
+      }
+    }
+  }
+
+  @include test("Check if prefixer mixin dont perfix.") {
+    @include assert("Outputs emptiness prefix.") {
+      @include input {
+        @include disable-prefixes();
+        @include prefixer(animation, example 5s linear 2s infinite alternate, webkit moz ms o spec);
+      }
+
+      @include expect {
+        animation: example 5s linear 2s infinite alternate;
+      }
+    }
+  }
+}

@@ -1,0 +1,13 @@
+@charset "UTF-8";
+
+/// Function checking if $value is a valid length
+///
+/// @access private
+///
+/// @param {*} $value - Value to test
+///
+/// @return {Bool}
+@function is-valid-length($value) {
+  @return (type-of($value) == "number" and not unitless($value))
+       or (index(auto initial inherit 0, $value) != null);
+}

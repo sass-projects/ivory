@@ -1,0 +1,30 @@
+{
+  "name"        : "growcss/ivory",
+  "description" : "A simple mixin library for Sass.",
+  "homepage"    : "http://growcss.com/",
+  "authors"     : [
+    {
+      "name"     : "Daniel Bannert",
+      "email"    : "d.bannert@anolilab.de",
+      "homepage" : "http://anolilab.de",
+      "role"     : "Creator"
+    }
+  ],
+  "support": {
+    "issues": "https://github.com/growcss/ivory/issues",
+    "source": "https://github.com/growcss/ivory"
+  },
+  "keywords" : [
+    "media",
+    "include-media",
+    "sass",
+    "scss",
+    "sass-config-manager",
+    "growcss",
+    "ivory",
+    "css",
+    "framework",
+    "mixin"
+  ],
+  "license" : "MIT"
+}

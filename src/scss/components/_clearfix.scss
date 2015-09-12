@@ -1,0 +1,43 @@
+@charset "UTF-8";
+
+/// scss-lint:disable PropertySpelling
+///
+/// Micro Clearfix by Nicolas Gallagher.
+///
+/// @link http://nicolasgallagher.com/micro-clearfix-hack/
+///
+/// @access public
+///
+/// @example scss - Usage
+///   body {
+///     @include clearfix();
+///   }
+///
+/// @example css - CSS Output
+///   body {
+///     *zoom: 1;
+///   }
+///
+///   body:before {
+///     content: " ";
+///     display: table;
+///   }
+///
+///   body:after {
+///     content: " ";
+///     display: table;
+///     clear: both;
+///   }
+@mixin clearfix() {
+  *zoom: 1;
+
+  &:before,
+  &:after {
+    content: " ";
+    display: table;
+  }
+
+  &:after {
+    clear: both;
+  }
+}

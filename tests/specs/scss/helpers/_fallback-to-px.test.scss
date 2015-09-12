@@ -1,0 +1,45 @@
+@include test-module("fallback-to-px") {
+  // Testing char-at functions
+  @include test("fallback-to-px should output a list with 2 numbers.") {
+    $expect: (1.25 "20px");
+
+    $list: fallback-to-px(20px);
+    $list-unitless: fallback-to-px(20);
+
+    @include assert-equal($list, $expect, "should output 2 numbers[1.25 20].");
+    @include assert-equal($list-unitless, $expect, "should output 2 numbers[1.25 20].");
+  }
+
+  @include test("fallback-to-px should output a list with 2 0 numbers.") {
+    $expect: (0 0);
+
+    $list: fallback-to-px(0px);
+    $list-unitless: fallback-to-px(0);
+
+    @include assert-equal($list, $expect, "should output 2 numbers[0 0].");
+    @include assert-equal($list-unitless, $expect, "should output 2 numbers[0 0].");
+  }
+
+  @include test("fallback-to-px should output false for invalid numbers.") {
+    $expect: false;
+
+    $list: fallback-to-px(test);
+
+    @include assert-equal($list, $expect, "should output false.");
+  }
+
+  @include test("fallback-to-px should output value for auto and !important.") {
+    $expect: (auto auto);
+
+    $list: fallback-to-px(auto);
+
+    @include assert-equal($list, $expect, "should output list[auto auto].");
+
+    $expect: (!important !important);
+
+    $list: fallback-to-px(!important);
+
+    @include assert-equal($list, $expect, "should output list[!important !important].");
+  }
+}
+

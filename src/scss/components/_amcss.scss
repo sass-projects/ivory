@@ -1,0 +1,47 @@
+@charset "UTF-8";
+
+/// Attribute Modules for CSS
+///
+/// @param {String} $module
+/// @param {String | Null} $trait [null]
+///
+/// @link http://amcss.github.io/
+///
+/// @example scss - Usage
+///   @include am(module) {
+///      color: red;
+///    }
+///
+///    @include am(module, blue) {
+///      color: blue;
+///    }
+///
+///    @include am(module, large) {
+///      font-size: 2em;
+///    }
+///
+/// @example css - CSS Output
+///  [ui-module] {
+///    color: red;
+///  }
+///
+///  [ui-module~="blue"] {
+///    color: blue;
+///  }
+///
+///  [ui-module~="large"] {
+///    font-size: 2em;
+///  }
+@mixin am($module, $trait: null) {
+  $prefix: config-get("i-am-prefix");
+
+  @if $trait != null {
+    [#{$prefix}-#{$module}~="#{$trait}"] {
+      @content;
+    }
+  } @else {
+    [#{$prefix + "-" + $module}] {
+      @content;
+    }
+  }
+}

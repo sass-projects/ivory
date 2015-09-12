@@ -1,0 +1,74 @@
+/// Provides cross-browser for Webkit, Gecko, and CSS3 box shadows
+/// when one or more box shadows are needed.
+/// Each shadow argument should adhere to the standard css3 syntax
+/// for the box-shadow property.
+@mixin box-shadow($shadow...) {
+  @if(length($shadow) < 0) {
+    $shadow: compact(if(config-get("i-box-shadow-inset"), inset, null) config-get("i-box-shadow-h-offset") config-get("i-box-shadow-v-offset") config-get("i-box-shadow-blur") config-get("i-box-shadow-spread") config-get("i-box-shadow-color"));
+  }
+
+  @include prefixer(box-shadow, $shadow, webkit moz spe);
+}
+
+/// Provides a single cross-browser CSS box shadow for Webkit, Gecko, and CSS3.
+/// Includes default arguments for color, horizontal offset, vertical offset, blur length, spread length, and inset.
+@mixin single-box-shadow($hoff: null, $voff: null, $blur: null, $spread: null, $color: null, $inset: config-get("i-box-shadow-inset")) {
+  /// Handle legacy argument order
+  @if not ($hoff == none or $hoff == null) and type-of($hoff) != number {
+    $tmp-color: $color;
+    $color: $hoff;
+    $hoff: $voff;
+    $voff: $blur;
+    $blur: $spread;
+    $spread: $tmp-color;
+  }
+
+  /// Need to set these defaults here instead of the arglist to support the above backwards compat handling
+  @if $hoff == null {
+    $hoff: config-get("i-box-shadow-h-offset");
+  }
+
+  @if $voff == null {
+    $hoff: config-get("i-box-shadow-v-offset");
+  }
+
+  @if $blur == null {
+    $blur: config-get("i-box-shadow-blur");
+  }
+
+  @if $spread == null {
+    $spread: config-get("i-box-shadow-spread");
+  }
+
+  @if $color  == null {
+    $color: config-get("i-box-shadow-color");
+  }
+
+  @if not ($inset == true or $inset == false or $inset == null or $inset == inset) {
+    @warn "$inset expected to be true or the inset keyword. Got #{$inset} instead. Using: inset";
+  }
+
+  @if $hoff == none {
+    @include box-shadow(none);
+  } @else {
+    $full: $hoff $voff;
+
+    @if $blur {
+      $full: $full $blur;
+    }
+
+    @if $spread {
+      $full: $full $spread;
+    }
+
+    @if $color {
+      $full: $full $color;
+    }
+
+    @if $inset {
+      $full: inset $full;
+    }
+
+    @include box-shadow($full);
+  }
+}
